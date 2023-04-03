@@ -279,7 +279,7 @@ require (
 
 replace (
 	github.com/99designs/keyring => github.com/cosmos/keyring v1.1.7-0.20210622111912-ef00f8ac3d76
-	github.com/cosmos/cosmos-sdk => github.com/rollkit/cosmos-sdk v0.46.7-rollkit-v0.7.1-no-fraud-proofs
+	github.com/cosmos/cosmos-sdk => github.com/rollkit/cosmos-sdk v0.46.7-rollkit-v0.7.3-no-fraud-proofs
 
 	// Fix upstream GHSA-h395-qcrw-5vmq vulnerability.
 	// TODO Remove it: https://github.com/cosmos/cosmos-sdk/issues/10409
