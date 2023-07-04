@@ -1,101 +1,120 @@
 #!/bin/bash
+# SPDX-License-Identifier: BUSL-1.1
+#
+# Copyright (C) 2023, Blackchain Foundation. All rights reserved.
+# Use of this software is govered by the Business Source License included
+# in the LICENSE file of this repository and at www.mariadb.com/bsl11.
+#
+# ANY USE OF THE LICENSED WORK IN VIOLATION OF THIS LICENSE WILL AUTOMATICALLY
+# TERMINATE YOUR RIGHTS UNDER THIS LICENSE FOR THE CURRENT AND ALL OTHER
+# VERSIONS OF THE LICENSED WORK.
+#
+# THIS LICENSE DOES NOT GRANT YOU ANY RIGHT IN ANY TRADEMARK OR LOGO OF
+# LICENSOR OR ITS AFFILIATES (PROVIDED THAT YOU MAY USE A TRADEMARK OR LOGO OF
+# LICENSOR AS EXPRESSLY REQUIRED BY THIS LICENSE).
+#
+# TO THE EXTENT PERMITTED BY APPLICABLE LAW, THE LICENSED WORK IS PROVIDED ON
+# AN “AS IS” BASIS. LICENSOR HEREBY DISCLAIMS ALL WARRANTIES AND CONDITIONS,
+# EXPRESS OR IMPLIED, INCLUDING (WITHOUT LIMITATION) WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, AND
+# TITLE.
 
-KEY="mykey"
-CHAINID="opti_9000-1"
-MONIKER="localtestnet"
+
+DEVS[0]="dev0"
+DEVS[1]="dev1"
+DEVS[2]="dev2"
+KEYS[0]="key0"
+KEYS[1]="key1"
+KEYS[2]="key2"
+CHAINID="highbury_710-1"
+MONIKER="the-watchers"
+# Remember to change to other types of keyring like 'file' in-case exposing to outside world,
+# otherwise your balance will be wiped quickly
+# The keyring test does not require private key to steal tokens from you
 KEYRING="test"
-KEYALGO="eth_secp256k1"
+KEYALGO_ETH="eth_secp256k1"
+KEYALGO_COS="secp256k1"
 LOGLEVEL="info"
+# Set dedicated home directory for the fury instance
+HOMEDIR="$HOME/.fury"
 # to trace evm
-TRACE="--trace"
-# TRACE=""
-DIR="${HOME_DIR:-/.pointguard}"
-GENESIS_FILE="${DIR}/config/genesis.json"
+#TRACE="--trace"
+TRACE=""
 
-# validate dependencies are installed
-command -v jq > /dev/null 2>&1 || { echo >&2 "jq not installed. More info: https://stedolan.github.io/jq/download/"; exit 1; }
+# Path variables
+CONFIG_TOML=$HOMEDIR/config/config.toml
+APP_TOML=$HOMEDIR/config/app.toml
+GENESIS=$HOMEDIR/config/genesis.json
+TMP_GENESIS=$HOMEDIR/config/tmp_genesis.json
 
-# Only generate a new genesis.json file if there isn't an existing one
-if [[ ! -f "$GENESIS_FILE" ]]; then
+# used to exit on first error (any non-zero exit code)
+set -e
 
-  # remove existing daemon and client
-  rm -rf ~/.pointguard*
+# Reinstall daemon
+make build
 
-  pointguard config keyring-backend $KEYRING
-  pointguard config chain-id $CHAINID
+# # User prompt if an existing local node configuration is found.
+# if [ -d "$HOMEDIR" ]; then
+# 	printf "\nAn existing folder at '%s' was found. You can choose to delete this folder and start a new local node with new keys from genesis. When declined, the existing local node is started. \n" "$HOMEDIR"
+# 	echo "Overwrite the existing configuration and start a new local node? [y/n]"
+# 	read -r overwrite
+# else
+overwrite="Y"
+# fi
 
-  # if $KEY exists it should be deleted
-  pointguard keys add $KEY --keyring-backend $KEYRING --algo $KEYALGO
 
-  # Set moniker and chain-id for Pointguard (Moniker can be anything, chain-id must be an integer)
-  pointguard init $MONIKER --chain-id $CHAINID
+# Setup local node if overwrite is set to Yes, otherwise skip setup
+if [[ $overwrite == "y" || $overwrite == "Y" ]]; then
+	# Remove the previous folder
+	rm -rf "$HOMEDIR"
 
-  # Change parameter token denominations to afury
-  cat $HOME/.pointguard/config/genesis.json | jq '.app_state["staking"]["params"]["bond_denom"]="afury"' > $HOME/.pointguard/config/tmp_genesis.json && mv $HOME/.pointguard/config/tmp_genesis.json $HOME/.pointguard/config/genesis.json
-  cat $HOME/.pointguard/config/genesis.json | jq '.app_state["crisis"]["constant_fee"]["denom"]="afury"' > $HOME/.pointguard/config/tmp_genesis.json && mv $HOME/.pointguard/config/tmp_genesis.json $HOME/.pointguard/config/genesis.json
-  cat $HOME/.pointguard/config/genesis.json | jq '.app_state["gov"]["deposit_params"]["min_deposit"][0]["denom"]="afury"' > $HOME/.pointguard/config/tmp_genesis.json && mv $HOME/.pointguard/config/tmp_genesis.json $HOME/.pointguard/config/genesis.json
-  cat $HOME/.pointguard/config/genesis.json | jq '.app_state["mint"]["params"]["mint_denom"]="afury"' > $HOME/.pointguard/config/tmp_genesis.json && mv $HOME/.pointguard/config/tmp_genesis.json $HOME/.pointguard/config/genesis.json
+    	# Set moniker and chain-id (Moniker can be anything, chain-id must be an integer)
+	fury init $MONIKER -o --chain-id $CHAINID --home "$HOMEDIR"
 
-  # increase block time (?)
-  cat $HOME/.pointguard/config/genesis.json | jq '.consensus_params["block"]["time_iota_ms"]="1000"' > $HOME/.pointguard/config/tmp_genesis.json && mv $HOME/.pointguard/config/tmp_genesis.json $HOME/.pointguard/config/genesis.json
+	# Set client config
+	fury config keyring-backend $KEYRING --home "$HOMEDIR"
+	fury config chain-id "$CHAINID" --home "$HOMEDIR"
 
-  # Set gas limit in genesis
-  cat $HOME/.pointguard/config/genesis.json | jq '.consensus_params["block"]["max_gas"]="10000000"' > $HOME/.pointguard/config/tmp_genesis.json && mv $HOME/.pointguard/config/tmp_genesis.json $HOME/.pointguard/config/genesis.json
+	# If keys exist they should be deleted
+	for KEY in "${KEYS[@]}"; do
+		fury keys add $KEY --keyring-backend test --algo eth_secp256k1
+	done
+	for DEV in "${DEVS[@]}"; do
+		fury keys add $DEV --keyring-backend $KEYRING --algo $KEYALGO_COS --home "$HOMEDIR"
+	done
 
-  # disable produce empty block
-  if [[ "$OSTYPE" == "darwin"* ]]; then
-      sed -i '' 's/create_empty_blocks = true/create_empty_blocks = false/g' $HOME/.pointguard/config/config.toml
-    else
-      sed -i 's/create_empty_blocks = true/create_empty_blocks = false/g' $HOME/.pointguard/config/config.toml
-  fi
+	# Change parameter token denominations to avfury
+	jq '.app_state["staking"]["params"]["bond_denom"]="avfury"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+	jq '.app_state["crisis"]["constant_fee"]["denom"]="avfury"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+	jq '.app_state["gov"]["deposit_params"]["min_deposit"][0]["denom"]="avfury"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+	jq '.app_state["mint"]["params"]["mint_denom"]="avfury"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+	jq '.consensus["params"]["block"]["max_gas"]="30000000"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 
-  if [[ $1 == "pending" ]]; then
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        sed -i '' 's/create_empty_blocks_interval = "0s"/create_empty_blocks_interval = "30s"/g' $HOME/.pointguard/config/config.toml
-        sed -i '' 's/timeout_propose = "3s"/timeout_propose = "30s"/g' $HOME/.pointguard/config/config.toml
-        sed -i '' 's/timeout_propose_delta = "500ms"/timeout_propose_delta = "5s"/g' $HOME/.pointguard/config/config.toml
-        sed -i '' 's/timeout_prevote = "1s"/timeout_prevote = "10s"/g' $HOME/.pointguard/config/config.toml
-        sed -i '' 's/timeout_prevote_delta = "500ms"/timeout_prevote_delta = "5s"/g' $HOME/.pointguard/config/config.toml
-        sed -i '' 's/timeout_precommit = "1s"/timeout_precommit = "10s"/g' $HOME/.pointguard/config/config.toml
-        sed -i '' 's/timeout_precommit_delta = "500ms"/timeout_precommit_delta = "5s"/g' $HOME/.pointguard/config/config.toml
-        sed -i '' 's/timeout_commit = "5s"/timeout_commit = "150s"/g' $HOME/.pointguard/config/config.toml
-        sed -i '' 's/timeout_broadcast_tx_commit = "10s"/timeout_broadcast_tx_commit = "150s"/g' $HOME/.pointguard/config/config.toml
-    else
-        sed -i 's/create_empty_blocks_interval = "0s"/create_empty_blocks_interval = "30s"/g' $HOME/.pointguard/config/config.toml
-        sed -i 's/timeout_propose = "3s"/timeout_propose = "30s"/g' $HOME/.pointguard/config/config.toml
-        sed -i 's/timeout_propose_delta = "500ms"/timeout_propose_delta = "5s"/g' $HOME/.pointguard/config/config.toml
-        sed -i 's/timeout_prevote = "1s"/timeout_prevote = "10s"/g' $HOME/.pointguard/config/config.toml
-        sed -i 's/timeout_prevote_delta = "500ms"/timeout_prevote_delta = "5s"/g' $HOME/.pointguard/config/config.toml
-        sed -i 's/timeout_precommit = "1s"/timeout_precommit = "10s"/g' $HOME/.pointguard/config/config.toml
-        sed -i 's/timeout_precommit_delta = "500ms"/timeout_precommit_delta = "5s"/g' $HOME/.pointguard/config/config.toml
-        sed -i 's/timeout_commit = "5s"/timeout_commit = "150s"/g' $HOME/.pointguard/config/config.toml
-        sed -i 's/timeout_broadcast_tx_commit = "10s"/timeout_broadcast_tx_commit = "150s"/g' $HOME/.pointguard/config/config.toml
-    fi
-  fi
+	# Allocate genesis accounts (cosmos formatted addresses)
+	for KEY in "${KEYS[@]}"; do
+		fury genesis add-genesis-account $KEY 1000000000000000000000000avfury --keyring-backend $KEYRING --home "$HOMEDIR"
+	done
 
-  # Allocate genesis accounts (cosmos formatted addresses)
-  pointguard add-genesis-account $KEY 100000000000000000000000000afury --keyring-backend $KEYRING
 
-  # Sign genesis transaction
-  pointguard gentx $KEY 1000000000000000000000afury --keyring-backend $KEYRING --chain-id $CHAINID
+	# Sign genesis transaction
+	fury genesis gentx ${KEYS[0]} 10000000000000000000avfury --keyring-backend $KEYRING --chain-id $CHAINID --home "$HOMEDIR"
+	## In case you want to create multiple validators at genesis
+	## 1. Back to `fury keys add` step, init more keys
+	## 2. Back to `fury add-genesis-account` step, add balance for those
+	## 3. Clone this ~/.fury home directory into some others, let's say `~/.clonedfury`
+	## 4. Run `gentx` in each of those folders
+	## 5. Copy the `gentx-*` folders under `~/.clonedfury/config/gentx/` folders into the original `~/.fury/config/gentx`
 
-  # Collect genesis tx
-  pointguard collect-gentxs
+	# Collect genesis tx
+	fury genesis collect-gentxs --home "$HOMEDIR"
 
-  # Run this to ensure everything worked and that the genesis file is setup correctly
-  pointguard validate-genesis
-else
-  # We already have a genesis.json file so create an empty priv_validator_state.json
-  mkdir $DIR/data
-  cat >> $DIR/data/priv_validator_state.json << EOF
-  {
-    "height": "0",
-    "round": 0,
-    "step": 0
-  }
-EOF
+	# Run this to ensure everything worked and that the genesis file is setup correctly
+	fury genesis validate-genesis --home "$HOMEDIR"
 
-# Run this to ensure everything the genesis file is setup correctly
-pointguard validate-genesis $GENESIS_FILE
-
+	if [[ $1 == "pending" ]]; then
+		echo "pending mode is on, please wait for the first block committed"
+	fi
 fi
+
+# Start the node (remove the --pruning=nothing flag if historical queries are not needed)m
+# fury start --pruning=nothing "$TRACE" --log_level $LOGLEVEL --api.enabled-unsafe-cors --api.enable --api.swagger --minimum-gas-prices=0.0001avfury --home "$HOMEDIR"
