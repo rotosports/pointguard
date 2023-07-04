@@ -35,8 +35,8 @@ KEYRING="test"
 KEYALGO_ETH="eth_secp256k1"
 KEYALGO_COS="secp256k1"
 LOGLEVEL="info"
-# Set dedicated home directory for the fury instance
-HOMEDIR="$HOME/.fury"
+# Set dedicated home directory for the pointguard instance
+HOMEDIR="$HOME/.pointguard"
 # to trace evm
 #TRACE="--trace"
 TRACE=""
@@ -69,47 +69,47 @@ if [[ $overwrite == "y" || $overwrite == "Y" ]]; then
 	rm -rf "$HOMEDIR"
 
     	# Set moniker and chain-id (Moniker can be anything, chain-id must be an integer)
-	fury init $MONIKER -o --chain-id $CHAINID --home "$HOMEDIR"
+	pointguard init $MONIKER -o --chain-id $CHAINID --home "$HOMEDIR"
 
 	# Set client config
-	fury config keyring-backend $KEYRING --home "$HOMEDIR"
-	fury config chain-id "$CHAINID" --home "$HOMEDIR"
+	pointguard config keyring-backend $KEYRING --home "$HOMEDIR"
+	pointguard config chain-id "$CHAINID" --home "$HOMEDIR"
 
 	# If keys exist they should be deleted
 	for KEY in "${KEYS[@]}"; do
-		fury keys add $KEY --keyring-backend test --algo eth_secp256k1
+		pointguard keys add $KEY --keyring-backend test --algo eth_secp256k1
 	done
 	for DEV in "${DEVS[@]}"; do
-		fury keys add $DEV --keyring-backend $KEYRING --algo $KEYALGO_COS --home "$HOMEDIR"
+		pointguard keys add $DEV --keyring-backend $KEYRING --algo $KEYALGO_COS --home "$HOMEDIR"
 	done
 
-	# Change parameter token denominations to avfury
-	jq '.app_state["staking"]["params"]["bond_denom"]="avfury"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-	jq '.app_state["crisis"]["constant_fee"]["denom"]="avfury"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-	jq '.app_state["gov"]["deposit_params"]["min_deposit"][0]["denom"]="avfury"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-	jq '.app_state["mint"]["params"]["mint_denom"]="avfury"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+	# Change parameter token denominations to axfury
+	jq '.app_state["staking"]["params"]["bond_denom"]="axfury"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+	jq '.app_state["crisis"]["constant_fee"]["denom"]="axfury"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+	jq '.app_state["gov"]["deposit_params"]["min_deposit"][0]["denom"]="axfury"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+	jq '.app_state["mint"]["params"]["mint_denom"]="axfury"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 	jq '.consensus["params"]["block"]["max_gas"]="30000000"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 
 	# Allocate genesis accounts (cosmos formatted addresses)
 	for KEY in "${KEYS[@]}"; do
-		fury genesis add-genesis-account $KEY 1000000000000000000000000avfury --keyring-backend $KEYRING --home "$HOMEDIR"
+		pointguard genesis add-genesis-account $KEY 1000000000000000000000000avfury --keyring-backend $KEYRING --home "$HOMEDIR"
 	done
 
 
 	# Sign genesis transaction
-	fury genesis gentx ${KEYS[0]} 10000000000000000000avfury --keyring-backend $KEYRING --chain-id $CHAINID --home "$HOMEDIR"
+	pointguard genesis gentx ${KEYS[0]} 10000000000000000000avfury --keyring-backend $KEYRING --chain-id $CHAINID --home "$HOMEDIR"
 	## In case you want to create multiple validators at genesis
-	## 1. Back to `fury keys add` step, init more keys
-	## 2. Back to `fury add-genesis-account` step, add balance for those
-	## 3. Clone this ~/.fury home directory into some others, let's say `~/.clonedfury`
+	## 1. Back to `pointguard keys add` step, init more keys
+	## 2. Back to `pointguard add-genesis-account` step, add balance for those
+	## 3. Clone this ~/.pointguard home directory into some others, let's say `~/.clonedfury`
 	## 4. Run `gentx` in each of those folders
-	## 5. Copy the `gentx-*` folders under `~/.clonedfury/config/gentx/` folders into the original `~/.fury/config/gentx`
+	## 5. Copy the `gentx-*` folders under `~/.clonedfury/config/gentx/` folders into the original `~/.pointguard/config/gentx`
 
 	# Collect genesis tx
-	fury genesis collect-gentxs --home "$HOMEDIR"
+	pointguard genesis collect-gentxs --home "$HOMEDIR"
 
 	# Run this to ensure everything worked and that the genesis file is setup correctly
-	fury genesis validate-genesis --home "$HOMEDIR"
+	pointguard genesis validate-genesis --home "$HOMEDIR"
 
 	if [[ $1 == "pending" ]]; then
 		echo "pending mode is on, please wait for the first block committed"
@@ -117,4 +117,4 @@ if [[ $overwrite == "y" || $overwrite == "Y" ]]; then
 fi
 
 # Start the node (remove the --pruning=nothing flag if historical queries are not needed)m
-# fury start --pruning=nothing "$TRACE" --log_level $LOGLEVEL --api.enabled-unsafe-cors --api.enable --api.swagger --minimum-gas-prices=0.0001avfury --home "$HOMEDIR"
+# pointguard start --pruning=nothing "$TRACE" --log_level $LOGLEVEL --api.enabled-unsafe-cors --api.enable --api.swagger --minimum-gas-prices=0.0001avfury --home "$HOMEDIR"
