@@ -20,9 +20,8 @@
 # TITLE.
 
 
-DEVS[0]="dev0"
-DEVS[1]="dev1"
-DEVS[2]="dev2"
+DEVS1="dev0"
+DEVS2="dev1"
 CHAINID="highbury_710-1"
 MONIKER="the-watchers"
 # Remember to change to other types of keyring like 'file' in-case exposing to outside world,
@@ -71,12 +70,8 @@ if [[ $overwrite == "y" || $overwrite == "Y" ]]; then
 	pointguard config chain-id "$CHAINID" --home "$HOMEDIR"
 
 	# If keys exist they should be deleted
-	for KEY in "${KEYS[@]}"; do
-		pointguard keys add $KEY --keyring-backend test --algo eth_secp256k1
-	done
-	for DEV in "${DEVS[@]}"; do
-		pointguard keys add $DEV --keyring-backend $KEYRING --algo $KEYALGO_COS --home "$HOMEDIR"
-	done
+	pointguard keys add $DEVS1 --keyring-backend test 
+	pointguard keys add $DEVS2 --keyring-backend test 
 
 	# Change parameter token denominations to axfury
 	jq '.app_state["staking"]["params"]["bond_denom"]="axfury"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
@@ -86,13 +81,11 @@ if [[ $overwrite == "y" || $overwrite == "Y" ]]; then
 	jq '.consensus["params"]["block"]["max_gas"]="30000000"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 
 	# Allocate genesis accounts (cosmos formatted addresses)
-	for KEY in "${KEYS[@]}"; do
-		pointguard genesis add-genesis-account $KEY 1000000000000000000000000avfury --keyring-backend $KEYRING --home "$HOMEDIR"
-	done
-
+	pointguard genesis add-genesis-account $DEVS1 1000000000000000000000000avfury --keyring-backend $KEYRING --home "$HOMEDIR"
+	pointguard genesis add-genesis-account $DEVS2 1000000000000000000000000avfury --keyring-backend $KEYRING --home "$HOMEDIR"
 
 	# Sign genesis transaction
-	pointguard genesis gentx ${KEYS[0]} 10000000000000000000avfury --keyring-backend $KEYRING --chain-id $CHAINID --home "$HOMEDIR"
+	pointguard gentx $DEVS1 10000000000000000000avfury --keyring-backend $KEYRING --chain-id $CHAINID --home "$HOMEDIR"
 	## In case you want to create multiple validators at genesis
 	## 1. Back to `pointguard keys add` step, init more keys
 	## 2. Back to `pointguard add-genesis-account` step, add balance for those
