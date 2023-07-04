@@ -23,17 +23,12 @@
 DEVS[0]="dev0"
 DEVS[1]="dev1"
 DEVS[2]="dev2"
-KEYS[0]="key0"
-KEYS[1]="key1"
-KEYS[2]="key2"
 CHAINID="highbury_710-1"
 MONIKER="the-watchers"
 # Remember to change to other types of keyring like 'file' in-case exposing to outside world,
 # otherwise your balance will be wiped quickly
 # The keyring test does not require private key to steal tokens from you
 KEYRING="test"
-KEYALGO_ETH="eth_secp256k1"
-KEYALGO_COS="secp256k1"
 LOGLEVEL="info"
 # Set dedicated home directory for the pointguard instance
 HOMEDIR="$HOME/.pointguard"
