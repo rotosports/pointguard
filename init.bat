@@ -17,26 +17,26 @@ set LOGLEVEL="info"
 rem to trace evm
 rem TRACE="--trace"
 set TRACE=""
-set HOME=%USERPROFILE%\.pointguardd
+set HOME=%USERPROFILE%\.pointguard
 echo %HOME%
 set ETHCONFIG=%HOME%\config\config.toml
 set GENESIS=%HOME%\config\genesis.json
 set TMPGENESIS=%HOME%\config\tmp_genesis.json
 
 @echo build binary
-go build .\cmd\pointguardd
+go build .\cmd\pointguard
 
 
 @echo clear home folder
 del /s /q %HOME%
 
-pointguardd config keyring-backend %KEYRING%
-pointguardd config chain-id %CHAINID%
+pointguard config keyring-backend %KEYRING%
+pointguard config chain-id %CHAINID%
 
-pointguardd keys add %KEY% --keyring-backend %KEYRING% --algo %KEYALGO%
+pointguard keys add %KEY% --keyring-backend %KEYRING% --algo %KEYALGO%
 
 rem Set moniker and chain-id for Pointguard (Moniker can be anything, chain-id must be an integer)
-pointguardd init %MONIKER% --chain-id %CHAINID% 
+pointguard init %MONIKER% --chain-id %CHAINID% 
 
 rem Change parameter token denominations to afury
 cat %GENESIS% | jq ".app_state[\"staking\"][\"params\"][\"bond_denom\"]=\"afury\""   >   %TMPGENESIS% && move %TMPGENESIS% %GENESIS%
@@ -54,18 +54,18 @@ rem setup
 sed -i "s/create_empty_blocks = true/create_empty_blocks = false/g" %ETHCONFIG%
 
 rem Allocate genesis accounts (cosmos formatted addresses)
-pointguardd add-genesis-account %KEY% 100000000000000000000000000afury --keyring-backend %KEYRING%
+pointguard add-genesis-account %KEY% 100000000000000000000000000afury --keyring-backend %KEYRING%
 
 rem Sign genesis transaction
-pointguardd gentx %KEY% 1000000000000000000000afury --keyring-backend %KEYRING% --chain-id %CHAINID%
+pointguard gentx %KEY% 1000000000000000000000afury --keyring-backend %KEYRING% --chain-id %CHAINID%
 
 rem Collect genesis tx
-pointguardd collect-gentxs
+pointguard collect-gentxs
 
 rem Run this to ensure everything worked and that the genesis file is setup correctly
-pointguardd validate-genesis
+pointguard validate-genesis
 
 
 
 rem Start the node (remove the --pruning=nothing flag if historical queries are not needed)
-pointguardd start --pruning=nothing %TRACE% --log_level %LOGLEVEL% --minimum-gas-prices=0.0001afury
+pointguard start --pruning=nothing %TRACE% --log_level %LOGLEVEL% --minimum-gas-prices=0.0001afury

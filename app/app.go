@@ -122,10 +122,10 @@ func init() {
 		panic(err)
 	}
 
-	DefaultNodeHome = filepath.Join(userHomeDir, ".pointguardd")
+	DefaultNodeHome = filepath.Join(userHomeDir, ".pointguard")
 }
 
-const appName = "pointguardd"
+const appName = "pointguard"
 
 var (
 	// DefaultNodeHome default home directories for the application daemon

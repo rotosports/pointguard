@@ -11,11 +11,11 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/genutil/client/cli"
 
 	"github.com/evmos/ethermint/app"
-	pointguardd "github.com/evmos/ethermint/cmd/pointguardd"
+	pointguard "github.com/evmos/ethermint/cmd/pointguard"
 )
 
 func TestInitCmd(t *testing.T) {
-	rootCmd, _ := pointguardd.NewRootCmd()
+	rootCmd, _ := pointguard.NewRootCmd()
 	rootCmd.SetArgs([]string{
 		"init",          // Test the init cmd
 		"etherminttest", // Moniker

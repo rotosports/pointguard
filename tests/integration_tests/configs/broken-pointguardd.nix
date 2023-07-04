@@ -1,8 +1,8 @@
 { pkgs ? import ../../../nix { } }:
-let pointguardd = (pkgs.callPackage ../../../. { });
+let pointguard = (pkgs.callPackage ../../../. { });
 in
-pointguardd.overrideAttrs (oldAttrs: {
+pointguard.overrideAttrs (oldAttrs: {
   patches = oldAttrs.patches or [ ] ++ [
-    ./broken-pointguardd.patch
+    ./broken-pointguard.patch
   ];
 })

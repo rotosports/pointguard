@@ -18,7 +18,7 @@ KEY="mykey"
 CHAINID="ethermint_9000-1"
 MONIKER="mymoniker"
 
-## default port prefixes for pointguardd
+## default port prefixes for pointguard
 NODE_P2P_PORT="2660"
 NODE_PORT="2663"
 NODE_RPC_PORT="2666"
@@ -73,24 +73,24 @@ arrcli=()
 
 init_func() {
     echo "create and add new keys"
-    "$PWD"/build/pointguardd keys add $KEY"$i" --home "$DATA_DIR$i" --no-backup --chain-id $CHAINID --algo "eth_secp256k1" --keyring-backend test
+    "$PWD"/build/pointguard keys add $KEY"$i" --home "$DATA_DIR$i" --no-backup --chain-id $CHAINID --algo "eth_secp256k1" --keyring-backend test
     echo "init Pointguard with moniker=$MONIKER and chain-id=$CHAINID"
-    "$PWD"/build/pointguardd init $MONIKER --chain-id $CHAINID --home "$DATA_DIR$i"
+    "$PWD"/build/pointguard init $MONIKER --chain-id $CHAINID --home "$DATA_DIR$i"
     echo "prepare genesis: Allocate genesis accounts"
-    "$PWD"/build/pointguardd add-genesis-account \
-    "$("$PWD"/build/pointguardd keys show "$KEY$i" -a --home "$DATA_DIR$i" --keyring-backend test)" 1000000000000000000afury,1000000000000000000stake \
+    "$PWD"/build/pointguard add-genesis-account \
+    "$("$PWD"/build/pointguard keys show "$KEY$i" -a --home "$DATA_DIR$i" --keyring-backend test)" 1000000000000000000afury,1000000000000000000stake \
     --home "$DATA_DIR$i" --keyring-backend test
     echo "prepare genesis: Sign genesis transaction"
-    "$PWD"/build/pointguardd gentx $KEY"$i" 1000000000000000000stake --keyring-backend test --home "$DATA_DIR$i" --keyring-backend test --chain-id $CHAINID
+    "$PWD"/build/pointguard gentx $KEY"$i" 1000000000000000000stake --keyring-backend test --home "$DATA_DIR$i" --keyring-backend test --chain-id $CHAINID
     echo "prepare genesis: Collect genesis tx"
-    "$PWD"/build/pointguardd collect-gentxs --home "$DATA_DIR$i"
+    "$PWD"/build/pointguard collect-gentxs --home "$DATA_DIR$i"
     echo "prepare genesis: Run validate-genesis to ensure everything worked and that the genesis file is setup correctly"
-    "$PWD"/build/pointguardd validate-genesis --home "$DATA_DIR$i"
+    "$PWD"/build/pointguard validate-genesis --home "$DATA_DIR$i"
 }
 
 start_func() {
     echo "starting ethermint node $i in background ..."
-    "$PWD"/build/pointguardd start --pruning=nothing --rpc.unsafe \
+    "$PWD"/build/pointguard start --pruning=nothing --rpc.unsafe \
     --p2p.laddr tcp://$IP_ADDR:$NODE_P2P_PORT"$i" --address tcp://$IP_ADDR:$NODE_PORT"$i" --rpc.laddr tcp://$IP_ADDR:$NODE_RPC_PORT"$i" \
     --json-rpc.address=$IP_ADDR:$RPC_PORT"$i" \
     --keyring-backend test --home "$DATA_DIR$i" \

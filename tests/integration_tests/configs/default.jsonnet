@@ -1,7 +1,7 @@
 {
   dotenv: '../../../scripts/.env',
   'ethermint_9000-1': {
-    cmd: 'pointguardd',
+    cmd: 'pointguard',
     'start-flags': '--trace',
     config: {
       consensus: {

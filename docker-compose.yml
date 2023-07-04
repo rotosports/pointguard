@@ -1,9 +1,9 @@
 version: "3"
 
 services:
-  pointguarddnode0:
-    container_name: pointguarddnode0
-    image: "pointguardd/node"
+  pointguardnode0:
+    container_name: pointguardnode0
+    image: "pointguard/node"
     ports:
       - "26657:26657"
       - "8545:8545"
@@ -11,16 +11,16 @@ services:
       - "8125:8125"
     environment:
       - ID=0
-      - LOG=${LOG:-pointguardd.log}
+      - LOG=${LOG:-pointguard.log}
     volumes:
-      - ./localnet-setup/node0/pointguardd:/ethermint:Z
+      - ./localnet-setup/node0/pointguard:/ethermint:Z
     networks:
       - localnet
     entrypoint: "bash start-docker.sh"
 
-  pointguarddnode1:
-    container_name: pointguarddnode1
-    image: "pointguardd/node"
+  pointguardnode1:
+    container_name: pointguardnode1
+    image: "pointguard/node"
     ports:
       - "26658:26657"
       - "8555:8545"
@@ -28,43 +28,43 @@ services:
       - "8126:8125"
     environment:
       - ID=1
-      - LOG=${LOG:-pointguardd.log}
+      - LOG=${LOG:-pointguard.log}
     volumes:
-      - ./localnet-setup/node1/pointguardd:/ethermint:Z
+      - ./localnet-setup/node1/pointguard:/ethermint:Z
     networks:
       - localnet
     entrypoint: "bash start-docker.sh"
 
-  pointguarddnode2:
-    container_name: pointguarddnode2
-    image: "pointguardd/node"
+  pointguardnode2:
+    container_name: pointguardnode2
+    image: "pointguard/node"
     environment:
       - ID=2
-      - LOG=${LOG:-pointguardd.log}
+      - LOG=${LOG:-pointguard.log}
     ports:
       - "26659:26657"
       - "8565:8545"
       - "8566:8546"
       - "8127:8125"
     volumes:
-      - ./localnet-setup/node2/pointguardd:/ethermint:Z
+      - ./localnet-setup/node2/pointguard:/ethermint:Z
     networks:
       - localnet
     entrypoint: "bash start-docker.sh"
 
-  pointguarddnode3:
-    container_name: pointguarddnode3
-    image: "pointguardd/node"
+  pointguardnode3:
+    container_name: pointguardnode3
+    image: "pointguard/node"
     environment:
       - ID=3
-      - LOG=${LOG:-pointguardd.log}
+      - LOG=${LOG:-pointguard.log}
     ports:
       - "26660:26657"
       - "8575:8545"
       - "8576:8546"
       - "8128:8125"
     volumes:
-      - ./localnet-setup/node3/pointguardd:/ethermint:Z
+      - ./localnet-setup/node3/pointguard:/ethermint:Z
     networks:
       - localnet
     entrypoint: "bash start-docker.sh"

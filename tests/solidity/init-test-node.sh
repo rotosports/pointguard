@@ -27,35 +27,35 @@ USER4_MNEMONIC="doll midnight silk carpet brush boring pluck office gown inquiry
 rm -rf ~/.ethermint*
 
 # Import keys from mnemonics
-echo $VAL_MNEMONIC   | pointguardd keys add $VAL_KEY   --recover --keyring-backend test --algo "eth_secp256k1"
-echo $USER1_MNEMONIC | pointguardd keys add $USER1_KEY --recover --keyring-backend test --algo "eth_secp256k1"
-echo $USER2_MNEMONIC | pointguardd keys add $USER2_KEY --recover --keyring-backend test --algo "eth_secp256k1"
-echo $USER3_MNEMONIC | pointguardd keys add $USER3_KEY --recover --keyring-backend test --algo "eth_secp256k1"
-echo $USER4_MNEMONIC | pointguardd keys add $USER4_KEY --recover --keyring-backend test --algo "eth_secp256k1"
+echo $VAL_MNEMONIC   | pointguard keys add $VAL_KEY   --recover --keyring-backend test --algo "eth_secp256k1"
+echo $USER1_MNEMONIC | pointguard keys add $USER1_KEY --recover --keyring-backend test --algo "eth_secp256k1"
+echo $USER2_MNEMONIC | pointguard keys add $USER2_KEY --recover --keyring-backend test --algo "eth_secp256k1"
+echo $USER3_MNEMONIC | pointguard keys add $USER3_KEY --recover --keyring-backend test --algo "eth_secp256k1"
+echo $USER4_MNEMONIC | pointguard keys add $USER4_KEY --recover --keyring-backend test --algo "eth_secp256k1"
 
-pointguardd init $MONIKER --chain-id $CHAINID
+pointguard init $MONIKER --chain-id $CHAINID
 
 # Set gas limit in genesis
-cat $HOME/.pointguardd/config/genesis.json | jq '.consensus_params["block"]["max_gas"]="10000000"' > $HOME/.pointguardd/config/tmp_genesis.json && mv $HOME/.pointguardd/config/tmp_genesis.json $HOME/.pointguardd/config/genesis.json
+cat $HOME/.pointguard/config/genesis.json | jq '.consensus_params["block"]["max_gas"]="10000000"' > $HOME/.pointguard/config/tmp_genesis.json && mv $HOME/.pointguard/config/tmp_genesis.json $HOME/.pointguard/config/genesis.json
 
 # Reduce the block time to 1s
-sed -i -e '/^timeout_commit =/ s/= .*/= "850ms"/' $HOME/.pointguardd/config/config.toml
+sed -i -e '/^timeout_commit =/ s/= .*/= "850ms"/' $HOME/.pointguard/config/config.toml
 
 # Allocate genesis accounts (cosmos formatted addresses)
-pointguardd add-genesis-account "$(pointguardd keys show $VAL_KEY   -a --keyring-backend test)" 1000000000000000000000afury,1000000000000000000stake --keyring-backend test
-pointguardd add-genesis-account "$(pointguardd keys show $USER1_KEY -a --keyring-backend test)" 1000000000000000000000afury,1000000000000000000stake --keyring-backend test
-pointguardd add-genesis-account "$(pointguardd keys show $USER2_KEY -a --keyring-backend test)" 1000000000000000000000afury,1000000000000000000stake --keyring-backend test
-pointguardd add-genesis-account "$(pointguardd keys show $USER3_KEY -a --keyring-backend test)" 1000000000000000000000afury,1000000000000000000stake --keyring-backend test
-pointguardd add-genesis-account "$(pointguardd keys show $USER4_KEY -a --keyring-backend test)" 1000000000000000000000afury,1000000000000000000stake --keyring-backend test
+pointguard add-genesis-account "$(pointguard keys show $VAL_KEY   -a --keyring-backend test)" 1000000000000000000000afury,1000000000000000000stake --keyring-backend test
+pointguard add-genesis-account "$(pointguard keys show $USER1_KEY -a --keyring-backend test)" 1000000000000000000000afury,1000000000000000000stake --keyring-backend test
+pointguard add-genesis-account "$(pointguard keys show $USER2_KEY -a --keyring-backend test)" 1000000000000000000000afury,1000000000000000000stake --keyring-backend test
+pointguard add-genesis-account "$(pointguard keys show $USER3_KEY -a --keyring-backend test)" 1000000000000000000000afury,1000000000000000000stake --keyring-backend test
+pointguard add-genesis-account "$(pointguard keys show $USER4_KEY -a --keyring-backend test)" 1000000000000000000000afury,1000000000000000000stake --keyring-backend test
 
 # Sign genesis transaction
-pointguardd gentx $VAL_KEY 1000000000000000000stake --amount=1000000000000000000000afury --chain-id $CHAINID --keyring-backend test
+pointguard gentx $VAL_KEY 1000000000000000000stake --amount=1000000000000000000000afury --chain-id $CHAINID --keyring-backend test
 
 # Collect genesis tx
-pointguardd collect-gentxs
+pointguard collect-gentxs
 
 # Run this to ensure everything worked and that the genesis file is setup correctly
-pointguardd validate-genesis
+pointguard validate-genesis
 
 # Start the node (remove the --pruning=nothing flag if historical queries are not needed)
-pointguardd start --pruning=nothing --rpc.unsafe --keyring-backend test --log_level info --json-rpc.api eth,txpool,personal,net,debug,web3 --api.enable
+pointguard start --pruning=nothing --rpc.unsafe --keyring-backend test --log_level info --json-rpc.api eth,txpool,personal,net,debug,web3 --api.enable

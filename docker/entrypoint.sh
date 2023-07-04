@@ -2,7 +2,7 @@
 
 set -e 
 
-if [ "$1" = 'pointguardd' ]; then
+if [ "$1" = 'pointguard' ]; then
     ./init.sh
 
     exec "$@" "--"

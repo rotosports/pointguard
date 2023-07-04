@@ -1,33 +1,106 @@
-#!/usr/bin/make -f
+################################################################################
+###                             Project Info                                 ###
+################################################################################
+PROJECT_NAME := pointguard# unique namespace for project
 
-PACKAGES_NOSIMULATION=$(shell go list ./... | grep -v '/simulation')
-PACKAGES_SIMTEST=$(shell go list ./... | grep '/simulation')
-VERSION ?= $(shell echo $(shell git describe --tags `git rev-list --tags="v*" --max-count=1`) | sed 's/^v//')
-TMVERSION := $(shell go list -m github.com/tendermint/tendermint | sed 's:.* ::')
-COMMIT := $(shell git log -1 --format='%H')
+GIT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
+GIT_COMMIT := $(shell git rev-parse HEAD)
+GIT_COMMIT_SHORT := $(shell git rev-parse --short HEAD)
+
+BRANCH_PREFIX := $(shell echo $(GIT_BRANCH) | sed 's/\/.*//g')# eg release, master, feat
+
+EXACT_TAG := $(shell git describe --tags --exact-match 2> /dev/null)
+RECENT_TAG := $(shell git describe --tags)
+
+ifeq ($(BRANCH_PREFIX), release)
+# we are on a release branch, set version to the last or current tag
+VERSION := $(RECENT_TAG)# use current tag or most recent tag + number of commits + g + abbrivated commit
+VERSION_NUMBER := $(shell echo $(VERSION) | sed 's/^v//')# drop the "v" prefix for versions
+else ifeq ($(EXACT_TAG), $(RECENT_TAG))
+# we have a tag checked out directly
+VERSION := $(RECENT_TAG)# use exact tag
+VERSION_NUMBER := $(shell echo $(VERSION) | sed 's/^v//')# drop the "v" prefix for versions
+else
+# we are not on a release branch, and do not have clean tag history (etc v0.19.0-xx-gxx will not make sense to use)
+VERSION := $(GIT_COMMIT_SHORT)
+VERSION_NUMBER := $(VERSION)
+endif
+
+TENDERMINT_VERSION := $(shell go list -m github.com/tendermint/tendermint | sed 's:.* ::')
+COSMOS_SDK_VERSION := $(shell go list -m github.com/cosmos/cosmos-sdk | sed 's:.* ::')
+
+.PHONY: print-git-info
+print-git-info:
+	@echo "branch $(GIT_BRANCH)\nbranch_prefix $(BRANCH_PREFIX)\ncommit $(GIT_COMMIT)\ncommit_short $(GIT_COMMIT_SHORT)"
+
+.PHONY: print-version
+print-version:
+	@echo "pointguard $(VERSION)\ntendermint $(TENDERMINT_VERSION)\ncosmos $(COSMOS_SDK_VERSION)"
+
+################################################################################
+###                             Project Settings                             ###
+################################################################################
 LEDGER_ENABLED ?= true
-BINDIR ?= $(GOPATH)/bin
-ETHERMINT_BINARY = pointguardd
-ETHERMINT_DIR = ethermint
-BUILDDIR ?= $(CURDIR)/build
-SIMAPP = ./app
-HTTPS_GIT := https://github.com/evmos/ethermint.git
-PROJECT_NAME = $(shell git remote get-url origin | xargs basename -s .git)
-DOCKER := $(shell which docker)
-DOCKER_BUF := $(DOCKER) run --rm -v $(CURDIR):/workspace --workdir /workspace bufbuild/buf:1.0.0-rc8
-# RocksDB is a native dependency, so we don't assume the library is installed.
-# Instead, it must be explicitly enabled and we warn when it is not.
-ENABLE_ROCKSDB ?= false
+DOCKER:=docker
+DOCKER_BUF := $(DOCKER) run --rm -v $(CURDIR):/workspace --workdir /workspace bufbuild/buf
+HTTPS_GIT := https://github.com/rotosports/pointguard.git
 
-export GO111MODULE = on
+################################################################################
+###                             Machine Info                                 ###
+################################################################################
+OS_FAMILY := $(shell uname -s)
+MACHINE := $(shell uname -m)
 
-# Default target executed when no arguments are given to make.
-default_target: all
+NATIVE_GO_OS := $(shell echo $(OS_FAMILY) | tr '[:upper:]' '[:lower:]')# Linux -> linux, Darwin -> darwin
 
-.PHONY: default_target
+NATIVE_GO_ARCH := $(MACHINE)
+ifeq ($(MACHINE),x86_64)
+NATIVE_GO_ARCH := amd64# x86_64 -> amd64
+endif
+ifeq ($(MACHINE),aarch64)
+NATIVE_GO_ARCH := arm64# aarch64 -> arm64
+endif
 
+TARGET_GO_OS ?= $(NATIVE_GO_OS)
+TARGET_GO_ARCH ?= $(NATIVE_GO_ARCH)
+.PHONY: print-machine-info
+print-machine-info:
+	@echo "platform $(NATIVE_GO_OS)/$(NATIVE_GO_ARCH)"
+	@echo "target $(TARGET_GO_OS)/$(TARGET_GO_ARCH)"
+
+################################################################################
+###                             PATHS                                        ###
+################################################################################
+BUILD_DIR := build# build files
+BIN_DIR := $(BUILD_DIR)/bin# for binary dev dependencies
+BUILD_CACHE_DIR := $(BUILD_DIR)/.cache# caching for non-artifact outputs
+OUT_DIR := out# for artifact intermediates and outputs
+
+ROOT_DIR := $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))# absolute path to root
+export PATH := $(ROOT_DIR)/$(BIN_DIR):$(PATH)# add local bin first in path
+
+.PHONY: print-path
+print-path:
+	@echo $(PATH)
+
+.PHONY: print-paths
+print-paths:
+	@echo "build $(BUILD_DIR)\nbin $(BIN_DIR)\ncache $(BUILD_CACHE_DIR)\nout $(OUT_DIR)"
+
+.PHONY: clean
+clean:
+	@rm -rf $(BIN_DIR) $(BUILD_CACHE_DIR) $(OUT_DIR)
+
+################################################################################
+###                             Dev Setup                                    ###
+################################################################################
+include $(BUILD_DIR)/deps.mk
+
+include $(BUILD_DIR)/proto.mk
+include $(BUILD_DIR)/proto-deps.mk
+
+#export GO111MODULE = on
 # process build tags
-
 build_tags = netgo
 ifeq ($(LEDGER_ENABLED),true)
   ifeq ($(OS),Windows_NT)
@@ -52,8 +125,13 @@ ifeq ($(LEDGER_ENABLED),true)
   endif
 endif
 
-build_tags += $(BUILD_TAGS)
-build_tags := $(strip $(build_tags))
+ifeq (cleveldb,$(findstring cleveldb,$(COSMOS_BUILD_OPTIONS)))
+  build_tags += gcc
+endif
+
+ifeq (secp,$(findstring secp,$(COSMOS_BUILD_OPTIONS)))
+  build_tags += libsecp256k1_sdk
+endif
 
 whitespace :=
 whitespace += $(whitespace)
@@ -62,38 +140,31 @@ build_tags_comma_sep := $(subst $(whitespace),$(comma),$(build_tags))
 
 # process linker flags
 
-ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=ethermint \
-		  -X github.com/cosmos/cosmos-sdk/version.AppName=$(ETHERMINT_BINARY) \
-		  -X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION) \
-		  -X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT) \
-			-X "github.com/cosmos/cosmos-sdk/version.BuildTags=$(build_tags_comma_sep)" \
-			-X github.com/tendermint/tendermint/version.TMCoreSemVer=$(TMVERSION)
-
-ifeq ($(ENABLE_ROCKSDB),true)
-  BUILD_TAGS += rocksdb_build
-  test_tags += rocksdb_build
-else
-  $(warning RocksDB support is disabled; to build and test with RocksDB support, set ENABLE_ROCKSDB=true)
-endif
+ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=pointguard \
+		  -X github.com/cosmos/cosmos-sdk/version.AppName=pointguard \
+		  -X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION_NUMBER) \
+		  -X github.com/cosmos/cosmos-sdk/version.Commit=$(GIT_COMMIT) \
+		  -X "github.com/cosmos/cosmos-sdk/version.BuildTags=$(build_tags_comma_sep)" \
+		  -X github.com/tendermint/tendermint/version.TMCoreSemVer=$(TENDERMINT_VERSION)
 
 # DB backend selection
 ifeq (cleveldb,$(findstring cleveldb,$(COSMOS_BUILD_OPTIONS)))
-  BUILD_TAGS += gcc
+  ldflags += -X github.com/cosmos/cosmos-sdk/types.DBBackend=cleveldb
 endif
 ifeq (badgerdb,$(findstring badgerdb,$(COSMOS_BUILD_OPTIONS)))
+  ldflags += -X github.com/cosmos/cosmos-sdk/types.DBBackend=badgerdb
   BUILD_TAGS += badgerdb
 endif
 # handle rocksdb
 ifeq (rocksdb,$(findstring rocksdb,$(COSMOS_BUILD_OPTIONS)))
-  ifneq ($(ENABLE_ROCKSDB),true)
-    $(error Cannot use RocksDB backend unless ENABLE_ROCKSDB=true)
-  endif
   CGO_ENABLED=1
   BUILD_TAGS += rocksdb
+  ldflags += -X github.com/cosmos/cosmos-sdk/types.DBBackend=rocksdb
 endif
 # handle boltdb
 ifeq (boltdb,$(findstring boltdb,$(COSMOS_BUILD_OPTIONS)))
   BUILD_TAGS += boltdb
+  ldflags += -X github.com/cosmos/cosmos-sdk/types.DBBackend=boltdb
 endif
 
 ifeq (,$(findstring nostrip,$(COSMOS_BUILD_OPTIONS)))
@@ -111,367 +182,150 @@ ifeq (,$(findstring nostrip,$(COSMOS_BUILD_OPTIONS)))
   BUILD_FLAGS += -trimpath
 endif
 
-# # The below include contains the tools and runsim targets.
-# include contrib/devtools/Makefile
+all: install
 
-###############################################################################
-###                                  Build                                  ###
-###############################################################################
-
-BUILD_TARGETS := build install
-
-build: BUILD_ARGS=-o $(BUILDDIR)/
-build-linux:
-	GOOS=linux GOARCH=amd64 LEDGER_ENABLED=false $(MAKE) build
-
-$(BUILD_TARGETS): go.sum $(BUILDDIR)/
-	go $@ $(BUILD_FLAGS) $(BUILD_ARGS) ./...
-
-$(BUILDDIR)/:
-	mkdir -p $(BUILDDIR)/
-
-docker-build:
-	# TODO replace with kaniko
-	docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
-	docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_IMAGE}:latest
-	# docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_IMAGE}:${COMMIT_HASH}
-	# update old container
-	docker rm ethermint || true
-	# create a new container from the latest image
-	docker create --name ethermint -t -i tharsis/ethermint:latest ethermint
-	# move the binaries to the ./build directory
-	mkdir -p ./build/
-	docker cp ethermint:/usr/bin/pointguardd ./build/
-
-$(MOCKS_DIR):
-	mkdir -p $(MOCKS_DIR)
-
-distclean: clean tools-clean
-
-clean:
-	rm -rf \
-    $(BUILDDIR)/ \
-    artifacts/ \
-    tmp-swagger-gen/
-
-all: build
-
-build-all: tools build lint test
-
-.PHONY: distclean clean build-all
-
-###############################################################################
-###                                Releasing                                ###
-###############################################################################
-
-PACKAGE_NAME:=github.com/evmos/ethermint
-GOLANG_CROSS_VERSION = v1.18
-GOPATH ?= '$(HOME)/go'
-release-dry-run:
-	docker run \
-		--rm \
-		--privileged \
-		-e CGO_ENABLED=1 \
-		-v /var/run/docker.sock:/var/run/docker.sock \
-		-v `pwd`:/go/src/$(PACKAGE_NAME) \
-		-v ${GOPATH}/pkg:/go/pkg \
-		-w /go/src/$(PACKAGE_NAME) \
-		ghcr.io/goreleaser/goreleaser-cross:${GOLANG_CROSS_VERSION} \
-		--rm-dist --skip-validate --skip-publish --snapshot
-
-release:
-	@if [ ! -f ".release-env" ]; then \
-		echo "\033[91m.release-env is required for release\033[0m";\
-		exit 1;\
-	fi
-	docker run \
-		--rm \
-		--privileged \
-		-e CGO_ENABLED=1 \
-		--env-file .release-env \
-		-v /var/run/docker.sock:/var/run/docker.sock \
-		-v `pwd`:/go/src/$(PACKAGE_NAME) \
-		-w /go/src/$(PACKAGE_NAME) \
-		ghcr.io/goreleaser/goreleaser-cross:${GOLANG_CROSS_VERSION} \
-		release --rm-dist --skip-validate
-
-.PHONY: release-dry-run release
-
-###############################################################################
-###                          Tools & Dependencies                           ###
-###############################################################################
-
-TOOLS_DESTDIR  ?= $(GOPATH)/bin
-STATIK         = $(TOOLS_DESTDIR)/statik
-RUNSIM         = $(TOOLS_DESTDIR)/runsim
-
-# Install the runsim binary with a temporary workaround of entering an outside
-# directory as the "go get" command ignores the -mod option and will polute the
-# go.{mod, sum} files.
-#
-# ref: https://github.com/golang/go/issues/30515
-runsim: $(RUNSIM)
-$(RUNSIM):
-	@echo "Installing runsim..."
-	@(cd /tmp && ${GO_MOD} go install github.com/cosmos/tools/cmd/runsim@master)
-
-statik: $(STATIK)
-$(STATIK):
-	@echo "Installing statik..."
-	@(cd /tmp && go get github.com/rakyll/statik@v0.1.6)
-
-contract-tools:
-ifeq (, $(shell which stringer))
-	@echo "Installing stringer..."
-	@go get golang.org/x/tools/cmd/stringer
+build: go.sum
+ifeq ($(OS), Windows_NT)
+	go build -mod=readonly $(BUILD_FLAGS) -o out/$(shell go env GOOS)/pointguard.exe ./cmd/pointguard
 else
-	@echo "stringer already installed; skipping..."
+	go build -mod=readonly $(BUILD_FLAGS) -o out/$(shell go env GOOS)/pointguard ./cmd/pointguard
 endif
 
-ifeq (, $(shell which go-bindata))
-	@echo "Installing go-bindata..."
-	@go get github.com/kevinburke/go-bindata/go-bindata
-else
-	@echo "go-bindata already installed; skipping..."
-endif
+build-linux: go.sum
+	LEDGER_ENABLED=false GOOS=linux GOARCH=amd64 $(MAKE) build
 
-ifeq (, $(shell which gencodec))
-	@echo "Installing gencodec..."
-	@go get github.com/fjl/gencodec
-else
-	@echo "gencodec already installed; skipping..."
-endif
+install: go.sum
+	go install -mod=readonly $(BUILD_FLAGS) ./cmd/pointguard
 
-ifeq (, $(shell which protoc-gen-go))
-	@echo "Installing protoc-gen-go..."
-	@go get github.com/fjl/gencodec github.com/golang/protobuf/protoc-gen-go
-else
-	@echo "protoc-gen-go already installed; skipping..."
-endif
+########################################
+### Tools & dependencies
 
-ifeq (, $(shell which solcjs))
-	@echo "Installing solcjs..."
-	@npm install -g solc@0.5.11
-else
-	@echo "solcjs already installed; skipping..."
-endif
-
-tools: tools-stamp
-tools-stamp: contract-tools proto-tools statik runsim
-	# Create dummy file to satisfy dependency and avoid
-	# rebuilding when this Makefile target is hit twice
-	# in a row.
-	touch $@
-
-tools-clean:
-	rm -f $(RUNSIM)
-	rm -f tools-stamp
-
-.PHONY: runsim statik tools contract-tools proto-tools  tools-stamp tools-clean
+go-mod-cache: go.sum
+	@echo "--> Download go modules to local cache"
+	@go mod download
+PHONY: go-mod-cache
 
 go.sum: go.mod
-	echo "Ensure dependencies have not been modified ..." >&2
-	go mod verify
-	go mod tidy
+	@echo "--> Ensuring dependencies have not been modified"
+	@go mod verify
 
-###############################################################################
-###                              Documentation                              ###
-###############################################################################
+########################################
+### Linting
 
-update-swagger-docs: statik
-	$(BINDIR)/statik -src=client/docs/swagger-ui -dest=client/docs -f -m
-	@if [ -n "$(git status --porcelain)" ]; then \
-        echo "\033[91mSwagger docs are out of sync!!!\033[0m";\
-        exit 1;\
-    else \
-        echo "\033[92mSwagger docs are in sync\033[0m";\
-    fi
-.PHONY: update-swagger-docs
+# Check url links in the repo are not broken.
+# This tool checks local markdown links as well.
+# Set to exclude riot links as they trigger false positives
+link-check:
+	@go get -u github.com/raviqqe/liche@f57a5d1c5be4856454cb26de155a65a4fd856ee3
+	liche -r . --exclude "^http://127.*|^https://riot.im/app*|^http://pointguard-testnet*|^https://testnet-dex*|^https://pointguard3.data.pointguard.io*|^https://ipfs.io*|^https://apps.apple.com*|^https://pointguard.quicksync.io*"
 
-godocs:
-	@echo "--> Wait a few seconds and visit http://localhost:6060/pkg/github.com/evmos/ethermint/types"
-	godoc -http=:6060
-
-###############################################################################
-###                           Tests & Simulation                            ###
-###############################################################################
-
-test: test-unit
-test-all: test-unit test-race
-PACKAGES_UNIT=$(shell go list ./... | grep -Ev 'vendor|importer')
-TEST_PACKAGES=./...
-TEST_TARGETS := test-unit test-unit-cover test-race
-
-# Test runs-specific rules. To add a new test target, just add
-# a new rule, customise ARGS or TEST_PACKAGES ad libitum, and
-# append the new rule to the TEST_TARGETS list.
-test-unit: ARGS=-timeout=10m -race
-test-unit: TEST_PACKAGES=$(PACKAGES_UNIT)
-
-test-race: ARGS=-race
-test-race: TEST_PACKAGES=$(PACKAGES_NOSIMULATION)
-$(TEST_TARGETS): run-tests
-
-test-unit-cover: ARGS=-timeout=10m -race -coverprofile=coverage.txt -covermode=atomic
-test-unit-cover: TEST_PACKAGES=$(PACKAGES_UNIT)
-
-run-tests:
-ifneq (,$(shell which tparse 2>/dev/null))
-	go test -mod=readonly -json $(ARGS) $(EXTRA_ARGS) $(TEST_PACKAGES) | tparse
-else
-	go test -mod=readonly $(ARGS)  $(EXTRA_ARGS) $(TEST_PACKAGES)
-endif
-
-test-import:
-	go test -run TestImporterTestSuite -v --vet=off github.com/evmos/ethermint/tests/importer
-
-test-rpc:
-	./scripts/integration-test-all.sh -t "rpc" -q 1 -z 1 -s 2 -m "rpc" -r "true"
-
-test-integration:
-	./scripts/integration-test-all.sh -t "integration" -q 1 -z 1 -s 2 -m "integration" -r "true"
-
-run-integration-tests:
-	@nix-shell ./tests/integration_tests/shell.nix --run ./scripts/run-integration-tests.sh
-
-.PHONY: run-integration-tests
-
-
-test-rpc-pending:
-	./scripts/integration-test-all.sh -t "pending" -q 1 -z 1 -s 2 -m "pending" -r "true"
-
-test-solidity:
-	@echo "Beginning solidity tests..."
-	./scripts/run-solidity-tests.sh
-
-
-.PHONY: run-tests test test-all test-import test-rpc test-contract test-solidity $(TEST_TARGETS)
-
-test-sim-nondeterminism:
-	@echo "Running non-determinism test..."
-	@go test -mod=readonly $(SIMAPP) -run TestAppStateDeterminism -Enabled=true \
-		-NumBlocks=100 -BlockSize=200 -Commit=true -Period=0 -v -timeout 24h
-
-test-sim-random-genesis-fast:
-	@echo "Running random genesis simulation..."
-	@go test -mod=readonly $(SIMAPP) -run TestFullAppSimulation \
-		-Enabled=true -NumBlocks=100 -BlockSize=200 -Commit=true -Seed=99 -Period=5 -v -timeout 24h
-
-test-sim-import-export: runsim
-	@echo "Running application import/export simulation. This may take several minutes..."
-	@$(BINDIR)/runsim -Jobs=4 -SimAppPkg=$(SIMAPP) -ExitOnFail 50 5 TestAppImportExport
-
-test-sim-after-import: runsim
-	@echo "Running application simulation-after-import. This may take several minutes..."
-	@$(BINDIR)/runsim -Jobs=4 -SimAppPkg=$(SIMAPP) -ExitOnFail 50 5 TestAppSimulationAfterImport
-
-test-sim-random-genesis-multi-seed: runsim
-	@echo "Running multi-seed custom genesis simulation..."
-	@$(BINDIR)/runsim -SimAppPkg=$(SIMAPP) -ExitOnFail 400 5 TestFullAppSimulation
-
-test-sim-multi-seed-long: runsim
-	@echo "Running long multi-seed application simulation. This may take awhile!"
-	@$(BINDIR)/runsim -Jobs=4 -SimAppPkg=$(SIMAPP) -ExitOnFail 500 50 TestFullAppSimulation
-
-test-sim-multi-seed-short: runsim
-	@echo "Running short multi-seed application simulation. This may take awhile!"
-	@$(BINDIR)/runsim -Jobs=4 -SimAppPkg=$(SIMAPP) -ExitOnFail 50 10 TestFullAppSimulation
-
-test-sim-benchmark-invariants:
-	@echo "Running simulation invariant benchmarks..."
-	@go test -mod=readonly $(SIMAPP) -benchmem -bench=BenchmarkInvariants -run=^$ \
-	-Enabled=true -NumBlocks=1000 -BlockSize=200 \
-	-Period=1 -Commit=true -Seed=57 -v -timeout 24h
-
-.PHONY: \
-test-sim-nondeterminism \
-test-sim-custom-genesis-fast \
-test-sim-import-export \
-test-sim-after-import \
-test-sim-custom-genesis-multi-seed \
-test-sim-multi-seed-short \
-test-sim-multi-seed-long \
-test-sim-benchmark-invariants
-
-benchmark:
-	@go test -mod=readonly -bench=. $(PACKAGES_NOSIMULATION)
-.PHONY: benchmark
-
-###############################################################################
-###                                Linting                                  ###
-###############################################################################
 
 lint:
-	@@test -n "$$golangci-lint version | awk '$4 >= 1.42')"
-	golangci-lint run --out-format=tab -n
-
-lint-py:
-	flake8 --show-source --count --statistics \
-          --format="::error file=%(path)s,line=%(row)d,col=%(col)d::%(path)s:%(row)d:%(col)d: %(code)s %(text)s" \
+	golangci-lint run
+	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" | xargs gofmt -d -s
+	go mod verify
+.PHONY: lint
 
 format:
-	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -path "./client/docs/statik/statik.go" -not -name '*.pb.go' -not -name '*.pb.gw.go' | xargs gofumpt -d -e -extra
-
-lint-fix:
-	golangci-lint run --fix --out-format=tab --issues-exit-code=0
-.PHONY: lint lint-fix lint-py
-
-format-fix:
-	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -path "./client/docs/statik/statik.go" -not -name '*.pb.go' -not -name '*.pb.gw.go' | xargs gofumpt -w -s
-	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -path "./client/docs/statik/statik.go" -not -name '*.pb.go' -not -name '*.pb.gw.go' | xargs misspell -w
+	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -name '*.pb.go' | xargs gofmt -w -s
+	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -name '*.pb.go' | xargs misspell -w
+	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -name '*.pb.go' | xargs goimports -w -local github.com/tendermint
+	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -name '*.pb.go' | xargs goimports -w -local github.com/cosmos/cosmos-sdk
+	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -name '*.pb.go' | xargs goimports -w -local github.com/incubus-network/pointguard
 .PHONY: format
-
 
 ###############################################################################
 ###                                Localnet                                 ###
 ###############################################################################
 
-# Build image for a local testnet
-localnet-build:
+# Build docker image and tag as fanfury/pointguard:local
+docker-build:
+	DOCKER_BUILDKIT=1 $(DOCKER) build -t fanfury/pointguard:local .
+
+docker-build-rocksdb:
+	DOCKER_BUILDKIT=1 $(DOCKER) build -f Dockerfile-rocksdb -t fanfury/pointguard:local .
+
+build-docker-local-pointguard:
 	@$(MAKE) -C networks/local
 
-# Start a 4-node testnet locally
-localnet-start: localnet-stop
-ifeq ($(OS),Windows_NT)
-	mkdir localnet-setup &
-	@$(MAKE) localnet-build
-
-	IF not exist "build/node0/$(ETHERMINT_BINARY)/config/genesis.json" docker run --rm -v $(CURDIR)/build\ethermint\Z pointguardd/node "./pointguardd testnet --v 4 -o /ethermint --keyring-backend=test --ip-addresses pointguarddnode0,pointguarddnode1,pointguarddnode2,pointguarddnode3"
+# Run a 4-node testnet locally
+localnet-start: build-linux localnet-stop
+	@if ! [ -f build/node0/nmd/config/genesis.json ]; then docker run --rm -v $(CURDIR)/build:/nmd:Z pointguard/pointguardnode testnet --v 4 -o . --starting-ip-address 192.168.10.2 --keyring-backend=test ; fi
 	docker-compose up -d
-else
-	mkdir -p localnet-setup
-	@$(MAKE) localnet-build
 
-	if ! [ -f localnet-setup/node0/$(ETHERMINT_BINARY)/config/genesis.json ]; then docker run --rm -v $(CURDIR)/localnet-setup:/ethermint:Z pointguardd/node "./pointguardd testnet --v 4 -o /ethermint --keyring-backend=test --ip-addresses pointguarddnode0,pointguarddnode1,pointguarddnode2,pointguarddnode3"; fi
-	docker-compose up -d
-endif
-
-# Stop testnet
 localnet-stop:
 	docker-compose down
 
-# Clean testnet
-localnet-clean:
-	docker-compose down
-	sudo rm -rf localnet-setup
+# Launch a new single validator chain
+start:
+	./contrib/devnet/init-new-chain.sh
+	pointguard start
 
- # Reset testnet
-localnet-unsafe-reset:
-	docker-compose down
-ifeq ($(OS),Windows_NT)
-	@docker run --rm -v $(CURDIR)\localnet-setup\node0\ethermitd:ethermint\Z pointguardd/node "./pointguardd unsafe-reset-all --home=/ethermint"
-	@docker run --rm -v $(CURDIR)\localnet-setup\node1\ethermitd:ethermint\Z pointguardd/node "./pointguardd unsafe-reset-all --home=/ethermint"
-	@docker run --rm -v $(CURDIR)\localnet-setup\node2\ethermitd:ethermint\Z pointguardd/node "./pointguardd unsafe-reset-all --home=/ethermint"
-	@docker run --rm -v $(CURDIR)\localnet-setup\node3\ethermitd:ethermint\Z pointguardd/node "./pointguardd unsafe-reset-all --home=/ethermint"
-else
-	@docker run --rm -v $(CURDIR)/localnet-setup/node0/ethermitd:/ethermint:Z pointguardd/node "./pointguardd unsafe-reset-all --home=/ethermint"
-	@docker run --rm -v $(CURDIR)/localnet-setup/node1/ethermitd:/ethermint:Z pointguardd/node "./pointguardd unsafe-reset-all --home=/ethermint"
-	@docker run --rm -v $(CURDIR)/localnet-setup/node2/ethermitd:/ethermint:Z pointguardd/node "./pointguardd unsafe-reset-all --home=/ethermint"
-	@docker run --rm -v $(CURDIR)/localnet-setup/node3/ethermitd:/ethermint:Z pointguardd/node "./pointguardd unsafe-reset-all --home=/ethermint"
-endif
+#proto-format:
+#@echo "Formatting Protobuf files"
+#@if docker ps -a --format '{{.Names}}' | grep -Eq "^${containerProtoFmt}$$"; then docker start -a $(containerProtoFmt); else docker run --name $(containerProtoFmt) -v $(CURDIR):/workspace --workdir /workspace tendermintdev/docker-build-proto \
+#find ./ -not -path "./third_party/*" -name *.proto -exec clang-format -style=file -i {} \; ; fi
 
-# Clean testnet
-localnet-show-logstream:
-	docker-compose logs --tail=1000 -f
+########################################
+### Testing
 
-.PHONY: build-docker-local-ethermint localnet-start localnet-stop
+# TODO tidy up cli tests to use same -Enable flag as simulations, or the other way round
+# TODO -mod=readonly ?
+# build dependency needed for cli tests
+test-all: build
+	# basic app tests
+	@go test ./app -v
+	# basic simulation (seed "4" happens to not unbond all validators before reaching 100 blocks)
+	#@go test ./app -run TestFullAppSimulation        -Enabled -Commit -NumBlocks=100 -BlockSize=200 -Seed 4 -v -timeout 24h
+	# other sim tests
+	#@go test ./app -run TestAppImportExport          -Enabled -Commit -NumBlocks=100 -BlockSize=200 -Seed 4 -v -timeout 24h
+	#@go test ./app -run TestAppSimulationAfterImport -Enabled -Commit -NumBlocks=100 -BlockSize=200 -Seed 4 -v -timeout 24h
+	# AppStateDeterminism does not use Seed flag
+	#@go test ./app -run TestAppStateDeterminism      -Enabled -Commit -NumBlocks=100 -BlockSize=200 -Seed 4 -v -timeout 24h
+
+# run module tests and short simulations
+test-basic: test
+	@go test ./app -run TestFullAppSimulation        -Enabled -Commit -NumBlocks=5 -BlockSize=200 -Seed 4 -v -timeout 2m
+	# other sim tests
+	@go test ./app -run TestAppImportExport          -Enabled -Commit -NumBlocks=5 -BlockSize=200 -Seed 4 -v -timeout 2m
+	@go test ./app -run TestAppSimulationAfterImport -Enabled -Commit -NumBlocks=5 -BlockSize=200 -Seed 4 -v -timeout 2m
+	@# AppStateDeterminism does not use Seed flag
+	@go test ./app -run TestAppStateDeterminism      -Enabled -Commit -NumBlocks=5 -BlockSize=200 -Seed 4 -v -timeout 2m
+
+# run end-to-end tests (local docker container must be built, see docker-build)
+test-e2e: docker-build
+	go test -failfast -count=1 -v ./tests/e2e/...
+
+test:
+	@go test $$(go list ./... | grep -v 'contrib' | grep -v 'tests/e2e')
+
+# Run cli integration tests
+# `-p 4` to use 4 cores, `-tags cli_test` to tell go not to ignore the cli package
+# These tests use the `nmd` or `kvcli` binaries in the build dir, or in `$BUILDDIR` if that env var is set.
+test-cli: build
+	@go test ./cli_test -tags cli_test -v -p 4
+
+# Run tests for migration cli command
+test-migrate:
+	@go test -v -count=1 ./migrate/...
+
+# Kick start lots of sims on an AWS cluster.
+# This submits an AWS Batch job to run a lot of sims, each within a docker image. Results are uploaded to S3
+start-remote-sims:
+	# build the image used for running sims in, and tag it
+	docker build -f simulations/Dockerfile -t fanfury/pointguard-sim:master .
+	# push that image to the hub
+	docker push fanfury/pointguard-sim:master
+	# submit an array job on AWS Batch, using 1000 seeds, spot instances
+	aws batch submit-job \
+		-—job-name "master-$(VERSION)" \
+		-—job-queue “simulation-1-queue-spot" \
+		-—array-properties size=1000 \
+		-—job-definition pointguard-sim-master \
+		-—container-override environment=[{SIM_NAME=master-$(VERSION)}]
+
+update-nmtool:
+	git submodule update
+	cd tests/e2e/nmtool && make install
+
+.PHONY: all build-linux install clean build test test-cli test-all test-rest test-basic start-remote-sims

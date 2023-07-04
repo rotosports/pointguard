@@ -1,5 +1,5 @@
 // This is a test utility for Pointguard's Web3 JSON-RPC services.
-// To run these tests please first ensure you have the pointguardd running
+// To run these tests please first ensure you have the pointguard running
 // You can configure the desired HOST and MODE as well in integration-test-all.sh
 package rpc
 

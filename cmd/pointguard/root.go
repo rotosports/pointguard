@@ -62,7 +62,7 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 		WithViper(EnvPrefix)
 
 	rootCmd := &cobra.Command{
-		Use:   "pointguardd",
+		Use:   "pointguard",
 		Short: "Pointguard Daemon",
 		PersistentPreRunE: func(cmd *cobra.Command, _ []string) error {
 			// set the default command outputs

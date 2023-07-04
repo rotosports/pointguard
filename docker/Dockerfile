@@ -29,9 +29,9 @@ COPY docker/entrypoint.sh .
 COPY init.sh .
 
 # Copy over binaries from the build-env
-COPY --from=build-env /src/build/pointguardd /usr/bin/pointguardd
+COPY --from=build-env /src/build/pointguard /usr/bin/pointguard
 
 EXPOSE 26656 26657
 
 ENTRYPOINT ["./entrypoint.sh"]
-CMD ["pointguardd"]
+CMD ["pointguard"]

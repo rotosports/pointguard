@@ -4,7 +4,7 @@
 }:
 let
   version = "v0.17.1";
-  pname = "pointguardd";
+  pname = "pointguard";
   tags = [ "netgo" ];
   ldflags = lib.concatStringsSep "\n" ([
     "-X github.com/cosmos/cosmos-sdk/version.Name=ethermint"
@@ -23,13 +23,13 @@ buildGoApplication rec {
   modules = ./gomod2nix.toml;
   doCheck = false;
   pwd = src; # needed to support replace
-  subPackages = [ "cmd/pointguardd" ];
+  subPackages = [ "cmd/pointguard" ];
   CGO_ENABLED = "1";
 
   meta = with lib; {
     description = "Pointguard is a scalable and interoperable Ethereum library, built on Proof-of-Stake with fast-finality using the Cosmos SDK which runs on top of Tendermint Core consensus engine.";
     homepage = "https://github.com/evmos/ethermint";
     license = licenses.asl20;
-    mainProgram = "pointguardd";
+    mainProgram = "pointguard";
   };
 }

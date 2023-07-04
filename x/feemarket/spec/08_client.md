@@ -12,7 +12,7 @@ A user can query and interact with the `feemarket` module using the CLI.
 The `query` commands allow users to query `feemarket` state.
 
 ```go
-pointguardd query feemarket --help
+pointguard query feemarket --help
 ```
 
 #### Base Fee
@@ -20,13 +20,13 @@ pointguardd query feemarket --help
 The `base-fee` command allows users to query the block base fee by height.
 
 ```
-pointguardd query feemarket base-fee [height] [flags]
+pointguard query feemarket base-fee [height] [flags]
 ```
 
 Example:
 
 ```
-pointguardd query feemarket base-fee 5...
+pointguard query feemarket base-fee 5...
 ```
 
 Example Output:
@@ -40,13 +40,13 @@ base_fee: "512908936"
 The `block-gas` command allows users to query the block gas by height.
 
 ```
-pointguardd query feemarket block-gas [height] [flags]
+pointguard query feemarket block-gas [height] [flags]
 ```
 
 Example:
 
 ```
-pointguardd query feemarket block-gas 5...
+pointguard query feemarket block-gas 5...
 ```
 
 Example Output:
@@ -60,13 +60,13 @@ gas: "21000"
 The `params` command allows users to query the module params.
 
 ```
-pointguardd query params subspace [subspace] [key] [flags]
+pointguard query params subspace [subspace] [key] [flags]
 ```
 
 Example:
 
 ```
-pointguardd query params subspace feemarket ElasticityMultiplier ...
+pointguard query params subspace feemarket ElasticityMultiplier ...
 ```
 
 Example Output:

@@ -2,7 +2,7 @@
 pkgs.mkShell {
   buildInputs = [
     pkgs.jq
-    (pkgs.callPackage ../../. { }) # pointguardd
+    (pkgs.callPackage ../../. { }) # pointguard
     pkgs.start-scripts
     pkgs.go-ethereum
     pkgs.cosmovisor

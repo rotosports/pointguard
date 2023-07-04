@@ -22,10 +22,10 @@ WORKDIR /
 RUN apt-get update
 
 # Copy over binaries from the build-env
-COPY --from=build-env /go/src/github.com/evmos/ethermint/build/pointguardd /
+COPY --from=build-env /go/src/github.com/evmos/ethermint/build/pointguard /
 COPY --from=build-env /go/src/github.com/evmos/ethermint/scripts/start-docker.sh /
 
 EXPOSE 26656 26657 1317 8545 8546
 
-# Run pointguardd by default, omit entrypoint to ease using container with pointguardd
+# Run pointguard by default, omit entrypoint to ease using container with pointguard
 ENTRYPOINT ["/bin/bash", "-c"]

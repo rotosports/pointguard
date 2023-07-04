@@ -14,9 +14,9 @@ faucet:
   coins: ["1000000000000000000000000000afury"]
   coins_max: ["100000000afury"]
 build:
-  binary: "pointguardd"
+  binary: "pointguard"
 init:
-  home: "$HOME/.pointguardd"
+  home: "$HOME/.pointguard"
   app:
     api:
       enable: true

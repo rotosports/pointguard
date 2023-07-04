@@ -26,7 +26,7 @@ function checkTestEnv() {
     .describe('network', 'set which network to use: ganache|ethermint')
     .describe('batch', 'set the test batch in parallelized testing. Format: %d-%d')
     .describe('allowTests', 'only run specified tests. Separated by comma.')
-    .boolean('verbose-log').describe('verbose-log', 'print pointguardd output, default false')
+    .boolean('verbose-log').describe('verbose-log', 'print pointguard output, default false')
     .argv;
 
   if (!fs.existsSync(path.join(__dirname, './node_modules'))) {
@@ -176,29 +176,29 @@ function setupNetwork({ runConfig, timeout }) {
   // Spawn the ethermint process
 
   const spawnPromise = new Promise((resolve, reject) => {
-    const pointguarddProc = spawn('./init-test-node.sh', {
+    const pointguardProc = spawn('./init-test-node.sh', {
       cwd: __dirname,
       stdio: ['ignore', runConfig.verboseLog ? 'pipe' : 'ignore', 'pipe'],
     });
 
     logger.info(`Starting Pointguardd process... timeout: ${timeout}ms`);
     if (runConfig.verboseLog) {
-      pointguarddProc.stdout.pipe(process.stdout);
+      pointguardProc.stdout.pipe(process.stdout);
     }
-    pointguarddProc.stderr.on('data', d => {
+    pointguardProc.stderr.on('data', d => {
       const oLine = d.toString();
       if (runConfig.verboseLog) {
         process.stdout.write(oLine);
       }
       if (oLine.indexOf('Starting JSON-RPC server') !== -1) {
         logger.info('Pointguardd started');
-        resolve(pointguarddProc);
+        resolve(pointguardProc);
       }
     });
   });
 
   const timeoutPromise = new Promise((resolve, reject) => {
-    setTimeout(() => reject(new Error('Start pointguardd timeout!')), timeout);
+    setTimeout(() => reject(new Error('Start pointguard timeout!')), timeout);
   });
   return Promise.race([spawnPromise, timeoutPromise]);
 }
