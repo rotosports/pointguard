@@ -644,14 +644,14 @@ func (m *TraceConfig) GetEnableReturnData() bool {
 }
 
 func init() {
-	proto.RegisterType((*Params)(nil), "ethermint.evm.v1.Params")
-	proto.RegisterType((*ChainConfig)(nil), "ethermint.evm.v1.ChainConfig")
-	proto.RegisterType((*State)(nil), "ethermint.evm.v1.State")
-	proto.RegisterType((*TransactionLogs)(nil), "ethermint.evm.v1.TransactionLogs")
-	proto.RegisterType((*Log)(nil), "ethermint.evm.v1.Log")
-	proto.RegisterType((*TxResult)(nil), "ethermint.evm.v1.TxResult")
-	proto.RegisterType((*AccessTuple)(nil), "ethermint.evm.v1.AccessTuple")
-	proto.RegisterType((*TraceConfig)(nil), "ethermint.evm.v1.TraceConfig")
+	proto.RegisterType((*Params)(nil), "pointguard.evm.v1.Params")
+	proto.RegisterType((*ChainConfig)(nil), "pointguard.evm.v1.ChainConfig")
+	proto.RegisterType((*State)(nil), "pointguard.evm.v1.State")
+	proto.RegisterType((*TransactionLogs)(nil), "pointguard.evm.v1.TransactionLogs")
+	proto.RegisterType((*Log)(nil), "pointguard.evm.v1.Log")
+	proto.RegisterType((*TxResult)(nil), "pointguard.evm.v1.TxResult")
+	proto.RegisterType((*AccessTuple)(nil), "pointguard.evm.v1.AccessTuple")
+	proto.RegisterType((*TraceConfig)(nil), "pointguard.evm.v1.TraceConfig")
 }
 
 func init() { proto.RegisterFile("ethermint/evm/v1/evm.proto", fileDescriptor_d21ecc92c8c8583e) }

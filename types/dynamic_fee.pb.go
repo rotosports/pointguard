@@ -64,7 +64,7 @@ func (m *ExtensionOptionDynamicFeeTx) XXX_DiscardUnknown() {
 var xxx_messageInfo_ExtensionOptionDynamicFeeTx proto.InternalMessageInfo
 
 func init() {
-	proto.RegisterType((*ExtensionOptionDynamicFeeTx)(nil), "ethermint.types.v1.ExtensionOptionDynamicFeeTx")
+	proto.RegisterType((*ExtensionOptionDynamicFeeTx)(nil), "pointguard.types.v1.ExtensionOptionDynamicFeeTx")
 }
 
 func init() {

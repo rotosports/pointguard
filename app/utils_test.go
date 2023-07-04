@@ -40,7 +40,7 @@ func TestRandomGenesisAccounts(t *testing.T) {
 	subSpace, find := paramsKeeper.GetSubspace(authtypes.ModuleName)
 	require.True(t, find)
 	accountKeeper := authkeeper.NewAccountKeeper(
-		appCodec, sdk.NewKVStoreKey(authtypes.StoreKey), subSpace, ethermint.ProtoAccount, maccPerms, sdk.GetConfig().GetBech32AccountAddrPrefix(),
+		appCodec, sdk.NewKVStoreKey(authtypes.StoreKey), subSpace, pointguard.ProtoAccount, maccPerms, sdk.GetConfig().GetBech32AccountAddrPrefix(),
 	)
 	authModule := auth.NewAppModule(appCodec, accountKeeper, RandomGenesisAccounts)
 
@@ -56,7 +56,7 @@ func TestRandomGenesisAccounts(t *testing.T) {
 	accounts, err := authtypes.UnpackAccounts(authState.Accounts)
 	require.NoError(t, err)
 	for _, acc := range accounts {
-		_, ok := acc.(ethermint.EthAccountI)
+		_, ok := acc.(pointguard.EthAccountI)
 		require.True(t, ok)
 	}
 }

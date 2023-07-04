@@ -77,7 +77,7 @@ func (m *TxResult) XXX_DiscardUnknown() {
 var xxx_messageInfo_TxResult proto.InternalMessageInfo
 
 func init() {
-	proto.RegisterType((*TxResult)(nil), "ethermint.types.v1.TxResult")
+	proto.RegisterType((*TxResult)(nil), "pointguard.types.v1.TxResult")
 }
 
 func init() { proto.RegisterFile("ethermint/types/v1/indexer.proto", fileDescriptor_1197e10a8be8ed28) }

@@ -68,7 +68,7 @@ value: "0x0000000000000000000000000000000000000000000000000000000000000000"
 
 ## JSON-RPC
 
-For an overview on  the JSON-RPC methods and namespaces supported on Pointguard, please refer to [https://docs.ethermint.zone/basics/json_rpc.html](https://docs.ethermint.zone/basics/json_rpc.html)
+For an overview on  the JSON-RPC methods and namespaces supported on Pointguard, please refer to [https://docs.pointguard.zone/basics/json_rpc.html](https://docs.pointguard.zone/basics/json_rpc.html)
 
 ## gRPC
 
@@ -76,17 +76,17 @@ For an overview on  the JSON-RPC methods and namespaces supported on Pointguard,
 
 | Verb   | Method                                               | Description                                                                |
 | ------ | ---------------------------------------------------- | -------------------------------------------------------------------------- |
-| `gRPC` | `ethermint.evm.v1.Query/Account`                     | Get an Ethereum account                                                    |
-| `gRPC` | `ethermint.evm.v1.Query/CosmosAccount`               | Get an Ethereum account's Cosmos Address                                   |
-| `gRPC` | `ethermint.evm.v1.Query/ValidatorAccount`            | Get an Ethereum account's from a validator consensus Address               |
-| `gRPC` | `ethermint.evm.v1.Query/Balance`                     | Get the balance of a the EVM denomination for a single EthAccount.         |
-| `gRPC` | `ethermint.evm.v1.Query/Storage`                     | Get the balance of all coins for a single account                          |
-| `gRPC` | `ethermint.evm.v1.Query/Code`                        | Get the balance of all coins for a single account                          |
-| `gRPC` | `ethermint.evm.v1.Query/Params`                      | Get the parameters of x/evm module                                         |
-| `gRPC` | `ethermint.evm.v1.Query/EthCall`                     | Implements the eth_call rpc api                                            |
-| `gRPC` | `ethermint.evm.v1.Query/EstimateGas`                 | Implements the eth_estimateGas rpc api                                     |
-| `gRPC` | `ethermint.evm.v1.Query/TraceTx`                     | Implements the debug_traceTransaction rpc api                              |
-| `gRPC` | `ethermint.evm.v1.Query/TraceBlock`                  | Implements the debug_traceBlockByNumber and debug_traceBlockByHash rpc api |
+| `gRPC` | `pointguard.evm.v1.Query/Account`                     | Get an Ethereum account                                                    |
+| `gRPC` | `pointguard.evm.v1.Query/CosmosAccount`               | Get an Ethereum account's Cosmos Address                                   |
+| `gRPC` | `pointguard.evm.v1.Query/ValidatorAccount`            | Get an Ethereum account's from a validator consensus Address               |
+| `gRPC` | `pointguard.evm.v1.Query/Balance`                     | Get the balance of a the EVM denomination for a single EthAccount.         |
+| `gRPC` | `pointguard.evm.v1.Query/Storage`                     | Get the balance of all coins for a single account                          |
+| `gRPC` | `pointguard.evm.v1.Query/Code`                        | Get the balance of all coins for a single account                          |
+| `gRPC` | `pointguard.evm.v1.Query/Params`                      | Get the parameters of x/evm module                                         |
+| `gRPC` | `pointguard.evm.v1.Query/EthCall`                     | Implements the eth_call rpc api                                            |
+| `gRPC` | `pointguard.evm.v1.Query/EstimateGas`                 | Implements the eth_estimateGas rpc api                                     |
+| `gRPC` | `pointguard.evm.v1.Query/TraceTx`                     | Implements the debug_traceTransaction rpc api                              |
+| `gRPC` | `pointguard.evm.v1.Query/TraceBlock`                  | Implements the debug_traceBlockByNumber and debug_traceBlockByHash rpc api |
 | `GET`  | `/ethermint/evm/v1/account/{address}`                | Get an Ethereum account                                                    |
 | `GET`  | `/ethermint/evm/v1/cosmos_account/{address}`         | Get an Ethereum account's Cosmos Address                                   |
 | `GET`  | `/ethermint/evm/v1/validator_account/{cons_address}` | Get an Ethereum account's from a validator consensus Address               |
@@ -103,5 +103,5 @@ For an overview on  the JSON-RPC methods and namespaces supported on Pointguard,
 
 | Verb   | Method                            | Description                     |
 | ------ | --------------------------------- | ------------------------------- |
-| `gRPC` | `ethermint.evm.v1.Msg/EthereumTx` | Submit an Ethereum transactions |
+| `gRPC` | `pointguard.evm.v1.Msg/EthereumTx` | Submit an Ethereum transactions |
 | `POST` | `/ethermint/evm/v1/ethereum_tx`   | Submit an Ethereum transactions |

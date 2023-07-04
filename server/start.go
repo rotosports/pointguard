@@ -398,7 +398,7 @@ func startInProcess(ctx *server.Context, clientCtx client.Context, appCreator ty
 		furyetricsexp.Setup(config.JSONRPC.MetricsAddress)
 	}
 
-	var idxer ethermint.EVMTxIndexer
+	var idxer pointguard.EVMTxIndexer
 	if config.JSONRPC.EnableIndexer {
 		idxDB, err := OpenIndexerDB(home, server.GetAppDBBackend(ctx.Viper))
 		if err != nil {

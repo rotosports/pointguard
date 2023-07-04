@@ -470,7 +470,7 @@ class CosmosCLI:
         if max_priority_price is not None:
             tx["body"]["extension_options"].append(
                 {
-                    "@type": "/ethermint.types.v1.ExtensionOptionDynamicFeeTx",
+                    "@type": "/pointguard.types.v1.ExtensionOptionDynamicFeeTx",
                     "max_priority_price": str(max_priority_price),
                 }
             )

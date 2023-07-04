@@ -145,8 +145,8 @@ func (m *GenesisAccount) GetStorage() Storage {
 }
 
 func init() {
-	proto.RegisterType((*GenesisState)(nil), "ethermint.evm.v1.GenesisState")
-	proto.RegisterType((*GenesisAccount)(nil), "ethermint.evm.v1.GenesisAccount")
+	proto.RegisterType((*GenesisState)(nil), "pointguard.evm.v1.GenesisState")
+	proto.RegisterType((*GenesisAccount)(nil), "pointguard.evm.v1.GenesisAccount")
 }
 
 func init() { proto.RegisterFile("ethermint/evm/v1/genesis.proto", fileDescriptor_9bcdec50cc9d156d) }

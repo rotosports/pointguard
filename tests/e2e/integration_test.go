@@ -84,7 +84,7 @@ func (s *IntegrationTestSuite) SetupSuite() {
 	s.rpcClient = rpcClient
 	s.gethClient = gethclient.New(rpcClient)
 	s.Require().NotNil(s.gethClient)
-	chainId, err := ethermint.ParseChainID(s.cfg.ChainID)
+	chainId, err := pointguard.ParseChainID(s.cfg.ChainID)
 	s.Require().NoError(err)
 	s.ethSigner = ethtypes.LatestSignerForChainID(chainId)
 }
@@ -99,9 +99,9 @@ func (s *IntegrationTestSuite) TestChainID() {
 
 	s.T().Log(chainID.Int64())
 
-	eip155ChainID, err := ethermint.ParseChainID(s.network.Config.ChainID)
+	eip155ChainID, err := pointguard.ParseChainID(s.network.Config.ChainID)
 	s.Require().NoError(err)
-	eip155ChainIDGen, err := ethermint.ParseChainID(genesisRes.Genesis.ChainID)
+	eip155ChainIDGen, err := pointguard.ParseChainID(genesisRes.Genesis.ChainID)
 	s.Require().NoError(err)
 
 	s.Require().Equal(chainID, eip155ChainID)

@@ -102,7 +102,7 @@ func RandomGenesisAccounts(simState *module.SimulationState) authtypes.GenesisAc
 	for i, acc := range simState.Accounts {
 		bacc := authtypes.NewBaseAccountWithAddress(acc.Address)
 
-		ethacc := &ethermint.EthAccount{
+		ethacc := &pointguard.EthAccount{
 			BaseAccount: bacc,
 			CodeHash:    common.BytesToHash(emptyCodeHash).String(),
 		}

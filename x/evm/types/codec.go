@@ -23,7 +23,7 @@ func RegisterInterfaces(registry codectypes.InterfaceRegistry) {
 		&ExtensionOptionsEthereumTx{},
 	)
 	registry.RegisterInterface(
-		"ethermint.evm.v1.TxData",
+		"pointguard.evm.v1.TxData",
 		(*TxData)(nil),
 		&DynamicFeeTx{},
 		&AccessListTx{},

@@ -1,5 +1,5 @@
 syntax = "proto3";
-package ethermint.types.v1;
+package pointguard.types.v1;
 
 import "gogoproto/gogo.proto";
 
@@ -10,8 +10,10 @@ message ExtensionOptionsWeb3Tx {
 
   // typed data chain id used only in EIP712 Domain and should match
   // Ethereum network ID in a Web3 provider (e.g. Metamask).
-  uint64 typed_data_chain_id = 1
-      [(gogoproto.jsontag) = "typedDataChainID,omitempty", (gogoproto.customname) = "TypedDataChainID"];
+  uint64 typed_data_chain_id = 1 [
+    (gogoproto.jsontag) = "typedDataChainID,omitempty",
+    (gogoproto.customname) = "TypedDataChainID"
+  ];
 
   // fee payer is an account address for the fee payer. It will be validated
   // during EIP712 signature checking.

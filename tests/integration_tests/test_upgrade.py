@@ -91,12 +91,12 @@ def test_cosmovisor_upgrade(custom_ethermint: Pointguard):
     - it should work transparently
     - check that queries on legacy blocks still works after upgrade.
     """
-    cli = custom_ethermint.cosmos_cli()
+    cli = custom_pointguard.cosmos_cli()
     height = cli.block_height()
     target_height = height + 5
     print("upgrade height", target_height)
 
-    w3 = custom_ethermint.w3
+    w3 = custom_pointguard.w3
     contract = deploy_contract(w3, CONTRACTS["TestERC20A"])
     old_height = w3.eth.block_number
     old_balance = w3.eth.get_balance(ADDRS["validator"], block_identifier=old_height)
@@ -125,7 +125,7 @@ def test_cosmovisor_upgrade(custom_ethermint: Pointguard):
 
     rsp = cli.gov_vote("validator", proposal_id, "yes")
     assert rsp["code"] == 0, rsp["raw_log"]
-    # rsp = custom_ethermint.cosmos_cli(1).gov_vote("validator", proposal_id, "yes")
+    # rsp = custom_pointguard.cosmos_cli(1).gov_vote("validator", proposal_id, "yes")
     # assert rsp["code"] == 0, rsp["raw_log"]
 
     proposal = cli.query_proposal(proposal_id)
@@ -134,21 +134,21 @@ def test_cosmovisor_upgrade(custom_ethermint: Pointguard):
     assert proposal["status"] == "PROPOSAL_STATUS_PASSED", proposal
 
     # update cli chain binary
-    custom_ethermint.chain_binary = (
-        Path(custom_ethermint.chain_binary).parent.parent.parent
+    custom_pointguard.chain_binary = (
+        Path(custom_pointguard.chain_binary).parent.parent.parent
         / f"{plan_name}/bin/pointguard"
     )
-    cli = custom_ethermint.cosmos_cli()
+    cli = custom_pointguard.cosmos_cli()
 
     # block should pass the target height
     wait_for_block(cli, target_height + 1, timeout=480)
-    wait_for_port(ports.rpc_port(custom_ethermint.base_port(0)))
+    wait_for_port(ports.rpc_port(custom_pointguard.base_port(0)))
 
     # test migrate keystore
     cli.migrate_keystore()
 
     # check basic tx works after upgrade
-    wait_for_port(ports.evmrpc_port(custom_ethermint.base_port(0)))
+    wait_for_port(ports.evmrpc_port(custom_pointguard.base_port(0)))
 
     receipt = send_transaction(
         w3,

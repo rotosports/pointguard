@@ -136,7 +136,7 @@ func callWithError(method string, params interface{}) (*Response, error) {
 }
 
 func TestEth_protocolVersion(t *testing.T) {
-	expectedRes := hexutil.Uint(ethermint.ProtocolVersion)
+	expectedRes := hexutil.Uint(pointguard.ProtocolVersion)
 
 	rpcRes := call(t, "eth_protocolVersion", []string{})
 

@@ -234,7 +234,7 @@ func (egcd EthGasConsumeDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simula
 	ctx.EventManager().EmitEvents(events)
 
 	// TODO: deprecate after https://github.com/cosmos/cosmos-sdk/issues/9514  is fixed on SDK
-	blockGasLimit := ethermint.BlockGasLimit(ctx)
+	blockGasLimit := pointguard.BlockGasLimit(ctx)
 
 	// NOTE: safety check
 	if blockGasLimit > 0 {
@@ -246,7 +246,7 @@ func (egcd EthGasConsumeDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simula
 
 	// Set ctx.GasMeter with a limit of GasWanted (gasLimit)
 	gasConsumed := ctx.GasMeter().GasConsumed()
-	ctx = ctx.WithGasMeter(ethermint.NewInfiniteGasMeterWithLimit(gasWanted))
+	ctx = ctx.WithGasMeter(pointguard.NewInfiniteGasMeterWithLimit(gasWanted))
 	ctx.GasMeter().ConsumeGas(gasConsumed, "copy gas consumed")
 
 	newCtx := ctx.WithPriority(minPriority)

@@ -42,14 +42,14 @@ func TestSetCoinType(t *testing.T) {
 	require.Equal(t, sdk.FullFundraiserPath, config.GetFullBIP44Path())
 
 	SetBip44CoinType(config)
-	require.Equal(t, int(ethermint.Bip44CoinType), int(config.GetCoinType()))
+	require.Equal(t, int(pointguard.Bip44CoinType), int(config.GetCoinType()))
 	require.Equal(t, sdk.GetConfig().GetCoinType(), config.GetCoinType())
 	require.Equal(t, sdk.GetConfig().GetFullBIP44Path(), config.GetFullBIP44Path())
 }
 
 func TestHDPath(t *testing.T) {
-	params := *hd.NewFundraiserParams(0, ethermint.Bip44CoinType, 0)
+	params := *hd.NewFundraiserParams(0, pointguard.Bip44CoinType, 0)
 	hdPath := params.String()
 	require.Equal(t, "m/44'/60'/0'/0/0", hdPath)
-	require.Equal(t, hdPath, ethermint.BIP44HDPath)
+	require.Equal(t, hdPath, pointguard.BIP44HDPath)
 }

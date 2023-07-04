@@ -38,7 +38,7 @@ def cluster(request, ethermint, ethermint_indexer, geth):
     elif provider == "geth":
         yield geth
     elif provider == "ethermint-ws":
-        ethermint_ws = ethermint.copy()
+        ethermint_ws = pointguard.copy()
         ethermint_ws.use_websocket()
         yield ethermint_ws
     elif provider == "enable-indexer":
