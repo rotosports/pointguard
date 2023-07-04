@@ -106,10 +106,10 @@ if [[ $overwrite == "y" || $overwrite == "Y" ]]; then
 	## 5. Copy the `gentx-*` folders under `~/.clonedfury/config/gentx/` folders into the original `~/.pointguard/config/gentx`
 
 	# Collect genesis tx
-	pointguard genesis collect-gentxs --home "$HOMEDIR"
+	pointguard collect-gentxs --home "$HOMEDIR"
 
 	# Run this to ensure everything worked and that the genesis file is setup correctly
-	pointguard genesis validate-genesis --home "$HOMEDIR"
+	pointguard validate-genesis --home "$HOMEDIR"
 
 	if [[ $1 == "pending" ]]; then
 		echo "pending mode is on, please wait for the first block committed"
