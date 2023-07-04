@@ -939,7 +939,7 @@ func (suite *AnteTestSuite) TestConsumeSignatureVerificationGas() {
 	multisigKey1 := kmultisig.NewLegacyAminoPubKey(2, pkSet1)
 	multisignature1 := multisig.NewMultisig(len(pkSet1))
 	expectedCost1 := expectedGasCostByKeys(pkSet1)
-	
+
 	for i := 0; i < len(pkSet1); i++ {
 		stdSig := legacytx.StdSignature{PubKey: pkSet1[i], Signature: sigSet1[i]}
 		sigV2, err := legacytx.StdSignatureToSignatureV2(cdc, stdSig)

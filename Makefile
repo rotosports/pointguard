@@ -43,7 +43,7 @@ print-version:
 LEDGER_ENABLED ?= true
 DOCKER:=docker
 DOCKER_BUF := $(DOCKER) run --rm -v $(CURDIR):/workspace --workdir /workspace bufbuild/buf
-HTTPS_GIT := https://github.com/rotosports/ethermint.git
+HTTPS_GIT := https://github.com/evmos/ethermint.git
 
 ################################################################################
 ###                             Machine Info                                 ###

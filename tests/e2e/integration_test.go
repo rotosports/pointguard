@@ -731,6 +731,7 @@ func (s *IntegrationTestSuite) TestWeb3Sha3() {
 		})
 	}
 }
+
 // TODO(jbowen93): https://github.com/celestiaorg/ethermint/issues/12
 func (s *IntegrationTestSuite) TestPendingTransactionFilter() {
 	var (
