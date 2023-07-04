@@ -41,7 +41,7 @@ Instead of burning the base fee (as implemented on Ethereum), the `feemarket` mo
 
 In EIP-1559, the `max_priority_fee_per_gas`, often referred to as `tip`, is an additional gas price that can be added to the `baseFee` in order to incentive transaction prioritization. The higher the tip, the more likely the transaction is included in the block.
 
-Until the Cosmos SDK version v0.46, however, there is no notion of transaction prioritization. Thus the tip for an EIP-1559 transaction on Ethermint should be zero (`MaxPriorityFeePerGas` JSON-RPC endpoint returns `0`). Have a look at [ADR 067](https://github.com/tendermint/tendermint/blob/master/docs/architecture/adr-067-mempool-refactor.md) to read about future plans on transaction prioritization in the Cosmos SDK.
+Until the Cosmos SDK version v0.46, however, there is no notion of transaction prioritization. Thus the tip for an EIP-1559 transaction on Pointguard should be zero (`MaxPriorityFeePerGas` JSON-RPC endpoint returns `0`). Have a look at [ADR 067](https://github.com/tendermint/tendermint/blob/master/docs/architecture/adr-067-mempool-refactor.md) to read about future plans on transaction prioritization in the Cosmos SDK.
 
 ## Effective Gas price
 

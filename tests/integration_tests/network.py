@@ -11,10 +11,10 @@ from web3.middleware import geth_poa_middleware
 from .cosmoscli import CosmosCLI
 from .utils import wait_for_port
 
-DEFAULT_CHAIN_BINARY = "ethermintd"
+DEFAULT_CHAIN_BINARY = "pointguardd"
 
 
-class Ethermint:
+class Pointguard:
     def __init__(self, base_dir, chain_binary=DEFAULT_CHAIN_BINARY):
         self._w3 = None
         self.base_dir = base_dir
@@ -24,7 +24,7 @@ class Ethermint:
         self.chain_binary = chain_binary
 
     def copy(self):
-        return Ethermint(self.base_dir)
+        return Pointguard(self.base_dir)
 
     @property
     def w3_http_endpoint(self, i=0):
@@ -129,7 +129,7 @@ def setup_custom_ethermint(
         if wait_port:
             wait_for_port(ports.evmrpc_port(base_port))
             wait_for_port(ports.evmrpc_ws_port(base_port))
-        yield Ethermint(
+        yield Pointguard(
             path / "ethermint_9000-1", chain_binary=chain_binary or DEFAULT_CHAIN_BINARY
         )
     finally:

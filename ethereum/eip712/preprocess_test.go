@@ -29,7 +29,7 @@ var (
 		encoding.MakeConfig(app.ModuleBasics).TxConfig,
 	)
 )
-var feePayerAddress = "ethm17xpfvakm2amg962yls6f84z3kell8c5lthdzgl"
+var feePayerAddress = "fury17xpfvakm2amg962yls6f84z3kell8c5lthdzgl"
 
 type TestCaseStruct struct {
 	txBuilder              client.TxBuilder
@@ -43,7 +43,7 @@ type TestCaseStruct struct {
 
 func TestLedgerPreprocessing(t *testing.T) {
 	// Update bech32 prefix
-	sdk.GetConfig().SetBech32PrefixForAccount("ethm", "")
+	sdk.GetConfig().SetBech32PrefixForAccount("fury", "")
 
 	testCases := []TestCaseStruct{
 		createBasicTestCase(t),
@@ -199,7 +199,7 @@ func createPopulatedTestCase(t *testing.T) TestCaseStruct {
 
 	msgSend := banktypes.MsgSend{
 		FromAddress: feePayerAddress,
-		ToAddress:   "ethm12luku6uxehhak02py4rcz65zu0swh7wjun6msa",
+		ToAddress:   "fury12luku6uxehhak02py4rcz65zu0swh7wjun6msa",
 		Amount: sdk.NewCoins(
 			sdk.NewCoin(
 				evmtypes.DefaultParams().EvmDenom,

@@ -120,7 +120,7 @@ func (k Keeper) VMConfig(ctx sdk.Context, msg core.Message, cfg *types.EVMConfig
 	}
 }
 
-// GetHashFn implements vm.GetHashFunc for Ethermint. It handles 3 cases:
+// GetHashFn implements vm.GetHashFunc for Pointguard. It handles 3 cases:
 //  1. The requested height matches the current height from context (and thus same epoch number)
 //  2. The requested height is from an previous height from the same chain epoch
 //  3. The requested height is from a height greater than the latest one

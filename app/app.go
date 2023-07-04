@@ -122,10 +122,10 @@ func init() {
 		panic(err)
 	}
 
-	DefaultNodeHome = filepath.Join(userHomeDir, ".ethermintd")
+	DefaultNodeHome = filepath.Join(userHomeDir, ".pointguardd")
 }
 
-const appName = "ethermintd"
+const appName = "pointguardd"
 
 var (
 	// DefaultNodeHome default home directories for the application daemon
@@ -156,7 +156,7 @@ var (
 		evidence.AppModuleBasic{},
 		transfer.AppModuleBasic{},
 		vesting.AppModuleBasic{},
-		// Ethermint modules
+		// Pointguard modules
 		evm.AppModuleBasic{},
 		feemarket.AppModuleBasic{},
 	)
@@ -223,7 +223,7 @@ type EthermintApp struct {
 	ScopedIBCKeeper      capabilitykeeper.ScopedKeeper
 	ScopedTransferKeeper capabilitykeeper.ScopedKeeper
 
-	// Ethermint keepers
+	// Pointguard keepers
 	EvmKeeper       *evmkeeper.Keeper
 	FeeMarketKeeper feemarketkeeper.Keeper
 
@@ -237,7 +237,7 @@ type EthermintApp struct {
 	configurator module.Configurator
 }
 
-// NewEthermintApp returns a reference to a new initialized Ethermint application.
+// NewEthermintApp returns a reference to a new initialized Pointguard application.
 func NewEthermintApp(
 	logger log.Logger,
 	db dbm.DB,
@@ -309,7 +309,7 @@ func NewEthermintApp(
 	// their scoped modules in `NewApp` with `ScopeToModule`
 	app.CapabilityKeeper.Seal()
 
-	// use custom Ethermint account for contracts
+	// use custom Pointguard account for contracts
 	app.AccountKeeper = authkeeper.NewAccountKeeper(
 		appCodec, keys[authtypes.StoreKey],
 		app.GetSubspace(authtypes.ModuleName),
@@ -389,7 +389,7 @@ func NewEthermintApp(
 
 	tracer := cast.ToString(appOpts.Get(srvflags.EVMTracer))
 
-	// Create Ethermint keepers
+	// Create Pointguard keepers
 	app.FeeMarketKeeper = feemarketkeeper.NewKeeper(
 		appCodec, app.GetSubspace(feemarkettypes.ModuleName), keys[feemarkettypes.StoreKey], tkeys[feemarkettypes.TransientKey],
 	)
@@ -482,7 +482,7 @@ func NewEthermintApp(
 		// ibc modules
 		ibc.NewAppModule(app.IBCKeeper),
 		transferModule,
-		// Ethermint app modules
+		// Pointguard app modules
 		evm.NewAppModule(app.EvmKeeper, app.AccountKeeper),
 		feemarket.NewAppModule(app.FeeMarketKeeper),
 	)
@@ -639,7 +639,7 @@ func NewEthermintApp(
 	return app
 }
 
-// use Ethermint's custom AnteHandler
+// use Pointguard's custom AnteHandler
 func (app *EthermintApp) setAnteHandler(txConfig client.TxConfig, maxGasWanted uint64) {
 	anteHandler, err := ante.NewAnteHandler(ante.HandlerOptions{
 		AccountKeeper:          app.AccountKeeper,

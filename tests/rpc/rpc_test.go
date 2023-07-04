@@ -1,7 +1,7 @@
-// This is a test utility for Ethermint's Web3 JSON-RPC services.
+// This is a test utility for Pointguard's Web3 JSON-RPC services.
 //
-// To run these tests please first ensure you have the ethermintd running
-// and have started the RPC service with `ethermintd rest-server`.
+// To run these tests please first ensure you have the pointguardd running
+// and have started the RPC service with `pointguardd rest-server`.
 //
 // You can configure the desired HOST and MODE as well
 package rpc

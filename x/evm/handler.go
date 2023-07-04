@@ -7,7 +7,7 @@ import (
 	"github.com/evmos/ethermint/x/evm/types"
 )
 
-// NewHandler returns a handler for Ethermint type messages.
+// NewHandler returns a handler for Pointguard type messages.
 func NewHandler(server types.MsgServer) sdk.Handler {
 	return func(ctx sdk.Context, msg sdk.Msg) (result *sdk.Result, err error) {
 		ctx = ctx.WithEventManager(sdk.NewEventManager())

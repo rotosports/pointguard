@@ -189,7 +189,7 @@ Ref: https://keepachangelog.com/en/1.0.0/
 * (feemarket) [tharsis#1104](https://github.com/evmos/ethermint/pull/1104) Enforce a minimum gas price for Cosmos and EVM transactions through the `MinGasPrice` parameter.
 * (rpc) [tharsis#1081](https://github.com/evmos/ethermint/pull/1081) Deduplicate some json-rpc logic codes, cleanup several dead functions.
 * (ante) [tharsis#1062](https://github.com/evmos/ethermint/pull/1062) Emit event of eth tx hash in ante handler to support query failed transactions.
-* (analytics) [tharsis#1106](https://github.com/evmos/ethermint/pull/1106) Update telemetry to Ethermint modules.
+* (analytics) [tharsis#1106](https://github.com/evmos/ethermint/pull/1106) Update telemetry to Pointguard modules.
 * (rpc) [tharsis#1108](https://github.com/evmos/ethermint/pull/1108) Update GetGasPrice RPC endpoint with global `MinGasPrice`
 
 ### Improvements
@@ -478,7 +478,7 @@ Ref: https://keepachangelog.com/en/1.0.0/
 
 ### State Machine Breaking
 
-* (app) [tharsis#476](https://github.com/evmos/ethermint/pull/476) Update Bech32 HRP to `ethm`.
+* (app) [tharsis#476](https://github.com/evmos/ethermint/pull/476) Update Bech32 HRP to `fury`.
 * (evm) [tharsis#556](https://github.com/evmos/ethermint/pull/556) Remove tx logs and block bloom from chain state
 * (evm) [tharsis#590](https://github.com/evmos/ethermint/pull/590) Contract storage key is not hashed anymore
 
@@ -532,7 +532,7 @@ the Tracer type used to collect execution traces from the EVM transaction execut
 
 ### API Breaking
 
-* (proto) [tharsis#448](https://github.com/evmos/ethermint/pull/448) Bump version for all Ethermint messages to `v1`
+* (proto) [tharsis#448](https://github.com/evmos/ethermint/pull/448) Bump version for all Pointguard messages to `v1`
 * (server) [tharsis#434](https://github.com/evmos/ethermint/pull/434) `evm-rpc` flags and app config have been renamed to `json-rpc`.
 * (proto, evm) [tharsis#207](https://github.com/evmos/ethermint/issues/207) Replace `big.Int` in favor of `sdk.Int` for `TxData` fields
 * (proto, evm) [tharsis#81](https://github.com/evmos/ethermint/pull/81) gRPC Query and Tx service changes:
@@ -655,7 +655,7 @@ the Tracer type used to collect execution traces from the EVM transaction execut
 
 * (crypto) [tharsis#559](https://github.com/cosmos/ethermint/pull/559) Refactored crypto package in preparation for the SDK's Stargate release:
   * `crypto.PubKeySecp256k1` and `crypto.PrivKeySecp256k1` are now `ethsecp256k1.PubKey` and `ethsecp256k1.PrivKey`, respectively
-  * Moved SDK `SigningAlgo` implementation for Ethermint's Secp256k1 key to `crypto/hd` package.
+  * Moved SDK `SigningAlgo` implementation for Pointguard's Secp256k1 key to `crypto/hd` package.
 * (rpc) [tharsis#588](https://github.com/cosmos/ethermint/pull/588) The `rpc` package has been refactored to account for the separation of each
 corresponding Ethereum API namespace:
   * `rpc/namespaces/eth`: `eth` namespace. Exposes the `PublicEthereumAPI` and the `PublicFilterAPI`.
@@ -693,24 +693,24 @@ corresponding Ethereum API namespace:
 
 ### API Breaking
 
-* (types) [tharsis#503](https://github.com/cosmos/ethermint/pull/503) The `types.DenomDefault` constant for `"aphoton"` has been renamed to `types.AttoPhoton`.
+* (types) [tharsis#503](https://github.com/cosmos/ethermint/pull/503) The `types.DenomDefault` constant for `"afury"` has been renamed to `types.AttoFury`.
 
 ### Improvements
 
 * (types) [tharsis#504](https://github.com/cosmos/ethermint/pull/504) Unmarshal a JSON `EthAccount` using an Ethereum hex address in addition to Bech32.
-* (types) [tharsis#503](https://github.com/cosmos/ethermint/pull/503) Add `--coin-denom` flag to testnet command that sets the given coin denomination to SDK and Ethermint parameters.
+* (types) [tharsis#503](https://github.com/cosmos/ethermint/pull/503) Add `--coin-denom` flag to testnet command that sets the given coin denomination to SDK and Pointguard parameters.
 * (types) [tharsis#502](https://github.com/cosmos/ethermint/pull/502) `EthAccount` now also exposes the Ethereum hex address in `string` format to clients.
 * (types) [tharsis#494](https://github.com/cosmos/ethermint/pull/494) Update `EthAccount` public key JSON type to `string`.
 * (app) [tharsis#471](https://github.com/cosmos/ethermint/pull/471) Add `x/upgrade` module for managing software updates.
 * (evm) [tharsis#458](https://github.com/cosmos/ethermint/pull/458) Define parameter for token denomination used for the EVM module.
 * (evm) [tharsis#443](https://github.com/cosmos/ethermint/issues/443) Support custom Ethereum `ChainConfig` params.
-* (types) [tharsis#434](https://github.com/cosmos/ethermint/issues/434) Update default denomination to Atto Photon (`aphoton`).
+* (types) [tharsis#434](https://github.com/cosmos/ethermint/issues/434) Update default denomination to Atto Fury (`afury`).
 * (types) [tharsis#515](https://github.com/cosmos/ethermint/pull/515) Update minimum gas price to be 1.
 
 ### Bug Fixes
 
 * (ante) [tharsis#525](https://github.com/cosmos/ethermint/pull/525) Add message validation decorator to `AnteHandler` for `MsgEthereumTx`.
-* (types) [tharsis#507](https://github.com/cosmos/ethermint/pull/507) Fix hardcoded `aphoton` on `EthAccount` balance getter and setter.
+* (types) [tharsis#507](https://github.com/cosmos/ethermint/pull/507) Fix hardcoded `afury` on `EthAccount` balance getter and setter.
 * (types) [tharsis#501](https://github.com/cosmos/ethermint/pull/501) Fix bech32 encoding error by using the compressed ethereum secp256k1 public key.
 * (evm) [tharsis#496](https://github.com/cosmos/ethermint/pull/496) Fix bugs on `journal.revert` and `CommitStateDB.Copy`.
 * (types) [tharsis#480](https://github.com/cosmos/ethermint/pull/480) Update [BIP44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki) coin type to `60` to satisfy [EIP84](https://github.com/ethereum/EIPs/issues/84).

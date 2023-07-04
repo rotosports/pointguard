@@ -1,4 +1,4 @@
-# Ethermint
+# Pointguard
 
 Celestiaorg fork of https://github.com/tharsis/ethermint
 

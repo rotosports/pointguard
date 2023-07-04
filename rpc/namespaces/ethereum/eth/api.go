@@ -296,7 +296,7 @@ func (e *PublicAPI) ProtocolVersion() hexutil.Uint {
 	return hexutil.Uint(ethermint.ProtocolVersion)
 }
 
-// GasPrice returns the current gas price based on Ethermint's gas price oracle.
+// GasPrice returns the current gas price based on Pointguard's gas price oracle.
 func (e *PublicAPI) GasPrice() (*hexutil.Big, error) {
 	e.logger.Debug("eth_gasPrice")
 	return e.backend.GasPrice()

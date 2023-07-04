@@ -19,7 +19,7 @@
     - [Point Release Procedure](#point-release-procedure)
     - [Code Owner Membership](#code-owner-membership)
 
-Thank you for considering making contributions to Ethermint!
+Thank you for considering making contributions to Pointguard!
 
 Contributing to this repo can mean many things such as participating in
 discussion or proposing code changes. To ensure a smooth workflow for all
@@ -64,7 +64,7 @@ Other notes:
 
 ## Architecture Decision Records (ADR)
 
-When proposing an architecture decision for Ethermint, please start by opening an [issue](https://github.com/evmos/ethermint/issues/new/choose) or a [discussion](https://github.com/evmos/ethermint/discussions/new) with a summary of the proposal. Once the proposal has been discussed and there is rough alignment on a high-level approach to the design, the [ADR creation process](https://github.com/evmos/ethermint/blob/main/docs/architecture/PROCESS.md) can begin. We are following this process to ensure all involved parties are in agreement before any party begins coding the proposed implementation. If you would like to see examples of how these are written, please refer to the current [ADRs](https://github.com/evmos/ethermint/tree/main/docs/architecture).
+When proposing an architecture decision for Pointguard, please start by opening an [issue](https://github.com/evmos/ethermint/issues/new/choose) or a [discussion](https://github.com/evmos/ethermint/discussions/new) with a summary of the proposal. Once the proposal has been discussed and there is rough alignment on a high-level approach to the design, the [ADR creation process](https://github.com/evmos/ethermint/blob/main/docs/architecture/PROCESS.md) can begin. We are following this process to ensure all involved parties are in agreement before any party begins coding the proposed implementation. If you would like to see examples of how these are written, please refer to the current [ADRs](https://github.com/evmos/ethermint/tree/main/docs/architecture).
 
 ## Pull Requests
 
@@ -121,8 +121,8 @@ For instance, to create a fork and work on a branch of it, I would:
 - `git remote rename origin upstream`
 - `git remote add origin git@github.com:rigeyrigerige/ethermint.git`
 
-Now `origin` refers to my fork and `upstream` refers to the Ethermint version.
-So I can `git push -u origin main` to update my fork, and make pull requests to Ethermint from there.
+Now `origin` refers to my fork and `upstream` refers to the Pointguard version.
+So I can `git push -u origin main` to update my fork, and make pull requests to Pointguard from there.
 Of course, replace `rigeyrigerige` with your git handle.
 
 To pull in updates from the origin repo, run
@@ -146,7 +146,7 @@ build, in which case we can fall back on `go mod tidy -v`.
 
 ## Protobuf
 
-We use [Protocol Buffers](https://developers.google.com/protocol-buffers) along with [gogoproto](https://github.com/gogo/protobuf) to generate code for use in Ethermint.
+We use [Protocol Buffers](https://developers.google.com/protocol-buffers) along with [gogoproto](https://github.com/gogo/protobuf) to generate code for use in Pointguard.
 
 For determinstic behavior around Protobuf tooling, everything is containerized using Docker. Make sure to have Docker installed on your machine, or head to [Docker's website](https://docs.docker.com/get-docker/) to install it.
 
@@ -175,7 +175,7 @@ For example, in vscode your `.vscode/settings.json` should look like:
 
 ## Testing
 
-Tests can be ran by running `make test` at the top level of Ethermint repository.
+Tests can be ran by running `make test` at the top level of Pointguard repository.
 
 We expect tests to use `require` or `assert` rather than `t.Skip` or `t.Fail`,
 unless there is a reason to do otherwise.
@@ -205,7 +205,7 @@ User-facing repos should adhere to the [trunk based development](https://trunkba
 
 Libraries need not follow the model strictly, but would be wise to.
 
-Ethermint utilizes [semantic versioning](https://semver.org/).
+Pointguard utilizes [semantic versioning](https://semver.org/).
 
 ### PR Targeting
 
@@ -330,18 +330,18 @@ the community of this project.
 
 ## Concept & Release Approval Process
 
-The process for Ethermint maintainers take features and ADRs from concept to release
+The process for Pointguard maintainers take features and ADRs from concept to release
 is broken up into three distinct stages: **Strategy Discovery**, **Concept Approval**, and
 **Implementation & Release Approval**
 
 ### Strategy Discovery
 
-- Develop long term priorities, strategy and roadmap for Ethermint
+- Develop long term priorities, strategy and roadmap for Pointguard
 - Release committee not yet defined as there is already a roadmap that can be used for the time being
 
 ### Concept Approval
 
-- Architecture Decision Records (ADRs) may be proposed by any contributors or maintainers of Ethermint,
+- Architecture Decision Records (ADRs) may be proposed by any contributors or maintainers of Pointguard,
     and should follow the guidelines outlined in the
     [ADR Creation Process](https://github.com/evmos/ethermint/blob/main/docs/architecture/PROCESS.md)
 - After proposal, a time bound period for Request for Comment (RFC) on ADRs commences
@@ -380,10 +380,10 @@ Members must:
 
 - Participate in all or almost all ADR discussions, both on GitHub as well as in bi-weekly Architecture Review
   meetings
-- Be active contributors to Ethermint, and furthermore should be continuously making substantial contributions
+- Be active contributors to Pointguard, and furthermore should be continuously making substantial contributions
   to the project's codebase, review process, documentation and ADRs
-- Have stake in Ethermint, represented by:
-    - Being a client / user of Ethermint
+- Have stake in Pointguard, represented by:
+    - Being a client / user of Pointguard
     - "[giving back](https://www.debian.org/social_contract)" to the software
 - Delegate representation in case of vacation or absence
 

@@ -2,7 +2,7 @@
 
 The RPC integration test suite uses nix for reproducible and configurable
 builds allowing to run integration tests using python web3 library against
-different Ethermint and [Geth](https://github.com/ethereum/go-ethereum) clients with multiple configurations.
+different Pointguard and [Geth](https://github.com/ethereum/go-ethereum) clients with multiple configurations.
 
 ## Installation
 
