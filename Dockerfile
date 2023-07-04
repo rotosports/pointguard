@@ -4,7 +4,7 @@ FROM golang:alpine AS build-env
 ENV PACKAGES git build-base
 
 # Set working directory for the build
-WORKDIR /go/src/github.com/evmos/ethermint
+WORKDIR /go/src/github.com/rotosports/pointguard
 
 # Install dependencies
 RUN apk add --update $PACKAGES
@@ -24,7 +24,7 @@ RUN apk add --update ca-certificates jq
 WORKDIR /
 
 # Copy over binaries from the build-env
-COPY --from=build-env /go/src/github.com/evmos/ethermint/build/pointguard /usr/bin/pointguard
+COPY --from=build-env /go/src/github.com/rotosports/pointguard/build/pointguard /usr/bin/pointguard
 
 # Run pointguard by default
 CMD ["pointguard"]

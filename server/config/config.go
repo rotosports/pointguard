@@ -144,7 +144,7 @@ func AppConfig(denom string) (string, interface{}) {
 	//   own app.toml to override, or use this default value.
 	//
 	// In ethermint, we set the min gas prices to 0.
-	if denom != "" {
+	if denom != "afury" {
 		srvCfg.MinGasPrices = "0" + denom
 	}
 

@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/evmos/ethermint/tests"
+	"github.com/rotosports/pointguard/tests"
 
 	"github.com/ethereum/go-ethereum/common"
 )

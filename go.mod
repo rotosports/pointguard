@@ -1,4 +1,4 @@
-module github.com/evmos/ethermint
+module github.com/rotosports/pointguard
 
 go 1.18
 

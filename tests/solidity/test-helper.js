@@ -181,7 +181,7 @@ function setupNetwork({ runConfig, timeout }) {
       stdio: ['ignore', runConfig.verboseLog ? 'pipe' : 'ignore', 'pipe'],
     });
 
-    logger.info(`Starting Pointguardd process... timeout: ${timeout}ms`);
+    logger.info(`Starting Ethermintd process... timeout: ${timeout}ms`);
     if (runConfig.verboseLog) {
       pointguardProc.stdout.pipe(process.stdout);
     }
@@ -191,7 +191,7 @@ function setupNetwork({ runConfig, timeout }) {
         process.stdout.write(oLine);
       }
       if (oLine.indexOf('Starting JSON-RPC server') !== -1) {
-        logger.info('Pointguardd started');
+        logger.info('Ethermintd started');
         resolve(pointguardProc);
       }
     });

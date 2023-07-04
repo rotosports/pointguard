@@ -10,8 +10,8 @@ import (
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
 	"github.com/cosmos/cosmos-sdk/x/genutil/client/cli"
 
-	"github.com/evmos/ethermint/app"
-	pointguard "github.com/evmos/ethermint/cmd/pointguard"
+	"github.com/rotosports/pointguard/app"
+	pointguard "github.com/rotosports/pointguard/cmd/pointguard"
 )
 
 func TestInitCmd(t *testing.T) {
@@ -20,7 +20,7 @@ func TestInitCmd(t *testing.T) {
 		"init",          // Test the init cmd
 		"etherminttest", // Moniker
 		fmt.Sprintf("--%s=%s", cli.FlagOverwrite, "true"), // Overwrite genesis.json, in case it already exists
-		fmt.Sprintf("--%s=%s", flags.FlagChainID, "ethermint_9000-1"),
+		fmt.Sprintf("--%s=%s", flags.FlagChainID, "highbury_710-1"),
 	})
 
 	err := svrcmd.Execute(rootCmd, "", app.DefaultNodeHome)

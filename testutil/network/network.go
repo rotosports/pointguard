@@ -48,13 +48,13 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/genutil"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/evmos/ethermint/crypto/hd"
-	"github.com/evmos/ethermint/encoding"
-	"github.com/evmos/ethermint/server/config"
-	ethermint "github.com/evmos/ethermint/types"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
+	"github.com/rotosports/pointguard/crypto/hd"
+	"github.com/rotosports/pointguard/encoding"
+	"github.com/rotosports/pointguard/server/config"
+	ethermint "github.com/rotosports/pointguard/types"
+	evmtypes "github.com/rotosports/pointguard/x/evm/types"
 
-	"github.com/evmos/ethermint/app"
+	"github.com/rotosports/pointguard/app"
 
 	rollnode "github.com/rollkit/rollkit/node"
 )

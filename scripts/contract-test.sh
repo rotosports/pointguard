@@ -1,11 +1,11 @@
 #!/bin/bash
 
 KEY="mykey"
-CHAINID="ethermint_9000-1"
+CHAINID="highbury_710-1"
 MONIKER="localtestnet"
 
 # stop and remove existing daemon and client data and process(es)
-rm -rf ~/.ethermint*
+rm -rf ~/.pointguard*
 pkill -f "ethermint*"
 
 make build-ethermint
@@ -17,10 +17,10 @@ make build-ethermint
 "$PWD"/build/pointguard init $MONIKER --chain-id $CHAINID
 
 # Change parameter token denominations to afury
-cat $HOME/.ethermint/config/genesis.json | jq '.app_state["staking"]["params"]["bond_denom"]="stake"' > $HOME/.ethermint/config/tmp_genesis.json && mv $HOME/.ethermint/config/tmp_genesis.json $HOME/.ethermint/config/genesis.json
-cat $HOME/.ethermint/config/genesis.json | jq '.app_state["crisis"]["constant_fee"]["denom"]="afury"' > $HOME/.ethermint/config/tmp_genesis.json && mv $HOME/.ethermint/config/tmp_genesis.json $HOME/.ethermint/config/genesis.json
-cat $HOME/.ethermint/config/genesis.json | jq '.app_state["gov"]["deposit_params"]["min_deposit"][0]["denom"]="afury"' > $HOME/.ethermint/config/tmp_genesis.json && mv $HOME/.ethermint/config/tmp_genesis.json $HOME/.ethermint/config/genesis.json
-cat $HOME/.ethermint/config/genesis.json | jq '.app_state["mint"]["params"]["mint_denom"]="afury"' > $HOME/.ethermint/config/tmp_genesis.json && mv $HOME/.ethermint/config/tmp_genesis.json $HOME/.ethermint/config/genesis.json
+cat $HOME/.pointguard/config/genesis.json | jq '.app_state["staking"]["params"]["bond_denom"]="stake"' > $HOME/.pointguard/config/tmp_genesis.json && mv $HOME/.pointguard/config/tmp_genesis.json $HOME/.pointguard/config/genesis.json
+cat $HOME/.pointguard/config/genesis.json | jq '.app_state["crisis"]["constant_fee"]["denom"]="afury"' > $HOME/.pointguard/config/tmp_genesis.json && mv $HOME/.pointguard/config/tmp_genesis.json $HOME/.pointguard/config/genesis.json
+cat $HOME/.pointguard/config/genesis.json | jq '.app_state["gov"]["deposit_params"]["min_deposit"][0]["denom"]="afury"' > $HOME/.pointguard/config/tmp_genesis.json && mv $HOME/.pointguard/config/tmp_genesis.json $HOME/.pointguard/config/genesis.json
+cat $HOME/.pointguard/config/genesis.json | jq '.app_state["mint"]["params"]["mint_denom"]="afury"' > $HOME/.pointguard/config/tmp_genesis.json && mv $HOME/.pointguard/config/tmp_genesis.json $HOME/.pointguard/config/genesis.json
 
 # Allocate genesis accounts (cosmos formatted addresses)
 "$PWD"/build/pointguard add-genesis-account "$("$PWD"/build/pointguard keys show "$KEY" -a --keyring-backend test)" 100000000000000000000afury,10000000000000000000stake --keyring-backend test

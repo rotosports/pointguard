@@ -22,8 +22,8 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/evmos/ethermint/rpc/ethereum/pubsub"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
+	"github.com/rotosports/pointguard/rpc/ethereum/pubsub"
+	evmtypes "github.com/rotosports/pointguard/x/evm/types"
 )
 
 var (

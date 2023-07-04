@@ -4,7 +4,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	"github.com/evmos/ethermint/x/evm/types"
+	"github.com/rotosports/pointguard/x/evm/types"
 )
 
 // NewHandler returns a handler for Pointguard type messages.

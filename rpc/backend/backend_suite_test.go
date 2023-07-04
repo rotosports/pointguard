@@ -19,14 +19,14 @@ import (
 	"github.com/stretchr/testify/suite"
 	tmrpctypes "github.com/tendermint/tendermint/rpc/core/types"
 
-	"github.com/evmos/ethermint/app"
-	"github.com/evmos/ethermint/crypto/hd"
-	"github.com/evmos/ethermint/encoding"
-	"github.com/evmos/ethermint/indexer"
-	"github.com/evmos/ethermint/rpc/backend/mocks"
-	rpctypes "github.com/evmos/ethermint/rpc/types"
-	"github.com/evmos/ethermint/tests"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
+	"github.com/rotosports/pointguard/app"
+	"github.com/rotosports/pointguard/crypto/hd"
+	"github.com/rotosports/pointguard/encoding"
+	"github.com/rotosports/pointguard/indexer"
+	"github.com/rotosports/pointguard/rpc/backend/mocks"
+	rpctypes "github.com/rotosports/pointguard/rpc/types"
+	"github.com/rotosports/pointguard/tests"
+	evmtypes "github.com/rotosports/pointguard/x/evm/types"
 )
 
 type BackendTestSuite struct {
@@ -62,7 +62,7 @@ func (suite *BackendTestSuite) SetupTest() {
 	}
 
 	encodingConfig := encoding.MakeConfig(app.ModuleBasics)
-	clientCtx := client.Context{}.WithChainID("ethermint_9000-1").
+	clientCtx := client.Context{}.WithChainID("highbury_710-1").
 		WithHeight(1).
 		WithTxConfig(encodingConfig.TxConfig).
 		WithKeyringDir(clientDir).

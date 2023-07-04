@@ -1,9 +1,9 @@
 let
   pkgs = import ../../../nix { };
-  fetchEthermint = rev: builtins.fetchTarball "https://github.com/evmos/ethermint/archive/${rev}.tar.gz";
+  fetchEthermint = rev: builtins.fetchTarball "https://github.com/rotosports/pointguard/archive/${rev}.tar.gz";
   released = pkgs.buildGo118Module rec {
     name = "pointguard";
-    # the commit before https://github.com/evmos/ethermint/pull/943
+    # the commit before https://github.com/rotosports/pointguard/pull/943
     src = fetchEthermint "f21592ebfe74da7590eb42ed926dae970b2a9a3f";
     subPackages = [ "cmd/pointguard" ];
     vendorSha256 = "sha256-ABm5t6R/u2S6pThGrgdsqe8n3fH5tIWw7a57kxJPbYw=";

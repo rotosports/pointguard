@@ -29,8 +29,8 @@ import (
 	mintypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/evmos/ethermint/server"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
+	"github.com/rotosports/pointguard/server"
+	evmtypes "github.com/rotosports/pointguard/x/evm/types"
 
 	rollconf "github.com/rollkit/rollkit/config"
 	rollconv "github.com/rollkit/rollkit/conv"

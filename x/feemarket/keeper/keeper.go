@@ -9,8 +9,8 @@ import (
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 	"github.com/tendermint/tendermint/libs/log"
 
-	v010 "github.com/evmos/ethermint/x/feemarket/migrations/v010"
-	"github.com/evmos/ethermint/x/feemarket/types"
+	v010 "github.com/rotosports/pointguard/x/feemarket/migrations/v010"
+	"github.com/rotosports/pointguard/x/feemarket/types"
 )
 
 // Keeper grants access to the Fee Market module state.

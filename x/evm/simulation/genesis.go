@@ -7,7 +7,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/types/module"
 
-	"github.com/evmos/ethermint/x/evm/types"
+	"github.com/rotosports/pointguard/x/evm/types"
 )
 
 const (

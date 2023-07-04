@@ -10,16 +10,16 @@ import (
 
 	"github.com/ethereum/go-ethereum/rpc"
 
-	"github.com/evmos/ethermint/rpc/backend"
-	"github.com/evmos/ethermint/rpc/namespaces/ethereum/debug"
-	"github.com/evmos/ethermint/rpc/namespaces/ethereum/eth"
-	"github.com/evmos/ethermint/rpc/namespaces/ethereum/eth/filters"
-	"github.com/evmos/ethermint/rpc/namespaces/ethereum/miner"
-	"github.com/evmos/ethermint/rpc/namespaces/ethereum/net"
-	"github.com/evmos/ethermint/rpc/namespaces/ethereum/personal"
-	"github.com/evmos/ethermint/rpc/namespaces/ethereum/txpool"
-	"github.com/evmos/ethermint/rpc/namespaces/ethereum/web3"
-	ethermint "github.com/evmos/ethermint/types"
+	"github.com/rotosports/pointguard/rpc/backend"
+	"github.com/rotosports/pointguard/rpc/namespaces/ethereum/debug"
+	"github.com/rotosports/pointguard/rpc/namespaces/ethereum/eth"
+	"github.com/rotosports/pointguard/rpc/namespaces/ethereum/eth/filters"
+	"github.com/rotosports/pointguard/rpc/namespaces/ethereum/miner"
+	"github.com/rotosports/pointguard/rpc/namespaces/ethereum/net"
+	"github.com/rotosports/pointguard/rpc/namespaces/ethereum/personal"
+	"github.com/rotosports/pointguard/rpc/namespaces/ethereum/txpool"
+	"github.com/rotosports/pointguard/rpc/namespaces/ethereum/web3"
+	ethermint "github.com/rotosports/pointguard/types"
 
 	rpcclient "github.com/tendermint/tendermint/rpc/jsonrpc/client"
 )

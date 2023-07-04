@@ -44,11 +44,11 @@ import (
 	"github.com/cosmos/cosmos-sdk/server/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	"github.com/evmos/ethermint/indexer"
-	ethdebug "github.com/evmos/ethermint/rpc/namespaces/ethereum/debug"
-	"github.com/evmos/ethermint/server/config"
-	srvflags "github.com/evmos/ethermint/server/flags"
-	ethermint "github.com/evmos/ethermint/types"
+	"github.com/rotosports/pointguard/indexer"
+	ethdebug "github.com/rotosports/pointguard/rpc/namespaces/ethereum/debug"
+	"github.com/rotosports/pointguard/server/config"
+	srvflags "github.com/rotosports/pointguard/server/flags"
+	ethermint "github.com/rotosports/pointguard/types"
 
 	rollconf "github.com/rollkit/rollkit/config"
 	rollconv "github.com/rollkit/rollkit/conv"

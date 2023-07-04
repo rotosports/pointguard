@@ -32,18 +32,18 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/crisis"
 	genutilcli "github.com/cosmos/cosmos-sdk/x/genutil/client/cli"
 
-	"github.com/evmos/ethermint/app"
-	ethermintclient "github.com/evmos/ethermint/client"
-	"github.com/evmos/ethermint/client/debug"
-	"github.com/evmos/ethermint/crypto/hd"
-	"github.com/evmos/ethermint/encoding"
-	"github.com/evmos/ethermint/server"
-	servercfg "github.com/evmos/ethermint/server/config"
-	srvflags "github.com/evmos/ethermint/server/flags"
-	ethermint "github.com/evmos/ethermint/types"
+	"github.com/rotosports/pointguard/app"
+	ethermintclient "github.com/rotosports/pointguard/client"
+	"github.com/rotosports/pointguard/client/debug"
+	"github.com/rotosports/pointguard/crypto/hd"
+	"github.com/rotosports/pointguard/encoding"
+	"github.com/rotosports/pointguard/server"
+	servercfg "github.com/rotosports/pointguard/server/config"
+	srvflags "github.com/rotosports/pointguard/server/flags"
+	ethermint "github.com/rotosports/pointguard/types"
 )
 
-const EnvPrefix = "ETHERMINT"
+const EnvPrefix = "POINTGUARD"
 
 // NewRootCmd creates a new root command for simd. It is called once in the
 // main function.

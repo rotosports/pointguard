@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CHAINID="ethermint_9000-1"
+CHAINID="highbury_710-1"
 MONIKER="localtestnet"
 
 # localKey address 0x7cb61d4117ae31a12e393a1cfa3bac666481d02e
@@ -24,7 +24,7 @@ USER4_KEY="user4"
 USER4_MNEMONIC="doll midnight silk carpet brush boring pluck office gown inquiry duck chief aim exit gain never tennis crime fragile ship cloud surface exotic patch"
 
 # remove existing daemon and client
-rm -rf ~/.ethermint*
+rm -rf ~/.pointguard*
 
 # Import keys from mnemonics
 echo $VAL_MNEMONIC   | pointguard keys add $VAL_KEY   --recover --keyring-backend test --algo "eth_secp256k1"

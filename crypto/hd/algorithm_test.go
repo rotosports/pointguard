@@ -15,9 +15,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec/types"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 
-	cryptocodec "github.com/evmos/ethermint/crypto/codec"
-	enccodec "github.com/evmos/ethermint/encoding/codec"
-	ethermint "github.com/evmos/ethermint/types"
+	cryptocodec "github.com/rotosports/pointguard/crypto/codec"
+	enccodec "github.com/rotosports/pointguard/encoding/codec"
+	ethermint "github.com/rotosports/pointguard/types"
 )
 
 var TestCodec codec.Codec

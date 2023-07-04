@@ -13,18 +13,18 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/tx/signing"
 	"github.com/cosmos/cosmos-sdk/x/auth/ante"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	"github.com/evmos/ethermint/app"
-	"github.com/evmos/ethermint/encoding"
-	"github.com/evmos/ethermint/ethereum/eip712"
-	"github.com/evmos/ethermint/tests"
-	"github.com/evmos/ethermint/types"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
+	"github.com/rotosports/pointguard/app"
+	"github.com/rotosports/pointguard/encoding"
+	"github.com/rotosports/pointguard/ethereum/eip712"
+	"github.com/rotosports/pointguard/tests"
+	"github.com/rotosports/pointguard/types"
+	evmtypes "github.com/rotosports/pointguard/x/evm/types"
 	"github.com/stretchr/testify/require"
 )
 
 // Testing Constants
 var (
-	chainId = "ethermint_9000-1"
+	chainId = "highbury_710-1"
 	ctx     = client.Context{}.WithTxConfig(
 		encoding.MakeConfig(app.ModuleBasics).TxConfig,
 	)

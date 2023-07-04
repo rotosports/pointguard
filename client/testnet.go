@@ -38,13 +38,13 @@ import (
 	mintypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/evmos/ethermint/crypto/hd"
-	"github.com/evmos/ethermint/server/config"
-	srvflags "github.com/evmos/ethermint/server/flags"
-	ethermint "github.com/evmos/ethermint/types"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
+	"github.com/rotosports/pointguard/crypto/hd"
+	"github.com/rotosports/pointguard/server/config"
+	srvflags "github.com/rotosports/pointguard/server/flags"
+	ethermint "github.com/rotosports/pointguard/types"
+	evmtypes "github.com/rotosports/pointguard/x/evm/types"
 
-	"github.com/evmos/ethermint/testutil/network"
+	"github.com/rotosports/pointguard/testutil/network"
 )
 
 var (

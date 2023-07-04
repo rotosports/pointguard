@@ -19,7 +19,7 @@ WS_PORT="855"
 IP_ADDR="0.0.0.0"
 
 KEY="mykey"
-CHAINID="ethermint_9000-1"
+CHAINID="highbury_710-1"
 MONIKER="mymoniker"
 
 ## default port prefixes for pointguard

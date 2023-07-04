@@ -6,11 +6,11 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/evmos/ethermint/app/ante"
-	"github.com/evmos/ethermint/server/config"
-	"github.com/evmos/ethermint/tests"
-	"github.com/evmos/ethermint/x/evm/statedb"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
+	"github.com/rotosports/pointguard/app/ante"
+	"github.com/rotosports/pointguard/server/config"
+	"github.com/rotosports/pointguard/tests"
+	"github.com/rotosports/pointguard/x/evm/statedb"
+	evmtypes "github.com/rotosports/pointguard/x/evm/types"
 
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 )

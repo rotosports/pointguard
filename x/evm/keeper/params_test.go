@@ -1,7 +1,7 @@
 package keeper_test
 
 import (
-	"github.com/evmos/ethermint/x/evm/types"
+	"github.com/rotosports/pointguard/x/evm/types"
 	"reflect"
 )
 

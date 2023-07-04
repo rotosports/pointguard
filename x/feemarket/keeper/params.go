@@ -5,7 +5,7 @@ import (
 
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/evmos/ethermint/x/feemarket/types"
+	"github.com/rotosports/pointguard/x/feemarket/types"
 )
 
 // GetParams returns the total set of fee market parameters.
