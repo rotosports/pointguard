@@ -81,8 +81,8 @@ if [[ $overwrite == "y" || $overwrite == "Y" ]]; then
 	jq '.consensus["params"]["block"]["max_gas"]="30000000"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 
 	# Allocate genesis accounts (cosmos formatted addresses)
-	pointguard genesis add-genesis-account $DEVS1 1000000000000000000000000avfury --keyring-backend $KEYRING --home "$HOMEDIR"
-	pointguard genesis add-genesis-account $DEVS2 1000000000000000000000000avfury --keyring-backend $KEYRING --home "$HOMEDIR"
+	pointguard add-genesis-account $DEVS1 1000000000000000000000000avfury --keyring-backend $KEYRING --home "$HOMEDIR"
+	pointguard add-genesis-account $DEVS2 1000000000000000000000000avfury --keyring-backend $KEYRING --home "$HOMEDIR"
 
 	# Sign genesis transaction
 	pointguard gentx $DEVS1 10000000000000000000avfury --keyring-backend $KEYRING --chain-id $CHAINID --home "$HOMEDIR"
