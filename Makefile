@@ -43,7 +43,7 @@ print-version:
 LEDGER_ENABLED ?= true
 DOCKER:=docker
 DOCKER_BUF := $(DOCKER) run --rm -v $(CURDIR):/workspace --workdir /workspace bufbuild/buf
-HTTPS_GIT := https://github.com/rotosports/pointguard.git
+HTTPS_GIT := https://github.com/rotosports/ethermint.git
 
 ################################################################################
 ###                             Machine Info                                 ###
@@ -186,7 +186,7 @@ all: install
 
 build: go.sum
 ifeq ($(OS), Windows_NT)
-	go build -mod=readonly $(BUILD_FLAGS) -o out/$(shell go env GOOS)/pointguard.exe ./cmd/pointguard
+	go build -mod=readonly $(BUILD_FLAGS) -o out/$(shell go env GOOS)/ethermint.exe ./cmd/pointguard
 else
 	go build -mod=readonly $(BUILD_FLAGS) -o out/$(shell go env GOOS)/pointguard ./cmd/pointguard
 endif
@@ -217,7 +217,7 @@ go.sum: go.mod
 # Set to exclude riot links as they trigger false positives
 link-check:
 	@go get -u github.com/raviqqe/liche@f57a5d1c5be4856454cb26de155a65a4fd856ee3
-	liche -r . --exclude "^http://127.*|^https://riot.im/app*|^http://pointguard-testnet*|^https://testnet-dex*|^https://pointguard3.data.pointguard.io*|^https://ipfs.io*|^https://apps.apple.com*|^https://pointguard.quicksync.io*"
+	liche -r . --exclude "^http://127.*|^https://riot.im/app*|^http://pointguard-testnet*|^https://testnet-dex*|^https://pointguard3.data.ethermint.io*|^https://ipfs.io*|^https://apps.apple.com*|^https://ethermint.quicksync.io*"
 
 
 lint:

@@ -116,8 +116,8 @@ func (m *PrivKey) GetKey() []byte {
 }
 
 func init() {
-	proto.RegisterType((*PubKey)(nil), "pointguard.crypto.v1.ethsecp256k1.PubKey")
-	proto.RegisterType((*PrivKey)(nil), "pointguard.crypto.v1.ethsecp256k1.PrivKey")
+	proto.RegisterType((*PubKey)(nil), "ethermint.crypto.v1.ethsecp256k1.PubKey")
+	proto.RegisterType((*PrivKey)(nil), "ethermint.crypto.v1.ethsecp256k1.PrivKey")
 }
 
 func init() {

@@ -1256,30 +1256,30 @@ func (m *QueryBaseFeeResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_QueryBaseFeeResponse proto.InternalMessageInfo
 
 func init() {
-	proto.RegisterType((*QueryAccountRequest)(nil), "pointguard.evm.v1.QueryAccountRequest")
-	proto.RegisterType((*QueryAccountResponse)(nil), "pointguard.evm.v1.QueryAccountResponse")
-	proto.RegisterType((*QueryCosmosAccountRequest)(nil), "pointguard.evm.v1.QueryCosmosAccountRequest")
-	proto.RegisterType((*QueryCosmosAccountResponse)(nil), "pointguard.evm.v1.QueryCosmosAccountResponse")
-	proto.RegisterType((*QueryValidatorAccountRequest)(nil), "pointguard.evm.v1.QueryValidatorAccountRequest")
-	proto.RegisterType((*QueryValidatorAccountResponse)(nil), "pointguard.evm.v1.QueryValidatorAccountResponse")
-	proto.RegisterType((*QueryBalanceRequest)(nil), "pointguard.evm.v1.QueryBalanceRequest")
-	proto.RegisterType((*QueryBalanceResponse)(nil), "pointguard.evm.v1.QueryBalanceResponse")
-	proto.RegisterType((*QueryStorageRequest)(nil), "pointguard.evm.v1.QueryStorageRequest")
-	proto.RegisterType((*QueryStorageResponse)(nil), "pointguard.evm.v1.QueryStorageResponse")
-	proto.RegisterType((*QueryCodeRequest)(nil), "pointguard.evm.v1.QueryCodeRequest")
-	proto.RegisterType((*QueryCodeResponse)(nil), "pointguard.evm.v1.QueryCodeResponse")
-	proto.RegisterType((*QueryTxLogsRequest)(nil), "pointguard.evm.v1.QueryTxLogsRequest")
-	proto.RegisterType((*QueryTxLogsResponse)(nil), "pointguard.evm.v1.QueryTxLogsResponse")
-	proto.RegisterType((*QueryParamsRequest)(nil), "pointguard.evm.v1.QueryParamsRequest")
-	proto.RegisterType((*QueryParamsResponse)(nil), "pointguard.evm.v1.QueryParamsResponse")
-	proto.RegisterType((*EthCallRequest)(nil), "pointguard.evm.v1.EthCallRequest")
-	proto.RegisterType((*EstimateGasResponse)(nil), "pointguard.evm.v1.EstimateGasResponse")
-	proto.RegisterType((*QueryTraceTxRequest)(nil), "pointguard.evm.v1.QueryTraceTxRequest")
-	proto.RegisterType((*QueryTraceTxResponse)(nil), "pointguard.evm.v1.QueryTraceTxResponse")
-	proto.RegisterType((*QueryTraceBlockRequest)(nil), "pointguard.evm.v1.QueryTraceBlockRequest")
-	proto.RegisterType((*QueryTraceBlockResponse)(nil), "pointguard.evm.v1.QueryTraceBlockResponse")
-	proto.RegisterType((*QueryBaseFeeRequest)(nil), "pointguard.evm.v1.QueryBaseFeeRequest")
-	proto.RegisterType((*QueryBaseFeeResponse)(nil), "pointguard.evm.v1.QueryBaseFeeResponse")
+	proto.RegisterType((*QueryAccountRequest)(nil), "ethermint.evm.v1.QueryAccountRequest")
+	proto.RegisterType((*QueryAccountResponse)(nil), "ethermint.evm.v1.QueryAccountResponse")
+	proto.RegisterType((*QueryCosmosAccountRequest)(nil), "ethermint.evm.v1.QueryCosmosAccountRequest")
+	proto.RegisterType((*QueryCosmosAccountResponse)(nil), "ethermint.evm.v1.QueryCosmosAccountResponse")
+	proto.RegisterType((*QueryValidatorAccountRequest)(nil), "ethermint.evm.v1.QueryValidatorAccountRequest")
+	proto.RegisterType((*QueryValidatorAccountResponse)(nil), "ethermint.evm.v1.QueryValidatorAccountResponse")
+	proto.RegisterType((*QueryBalanceRequest)(nil), "ethermint.evm.v1.QueryBalanceRequest")
+	proto.RegisterType((*QueryBalanceResponse)(nil), "ethermint.evm.v1.QueryBalanceResponse")
+	proto.RegisterType((*QueryStorageRequest)(nil), "ethermint.evm.v1.QueryStorageRequest")
+	proto.RegisterType((*QueryStorageResponse)(nil), "ethermint.evm.v1.QueryStorageResponse")
+	proto.RegisterType((*QueryCodeRequest)(nil), "ethermint.evm.v1.QueryCodeRequest")
+	proto.RegisterType((*QueryCodeResponse)(nil), "ethermint.evm.v1.QueryCodeResponse")
+	proto.RegisterType((*QueryTxLogsRequest)(nil), "ethermint.evm.v1.QueryTxLogsRequest")
+	proto.RegisterType((*QueryTxLogsResponse)(nil), "ethermint.evm.v1.QueryTxLogsResponse")
+	proto.RegisterType((*QueryParamsRequest)(nil), "ethermint.evm.v1.QueryParamsRequest")
+	proto.RegisterType((*QueryParamsResponse)(nil), "ethermint.evm.v1.QueryParamsResponse")
+	proto.RegisterType((*EthCallRequest)(nil), "ethermint.evm.v1.EthCallRequest")
+	proto.RegisterType((*EstimateGasResponse)(nil), "ethermint.evm.v1.EstimateGasResponse")
+	proto.RegisterType((*QueryTraceTxRequest)(nil), "ethermint.evm.v1.QueryTraceTxRequest")
+	proto.RegisterType((*QueryTraceTxResponse)(nil), "ethermint.evm.v1.QueryTraceTxResponse")
+	proto.RegisterType((*QueryTraceBlockRequest)(nil), "ethermint.evm.v1.QueryTraceBlockRequest")
+	proto.RegisterType((*QueryTraceBlockResponse)(nil), "ethermint.evm.v1.QueryTraceBlockResponse")
+	proto.RegisterType((*QueryBaseFeeRequest)(nil), "ethermint.evm.v1.QueryBaseFeeRequest")
+	proto.RegisterType((*QueryBaseFeeResponse)(nil), "ethermint.evm.v1.QueryBaseFeeResponse")
 }
 
 func init() { proto.RegisterFile("ethermint/evm/v1/query.proto", fileDescriptor_e15a877459347994) }
@@ -1428,7 +1428,7 @@ func NewQueryClient(cc grpc1.ClientConn) QueryClient {
 
 func (c *queryClient) Account(ctx context.Context, in *QueryAccountRequest, opts ...grpc.CallOption) (*QueryAccountResponse, error) {
 	out := new(QueryAccountResponse)
-	err := c.cc.Invoke(ctx, "/pointguard.evm.v1.Query/Account", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/ethermint.evm.v1.Query/Account", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1437,7 +1437,7 @@ func (c *queryClient) Account(ctx context.Context, in *QueryAccountRequest, opts
 
 func (c *queryClient) CosmosAccount(ctx context.Context, in *QueryCosmosAccountRequest, opts ...grpc.CallOption) (*QueryCosmosAccountResponse, error) {
 	out := new(QueryCosmosAccountResponse)
-	err := c.cc.Invoke(ctx, "/pointguard.evm.v1.Query/CosmosAccount", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/ethermint.evm.v1.Query/CosmosAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1446,7 +1446,7 @@ func (c *queryClient) CosmosAccount(ctx context.Context, in *QueryCosmosAccountR
 
 func (c *queryClient) ValidatorAccount(ctx context.Context, in *QueryValidatorAccountRequest, opts ...grpc.CallOption) (*QueryValidatorAccountResponse, error) {
 	out := new(QueryValidatorAccountResponse)
-	err := c.cc.Invoke(ctx, "/pointguard.evm.v1.Query/ValidatorAccount", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/ethermint.evm.v1.Query/ValidatorAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1455,7 +1455,7 @@ func (c *queryClient) ValidatorAccount(ctx context.Context, in *QueryValidatorAc
 
 func (c *queryClient) Balance(ctx context.Context, in *QueryBalanceRequest, opts ...grpc.CallOption) (*QueryBalanceResponse, error) {
 	out := new(QueryBalanceResponse)
-	err := c.cc.Invoke(ctx, "/pointguard.evm.v1.Query/Balance", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/ethermint.evm.v1.Query/Balance", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1464,7 +1464,7 @@ func (c *queryClient) Balance(ctx context.Context, in *QueryBalanceRequest, opts
 
 func (c *queryClient) Storage(ctx context.Context, in *QueryStorageRequest, opts ...grpc.CallOption) (*QueryStorageResponse, error) {
 	out := new(QueryStorageResponse)
-	err := c.cc.Invoke(ctx, "/pointguard.evm.v1.Query/Storage", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/ethermint.evm.v1.Query/Storage", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1473,7 +1473,7 @@ func (c *queryClient) Storage(ctx context.Context, in *QueryStorageRequest, opts
 
 func (c *queryClient) Code(ctx context.Context, in *QueryCodeRequest, opts ...grpc.CallOption) (*QueryCodeResponse, error) {
 	out := new(QueryCodeResponse)
-	err := c.cc.Invoke(ctx, "/pointguard.evm.v1.Query/Code", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/ethermint.evm.v1.Query/Code", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1482,7 +1482,7 @@ func (c *queryClient) Code(ctx context.Context, in *QueryCodeRequest, opts ...gr
 
 func (c *queryClient) Params(ctx context.Context, in *QueryParamsRequest, opts ...grpc.CallOption) (*QueryParamsResponse, error) {
 	out := new(QueryParamsResponse)
-	err := c.cc.Invoke(ctx, "/pointguard.evm.v1.Query/Params", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/ethermint.evm.v1.Query/Params", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1491,7 +1491,7 @@ func (c *queryClient) Params(ctx context.Context, in *QueryParamsRequest, opts .
 
 func (c *queryClient) EthCall(ctx context.Context, in *EthCallRequest, opts ...grpc.CallOption) (*MsgEthereumTxResponse, error) {
 	out := new(MsgEthereumTxResponse)
-	err := c.cc.Invoke(ctx, "/pointguard.evm.v1.Query/EthCall", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/ethermint.evm.v1.Query/EthCall", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1500,7 +1500,7 @@ func (c *queryClient) EthCall(ctx context.Context, in *EthCallRequest, opts ...g
 
 func (c *queryClient) EstimateGas(ctx context.Context, in *EthCallRequest, opts ...grpc.CallOption) (*EstimateGasResponse, error) {
 	out := new(EstimateGasResponse)
-	err := c.cc.Invoke(ctx, "/pointguard.evm.v1.Query/EstimateGas", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/ethermint.evm.v1.Query/EstimateGas", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1509,7 +1509,7 @@ func (c *queryClient) EstimateGas(ctx context.Context, in *EthCallRequest, opts 
 
 func (c *queryClient) TraceTx(ctx context.Context, in *QueryTraceTxRequest, opts ...grpc.CallOption) (*QueryTraceTxResponse, error) {
 	out := new(QueryTraceTxResponse)
-	err := c.cc.Invoke(ctx, "/pointguard.evm.v1.Query/TraceTx", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/ethermint.evm.v1.Query/TraceTx", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1518,7 +1518,7 @@ func (c *queryClient) TraceTx(ctx context.Context, in *QueryTraceTxRequest, opts
 
 func (c *queryClient) TraceBlock(ctx context.Context, in *QueryTraceBlockRequest, opts ...grpc.CallOption) (*QueryTraceBlockResponse, error) {
 	out := new(QueryTraceBlockResponse)
-	err := c.cc.Invoke(ctx, "/pointguard.evm.v1.Query/TraceBlock", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/ethermint.evm.v1.Query/TraceBlock", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1527,7 +1527,7 @@ func (c *queryClient) TraceBlock(ctx context.Context, in *QueryTraceBlockRequest
 
 func (c *queryClient) BaseFee(ctx context.Context, in *QueryBaseFeeRequest, opts ...grpc.CallOption) (*QueryBaseFeeResponse, error) {
 	out := new(QueryBaseFeeResponse)
-	err := c.cc.Invoke(ctx, "/pointguard.evm.v1.Query/BaseFee", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/ethermint.evm.v1.Query/BaseFee", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1620,7 +1620,7 @@ func _Query_Account_Handler(srv interface{}, ctx context.Context, dec func(inter
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pointguard.evm.v1.Query/Account",
+		FullMethod: "/ethermint.evm.v1.Query/Account",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(QueryServer).Account(ctx, req.(*QueryAccountRequest))
@@ -1638,7 +1638,7 @@ func _Query_CosmosAccount_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pointguard.evm.v1.Query/CosmosAccount",
+		FullMethod: "/ethermint.evm.v1.Query/CosmosAccount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(QueryServer).CosmosAccount(ctx, req.(*QueryCosmosAccountRequest))
@@ -1656,7 +1656,7 @@ func _Query_ValidatorAccount_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pointguard.evm.v1.Query/ValidatorAccount",
+		FullMethod: "/ethermint.evm.v1.Query/ValidatorAccount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(QueryServer).ValidatorAccount(ctx, req.(*QueryValidatorAccountRequest))
@@ -1674,7 +1674,7 @@ func _Query_Balance_Handler(srv interface{}, ctx context.Context, dec func(inter
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pointguard.evm.v1.Query/Balance",
+		FullMethod: "/ethermint.evm.v1.Query/Balance",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(QueryServer).Balance(ctx, req.(*QueryBalanceRequest))
@@ -1692,7 +1692,7 @@ func _Query_Storage_Handler(srv interface{}, ctx context.Context, dec func(inter
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pointguard.evm.v1.Query/Storage",
+		FullMethod: "/ethermint.evm.v1.Query/Storage",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(QueryServer).Storage(ctx, req.(*QueryStorageRequest))
@@ -1710,7 +1710,7 @@ func _Query_Code_Handler(srv interface{}, ctx context.Context, dec func(interfac
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pointguard.evm.v1.Query/Code",
+		FullMethod: "/ethermint.evm.v1.Query/Code",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(QueryServer).Code(ctx, req.(*QueryCodeRequest))
@@ -1728,7 +1728,7 @@ func _Query_Params_Handler(srv interface{}, ctx context.Context, dec func(interf
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pointguard.evm.v1.Query/Params",
+		FullMethod: "/ethermint.evm.v1.Query/Params",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(QueryServer).Params(ctx, req.(*QueryParamsRequest))
@@ -1746,7 +1746,7 @@ func _Query_EthCall_Handler(srv interface{}, ctx context.Context, dec func(inter
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pointguard.evm.v1.Query/EthCall",
+		FullMethod: "/ethermint.evm.v1.Query/EthCall",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(QueryServer).EthCall(ctx, req.(*EthCallRequest))
@@ -1764,7 +1764,7 @@ func _Query_EstimateGas_Handler(srv interface{}, ctx context.Context, dec func(i
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pointguard.evm.v1.Query/EstimateGas",
+		FullMethod: "/ethermint.evm.v1.Query/EstimateGas",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(QueryServer).EstimateGas(ctx, req.(*EthCallRequest))
@@ -1782,7 +1782,7 @@ func _Query_TraceTx_Handler(srv interface{}, ctx context.Context, dec func(inter
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pointguard.evm.v1.Query/TraceTx",
+		FullMethod: "/ethermint.evm.v1.Query/TraceTx",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(QueryServer).TraceTx(ctx, req.(*QueryTraceTxRequest))
@@ -1800,7 +1800,7 @@ func _Query_TraceBlock_Handler(srv interface{}, ctx context.Context, dec func(in
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pointguard.evm.v1.Query/TraceBlock",
+		FullMethod: "/ethermint.evm.v1.Query/TraceBlock",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(QueryServer).TraceBlock(ctx, req.(*QueryTraceBlockRequest))
@@ -1818,7 +1818,7 @@ func _Query_BaseFee_Handler(srv interface{}, ctx context.Context, dec func(inter
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pointguard.evm.v1.Query/BaseFee",
+		FullMethod: "/ethermint.evm.v1.Query/BaseFee",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(QueryServer).BaseFee(ctx, req.(*QueryBaseFeeRequest))
@@ -1827,7 +1827,7 @@ func _Query_BaseFee_Handler(srv interface{}, ctx context.Context, dec func(inter
 }
 
 var _Query_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "pointguard.evm.v1.Query",
+	ServiceName: "ethermint.evm.v1.Query",
 	HandlerType: (*QueryServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

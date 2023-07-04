@@ -84,7 +84,7 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 			}
 
 			// FIXME: replace AttoFury with bond denom
-			customAppTemplate, customAppConfig := servercfg.AppConfig(pointguard.AttoFury)
+			customAppTemplate, customAppConfig := servercfg.AppConfig(ethermint.AttoFury)
 
 			return sdkserver.InterceptConfigsPreRunHandler(cmd, customAppTemplate, customAppConfig, tmcfg.DefaultConfig())
 		},

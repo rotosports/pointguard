@@ -35,7 +35,7 @@ cat $HOME/.ethermint/config/genesis.json | jq '.app_state["mint"]["params"]["min
 "$PWD"/build/pointguard validate-genesis
 
 # Start the node (remove the --pruning=nothing flag if historical queries are not needed) in background and log to file
-"$PWD"/build/pointguard start --pruning=nothing --rpc.unsafe --json-rpc.address="0.0.0.0:8545" --keyring-backend test > pointguard.log 2>&1 &
+"$PWD"/build/pointguard start --pruning=nothing --rpc.unsafe --json-rpc.address="0.0.0.0:8545" --keyring-backend test > ethermint.log 2>&1 &
 
 # Give pointguard node enough time to launch
 sleep 5

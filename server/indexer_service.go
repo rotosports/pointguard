@@ -21,13 +21,13 @@ const (
 type EVMIndexerService struct {
 	service.BaseService
 
-	txIdxr pointguard.EVMTxIndexer
+	txIdxr ethermint.EVMTxIndexer
 	client rpcclient.Client
 }
 
 // NewEVMIndexerService returns a new service instance.
 func NewEVMIndexerService(
-	txIdxr pointguard.EVMTxIndexer,
+	txIdxr ethermint.EVMTxIndexer,
 	client rpcclient.Client,
 ) *EVMIndexerService {
 	is := &EVMIndexerService{txIdxr: txIdxr, client: client}

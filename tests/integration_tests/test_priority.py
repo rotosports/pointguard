@@ -34,7 +34,7 @@ def test_priority(ethermint: Pointguard):
     use a relatively large priority number to counter
     the effect of base fee change during the testing.
     """
-    w3 = pointguard.w3
+    w3 = ethermint.w3
     amount = 10000
     base_fee = w3.eth.get_block("latest").baseFeePerGas
 
@@ -113,7 +113,7 @@ def test_priority(ethermint: Pointguard):
 
 
 def test_native_tx_priority(ethermint: Pointguard):
-    cli = pointguard.cosmos_cli()
+    cli = ethermint.cosmos_cli()
     base_fee = cli.query_base_fee()
     print("base_fee", base_fee)
     test_cases = [

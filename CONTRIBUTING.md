@@ -119,7 +119,7 @@ For instance, to create a fork and work on a branch of it, I would:
 - Create the fork on GitHub, using the fork button.
 - Go to the original repo checked out locally (i.e. `$GOPATH/src/github.com/evmos/ethermint`)
 - `git remote rename origin upstream`
-- `git remote add origin git@github.com:rigeyrigerige/pointguard.git`
+- `git remote add origin git@github.com:rigeyrigerige/ethermint.git`
 
 Now `origin` refers to my fork and `upstream` refers to the Pointguard version.
 So I can `git push -u origin main` to update my fork, and make pull requests to Pointguard from there.

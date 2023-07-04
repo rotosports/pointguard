@@ -273,12 +273,12 @@ func (m *QueryBlockGasResponse) GetGas() int64 {
 }
 
 func init() {
-	proto.RegisterType((*QueryParamsRequest)(nil), "pointguard.feemarket.v1.QueryParamsRequest")
-	proto.RegisterType((*QueryParamsResponse)(nil), "pointguard.feemarket.v1.QueryParamsResponse")
-	proto.RegisterType((*QueryBaseFeeRequest)(nil), "pointguard.feemarket.v1.QueryBaseFeeRequest")
-	proto.RegisterType((*QueryBaseFeeResponse)(nil), "pointguard.feemarket.v1.QueryBaseFeeResponse")
-	proto.RegisterType((*QueryBlockGasRequest)(nil), "pointguard.feemarket.v1.QueryBlockGasRequest")
-	proto.RegisterType((*QueryBlockGasResponse)(nil), "pointguard.feemarket.v1.QueryBlockGasResponse")
+	proto.RegisterType((*QueryParamsRequest)(nil), "ethermint.feemarket.v1.QueryParamsRequest")
+	proto.RegisterType((*QueryParamsResponse)(nil), "ethermint.feemarket.v1.QueryParamsResponse")
+	proto.RegisterType((*QueryBaseFeeRequest)(nil), "ethermint.feemarket.v1.QueryBaseFeeRequest")
+	proto.RegisterType((*QueryBaseFeeResponse)(nil), "ethermint.feemarket.v1.QueryBaseFeeResponse")
+	proto.RegisterType((*QueryBlockGasRequest)(nil), "ethermint.feemarket.v1.QueryBlockGasRequest")
+	proto.RegisterType((*QueryBlockGasResponse)(nil), "ethermint.feemarket.v1.QueryBlockGasResponse")
 }
 
 func init() {
@@ -347,7 +347,7 @@ func NewQueryClient(cc grpc1.ClientConn) QueryClient {
 
 func (c *queryClient) Params(ctx context.Context, in *QueryParamsRequest, opts ...grpc.CallOption) (*QueryParamsResponse, error) {
 	out := new(QueryParamsResponse)
-	err := c.cc.Invoke(ctx, "/pointguard.feemarket.v1.Query/Params", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/ethermint.feemarket.v1.Query/Params", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -356,7 +356,7 @@ func (c *queryClient) Params(ctx context.Context, in *QueryParamsRequest, opts .
 
 func (c *queryClient) BaseFee(ctx context.Context, in *QueryBaseFeeRequest, opts ...grpc.CallOption) (*QueryBaseFeeResponse, error) {
 	out := new(QueryBaseFeeResponse)
-	err := c.cc.Invoke(ctx, "/pointguard.feemarket.v1.Query/BaseFee", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/ethermint.feemarket.v1.Query/BaseFee", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -365,7 +365,7 @@ func (c *queryClient) BaseFee(ctx context.Context, in *QueryBaseFeeRequest, opts
 
 func (c *queryClient) BlockGas(ctx context.Context, in *QueryBlockGasRequest, opts ...grpc.CallOption) (*QueryBlockGasResponse, error) {
 	out := new(QueryBlockGasResponse)
-	err := c.cc.Invoke(ctx, "/pointguard.feemarket.v1.Query/BlockGas", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/ethermint.feemarket.v1.Query/BlockGas", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -410,7 +410,7 @@ func _Query_Params_Handler(srv interface{}, ctx context.Context, dec func(interf
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pointguard.feemarket.v1.Query/Params",
+		FullMethod: "/ethermint.feemarket.v1.Query/Params",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(QueryServer).Params(ctx, req.(*QueryParamsRequest))
@@ -428,7 +428,7 @@ func _Query_BaseFee_Handler(srv interface{}, ctx context.Context, dec func(inter
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pointguard.feemarket.v1.Query/BaseFee",
+		FullMethod: "/ethermint.feemarket.v1.Query/BaseFee",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(QueryServer).BaseFee(ctx, req.(*QueryBaseFeeRequest))
@@ -446,7 +446,7 @@ func _Query_BlockGas_Handler(srv interface{}, ctx context.Context, dec func(inte
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pointguard.feemarket.v1.Query/BlockGas",
+		FullMethod: "/ethermint.feemarket.v1.Query/BlockGas",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(QueryServer).BlockGas(ctx, req.(*QueryBlockGasRequest))
@@ -455,7 +455,7 @@ func _Query_BlockGas_Handler(srv interface{}, ctx context.Context, dec func(inte
 }
 
 var _Query_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "pointguard.feemarket.v1.Query",
+	ServiceName: "ethermint.feemarket.v1.Query",
 	HandlerType: (*QueryServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

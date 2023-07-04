@@ -343,12 +343,12 @@ func (m *MsgEthereumTxResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_MsgEthereumTxResponse proto.InternalMessageInfo
 
 func init() {
-	proto.RegisterType((*MsgEthereumTx)(nil), "pointguard.evm.v1.MsgEthereumTx")
-	proto.RegisterType((*LegacyTx)(nil), "pointguard.evm.v1.LegacyTx")
-	proto.RegisterType((*AccessListTx)(nil), "pointguard.evm.v1.AccessListTx")
-	proto.RegisterType((*DynamicFeeTx)(nil), "pointguard.evm.v1.DynamicFeeTx")
-	proto.RegisterType((*ExtensionOptionsEthereumTx)(nil), "pointguard.evm.v1.ExtensionOptionsEthereumTx")
-	proto.RegisterType((*MsgEthereumTxResponse)(nil), "pointguard.evm.v1.MsgEthereumTxResponse")
+	proto.RegisterType((*MsgEthereumTx)(nil), "ethermint.evm.v1.MsgEthereumTx")
+	proto.RegisterType((*LegacyTx)(nil), "ethermint.evm.v1.LegacyTx")
+	proto.RegisterType((*AccessListTx)(nil), "ethermint.evm.v1.AccessListTx")
+	proto.RegisterType((*DynamicFeeTx)(nil), "ethermint.evm.v1.DynamicFeeTx")
+	proto.RegisterType((*ExtensionOptionsEthereumTx)(nil), "ethermint.evm.v1.ExtensionOptionsEthereumTx")
+	proto.RegisterType((*MsgEthereumTxResponse)(nil), "ethermint.evm.v1.MsgEthereumTxResponse")
 }
 
 func init() { proto.RegisterFile("ethermint/evm/v1/tx.proto", fileDescriptor_f75ac0a12d075f21) }
@@ -437,7 +437,7 @@ func NewMsgClient(cc grpc1.ClientConn) MsgClient {
 
 func (c *msgClient) EthereumTx(ctx context.Context, in *MsgEthereumTx, opts ...grpc.CallOption) (*MsgEthereumTxResponse, error) {
 	out := new(MsgEthereumTxResponse)
-	err := c.cc.Invoke(ctx, "/pointguard.evm.v1.Msg/EthereumTx", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/ethermint.evm.v1.Msg/EthereumTx", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -472,7 +472,7 @@ func _Msg_EthereumTx_Handler(srv interface{}, ctx context.Context, dec func(inte
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pointguard.evm.v1.Msg/EthereumTx",
+		FullMethod: "/ethermint.evm.v1.Msg/EthereumTx",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).EthereumTx(ctx, req.(*MsgEthereumTx))
@@ -481,7 +481,7 @@ func _Msg_EthereumTx_Handler(srv interface{}, ctx context.Context, dec func(inte
 }
 
 var _Msg_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "pointguard.evm.v1.Msg",
+	ServiceName: "ethermint.evm.v1.Msg",
 	HandlerType: (*MsgServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

@@ -25,7 +25,7 @@ var ethermintCodec codec.ProtoCodecMarshaler
 
 func init() {
 	registry := codectypes.NewInterfaceRegistry()
-	pointguard.RegisterInterfaces(registry)
+	ethermint.RegisterInterfaces(registry)
 	ethermintCodec = codec.NewProtoCodec(registry)
 }
 
@@ -178,7 +178,7 @@ func VerifySignature(
 			msgs, tx.GetMemo(), tx.GetTip(),
 		)
 
-		signerChainID, err := pointguard.ParseChainID(signerData.ChainID)
+		signerChainID, err := ethermint.ParseChainID(signerData.ChainID)
 		if err != nil {
 			return sdkerrors.Wrapf(err, "failed to parse chainID: %s", signerData.ChainID)
 		}
@@ -192,7 +192,7 @@ func VerifySignature(
 			return sdkerrors.Wrap(sdkerrors.ErrUnknownExtensionOptions, "tx doesnt contain expected amount of extension options")
 		}
 
-		extOpt, ok := opts[0].GetCachedValue().(*pointguard.ExtensionOptionsWeb3Tx)
+		extOpt, ok := opts[0].GetCachedValue().(*ethermint.ExtensionOptionsWeb3Tx)
 		if !ok {
 			return sdkerrors.Wrap(sdkerrors.ErrInvalidChainID, "unknown extension option")
 		}

@@ -1,8 +1,8 @@
 { pkgs ? import ../../../nix { } }:
 let pointguard = (pkgs.callPackage ../../../. { });
 in
-pointguard.overrideAttrs (oldAttrs: {
+ethermint.overrideAttrs (oldAttrs: {
   patches = oldAttrs.patches or [ ] ++ [
-    ./broken-pointguard.patch
+    ./broken-ethermint.patch
   ];
 })

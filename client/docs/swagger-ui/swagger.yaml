@@ -14053,7 +14053,7 @@ paths:
       tags:
         - Query
 definitions:
-  pointguard.evm.v1.ChainConfig:
+  ethermint.evm.v1.ChainConfig:
     type: object
     properties:
       homestead_block:
@@ -14121,7 +14121,7 @@ definitions:
       values
 
       instead of *big.Int.
-  pointguard.evm.v1.EstimateGasResponse:
+  ethermint.evm.v1.EstimateGasResponse:
     type: object
     properties:
       gas:
@@ -14129,7 +14129,7 @@ definitions:
         format: uint64
         title: the estimated gas
     title: EstimateGasResponse defines EstimateGas response
-  pointguard.evm.v1.Log:
+  ethermint.evm.v1.Log:
     type: object
     properties:
       address:
@@ -14178,7 +14178,7 @@ definitions:
       by
 
       the node.
-  pointguard.evm.v1.MsgEthereumTx:
+  ethermint.evm.v1.MsgEthereumTx:
     type: object
     properties:
       data:
@@ -14355,7 +14355,7 @@ definitions:
           against the address derived from the signature (V, R, S) using the
           secp256k1 elliptic curve
     description: MsgEthereumTx encapsulates an Ethereum transaction as an SDK message.
-  pointguard.evm.v1.MsgEthereumTxResponse:
+  ethermint.evm.v1.MsgEthereumTxResponse:
     type: object
     properties:
       hash:
@@ -14434,7 +14434,7 @@ definitions:
         format: uint64
         title: gas consumed by the transaction
     description: MsgEthereumTxResponse defines the Msg/EthereumTx response type.
-  pointguard.evm.v1.Params:
+  ethermint.evm.v1.Params:
     type: object
     properties:
       evm_denom:
@@ -14533,7 +14533,7 @@ definitions:
 
           signed) transactions can be executed on the state machine.
     title: Params defines the EVM module parameters
-  pointguard.evm.v1.QueryAccountResponse:
+  ethermint.evm.v1.QueryAccountResponse:
     type: object
     properties:
       balance:
@@ -14549,7 +14549,7 @@ definitions:
     description: >-
       QueryAccountResponse is the response type for the Query/Account RPC
       method.
-  pointguard.evm.v1.QueryBalanceResponse:
+  ethermint.evm.v1.QueryBalanceResponse:
     type: object
     properties:
       balance:
@@ -14558,13 +14558,13 @@ definitions:
     description: >-
       QueryBalanceResponse is the response type for the Query/Balance RPC
       method.
-  pointguard.evm.v1.QueryBaseFeeResponse:
+  ethermint.evm.v1.QueryBaseFeeResponse:
     type: object
     properties:
       base_fee:
         type: string
     description: BaseFeeResponse returns the EIP1559 base fee.
-  pointguard.evm.v1.QueryCodeResponse:
+  ethermint.evm.v1.QueryCodeResponse:
     type: object
     properties:
       code:
@@ -14574,7 +14574,7 @@ definitions:
     description: |-
       QueryCodeResponse is the response type for the Query/Code RPC
       method.
-  pointguard.evm.v1.QueryCosmosAccountResponse:
+  ethermint.evm.v1.QueryCosmosAccountResponse:
     type: object
     properties:
       cosmos_address:
@@ -14593,7 +14593,7 @@ definitions:
       Query/CosmosAccount
 
       RPC method.
-  pointguard.evm.v1.QueryParamsResponse:
+  ethermint.evm.v1.QueryParamsResponse:
     type: object
     properties:
       params:
@@ -14705,7 +14705,7 @@ definitions:
     description: >-
       QueryParamsResponse defines the response type for querying x/evm
       parameters.
-  pointguard.evm.v1.QueryStorageResponse:
+  ethermint.evm.v1.QueryStorageResponse:
     type: object
     properties:
       value:
@@ -14716,14 +14716,14 @@ definitions:
     description: |-
       QueryStorageResponse is the response type for the Query/Storage RPC
       method.
-  pointguard.evm.v1.QueryTraceBlockResponse:
+  ethermint.evm.v1.QueryTraceBlockResponse:
     type: object
     properties:
       data:
         type: string
         format: byte
     title: QueryTraceBlockResponse defines TraceBlock response
-  pointguard.evm.v1.QueryTraceTxResponse:
+  ethermint.evm.v1.QueryTraceTxResponse:
     type: object
     properties:
       data:
@@ -14731,7 +14731,7 @@ definitions:
         format: byte
         title: response serialized in bytes
     title: QueryTraceTxResponse defines TraceTx response
-  pointguard.evm.v1.QueryValidatorAccountResponse:
+  ethermint.evm.v1.QueryValidatorAccountResponse:
     type: object
     properties:
       account_address:
@@ -14748,7 +14748,7 @@ definitions:
     description: |-
       QueryValidatorAccountResponse is the response type for the
       Query/ValidatorAccount RPC method.
-  pointguard.evm.v1.TraceConfig:
+  ethermint.evm.v1.TraceConfig:
     type: object
     properties:
       tracer:

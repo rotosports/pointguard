@@ -27,7 +27,7 @@ const (
 	TxIndexKeyLength = 1 + 8 + 8
 )
 
-var _ pointguard.EVMTxIndexer = &KVIndexer{}
+var _ ethermint.EVMTxIndexer = &KVIndexer{}
 
 // KVIndexer implements a eth tx indexer on a KV db.
 type KVIndexer struct {
@@ -81,7 +81,7 @@ func (kv *KVIndexer) IndexBlock(block *tmtypes.Block, txResults []*abci.Response
 			ethMsg := msg.(*evmtypes.MsgEthereumTx)
 			txHash := common.HexToHash(ethMsg.Hash)
 
-			txResult := pointguard.TxResult{
+			txResult := ethermint.TxResult{
 				Height:     height,
 				TxIndex:    uint32(txIndex),
 				MsgIndex:   uint32(msgIndex),
@@ -131,7 +131,7 @@ func (kv *KVIndexer) FirstIndexedBlock() (int64, error) {
 }
 
 // GetByTxHash finds eth tx by eth tx hash
-func (kv *KVIndexer) GetByTxHash(hash common.Hash) (*pointguard.TxResult, error) {
+func (kv *KVIndexer) GetByTxHash(hash common.Hash) (*ethermint.TxResult, error) {
 	bz, err := kv.db.Get(TxHashKey(hash))
 	if err != nil {
 		return nil, sdkerrors.Wrapf(err, "GetByTxHash %s", hash.Hex())
@@ -139,7 +139,7 @@ func (kv *KVIndexer) GetByTxHash(hash common.Hash) (*pointguard.TxResult, error)
 	if len(bz) == 0 {
 		return nil, fmt.Errorf("tx not found, hash: %s", hash.Hex())
 	}
-	var txKey pointguard.TxResult
+	var txKey ethermint.TxResult
 	if err := kv.clientCtx.Codec.Unmarshal(bz, &txKey); err != nil {
 		return nil, sdkerrors.Wrapf(err, "GetByTxHash %s", hash.Hex())
 	}
@@ -147,7 +147,7 @@ func (kv *KVIndexer) GetByTxHash(hash common.Hash) (*pointguard.TxResult, error)
 }
 
 // GetByBlockAndIndex finds eth tx by block number and eth tx index
-func (kv *KVIndexer) GetByBlockAndIndex(blockNumber int64, txIndex int32) (*pointguard.TxResult, error) {
+func (kv *KVIndexer) GetByBlockAndIndex(blockNumber int64, txIndex int32) (*ethermint.TxResult, error) {
 	bz, err := kv.db.Get(TxIndexKey(blockNumber, txIndex))
 	if err != nil {
 		return nil, sdkerrors.Wrapf(err, "GetByBlockAndIndex %d %d", blockNumber, txIndex)
@@ -203,14 +203,14 @@ func isEthTx(tx sdk.Tx) bool {
 		return false
 	}
 	opts := extTx.GetExtensionOptions()
-	if len(opts) != 1 || opts[0].GetTypeUrl() != "/pointguard.evm.v1.ExtensionOptionsEthereumTx" {
+	if len(opts) != 1 || opts[0].GetTypeUrl() != "/ethermint.evm.v1.ExtensionOptionsEthereumTx" {
 		return false
 	}
 	return true
 }
 
 // saveTxResult index the txResult into the kv db batch
-func saveTxResult(codec codec.Codec, batch dbm.Batch, txHash common.Hash, txResult *pointguard.TxResult) error {
+func saveTxResult(codec codec.Codec, batch dbm.Batch, txHash common.Hash, txResult *ethermint.TxResult) error {
 	bz := codec.MustMarshal(txResult)
 	if err := batch.Set(TxHashKey(txHash), bz); err != nil {
 		return sdkerrors.Wrap(err, "set tx-hash key")

@@ -172,7 +172,7 @@ func TestSDKTxFeeChecker(t *testing.T) {
 				txBuilder.SetGasLimit(1)
 				txBuilder.SetFeeAmount(sdk.NewCoins(sdk.NewCoin("afury", sdk.NewInt(10).Mul(types.DefaultPriorityReduction))))
 
-				option, err := codectypes.NewAnyWithValue(&pointguard.ExtensionOptionDynamicFeeTx{})
+				option, err := codectypes.NewAnyWithValue(&ethermint.ExtensionOptionDynamicFeeTx{})
 				require.NoError(t, err)
 				txBuilder.SetExtensionOptions(option)
 				return txBuilder.GetTx()
@@ -192,7 +192,7 @@ func TestSDKTxFeeChecker(t *testing.T) {
 				txBuilder.SetGasLimit(1)
 				txBuilder.SetFeeAmount(sdk.NewCoins(sdk.NewCoin("afury", sdk.NewInt(10).Mul(types.DefaultPriorityReduction).Add(sdk.NewInt(10)))))
 
-				option, err := codectypes.NewAnyWithValue(&pointguard.ExtensionOptionDynamicFeeTx{
+				option, err := codectypes.NewAnyWithValue(&ethermint.ExtensionOptionDynamicFeeTx{
 					MaxPriorityPrice: sdk.NewInt(5).Mul(types.DefaultPriorityReduction),
 				})
 				require.NoError(t, err)

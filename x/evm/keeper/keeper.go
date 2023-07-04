@@ -109,7 +109,7 @@ func (k Keeper) Logger(ctx sdk.Context) log.Logger {
 
 // WithChainID sets the chain id to the local variable in the keeper
 func (k *Keeper) WithChainID(ctx sdk.Context) {
-	chainID, err := pointguard.ParseChainID(ctx.ChainID())
+	chainID, err := ethermint.ParseChainID(ctx.ChainID())
 	if err != nil {
 		panic(err)
 	}
@@ -258,7 +258,7 @@ func (k *Keeper) GetAccountWithoutBalance(ctx sdk.Context, addr common.Address) 
 	}
 
 	codeHash := types.EmptyCodeHash
-	ethAcct, ok := acct.(pointguard.EthAccountI)
+	ethAcct, ok := acct.(ethermint.EthAccountI)
 	if ok {
 		codeHash = ethAcct.GetCodeHash().Bytes()
 	}

@@ -28,7 +28,7 @@ import (
 type PrivateAccountAPI struct {
 	backend    backend.EVMBackend
 	logger     log.Logger
-	hdPathIter pointguard.HDPathIterator
+	hdPathIter ethermint.HDPathIterator
 }
 
 // NewAPI creates an instance of the public Personal Eth API.
@@ -39,7 +39,7 @@ func NewAPI(
 	cfg := sdk.GetConfig()
 	basePath := cfg.GetFullBIP44Path()
 
-	iterator, err := pointguard.NewHDPathIterator(basePath, true)
+	iterator, err := ethermint.NewHDPathIterator(basePath, true)
 	if err != nil {
 		panic(err)
 	}
@@ -163,7 +163,7 @@ func (api *PrivateAccountAPI) EcRecover(_ context.Context, data, sig hexutil.Byt
 	return crypto.PubkeyToAddress(*pubkey), nil
 }
 
-// Unpair deletes a pairing between wallet and pointguard.
+// Unpair deletes a pairing between wallet and ethermint.
 func (api *PrivateAccountAPI) Unpair(_ context.Context, url, pin string) error {
 	api.logger.Debug("personal_unpair", "url", url, "pin", pin)
 	api.logger.Info("personal_unpair for smartcard wallet not supported")

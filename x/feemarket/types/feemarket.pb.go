@@ -107,7 +107,7 @@ func (m *Params) GetEnableHeight() int64 {
 }
 
 func init() {
-	proto.RegisterType((*Params)(nil), "pointguard.feemarket.v1.Params")
+	proto.RegisterType((*Params)(nil), "ethermint.feemarket.v1.Params")
 }
 
 func init() {

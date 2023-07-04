@@ -11,7 +11,7 @@ services:
       - "8125:8125"
     environment:
       - ID=0
-      - LOG=${LOG:-pointguard.log}
+      - LOG=${LOG:-ethermint.log}
     volumes:
       - ./localnet-setup/node0/pointguard:/ethermint:Z
     networks:
@@ -28,7 +28,7 @@ services:
       - "8126:8125"
     environment:
       - ID=1
-      - LOG=${LOG:-pointguard.log}
+      - LOG=${LOG:-ethermint.log}
     volumes:
       - ./localnet-setup/node1/pointguard:/ethermint:Z
     networks:
@@ -40,7 +40,7 @@ services:
     image: "pointguard/node"
     environment:
       - ID=2
-      - LOG=${LOG:-pointguard.log}
+      - LOG=${LOG:-ethermint.log}
     ports:
       - "26659:26657"
       - "8565:8545"
@@ -57,7 +57,7 @@ services:
     image: "pointguard/node"
     environment:
       - ID=3
-      - LOG=${LOG:-pointguard.log}
+      - LOG=${LOG:-ethermint.log}
     ports:
       - "26660:26657"
       - "8575:8545"

@@ -15,7 +15,7 @@ import (
 )
 
 func TestInitCmd(t *testing.T) {
-	rootCmd, _ := pointguard.NewRootCmd()
+	rootCmd, _ := ethermint.NewRootCmd()
 	rootCmd.SetArgs([]string{
 		"init",          // Test the init cmd
 		"etherminttest", // Moniker

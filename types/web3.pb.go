@@ -69,7 +69,7 @@ func (m *ExtensionOptionsWeb3Tx) XXX_DiscardUnknown() {
 var xxx_messageInfo_ExtensionOptionsWeb3Tx proto.InternalMessageInfo
 
 func init() {
-	proto.RegisterType((*ExtensionOptionsWeb3Tx)(nil), "pointguard.types.v1.ExtensionOptionsWeb3Tx")
+	proto.RegisterType((*ExtensionOptionsWeb3Tx)(nil), "ethermint.types.v1.ExtensionOptionsWeb3Tx")
 }
 
 func init() { proto.RegisterFile("ethermint/types/v1/web3.proto", fileDescriptor_9eb7cd56e3c92bc3) }

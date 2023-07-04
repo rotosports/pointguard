@@ -80,7 +80,7 @@ func (m *GenesisState) GetBlockGas() uint64 {
 }
 
 func init() {
-	proto.RegisterType((*GenesisState)(nil), "pointguard.feemarket.v1.GenesisState")
+	proto.RegisterType((*GenesisState)(nil), "ethermint.feemarket.v1.GenesisState")
 }
 
 func init() {

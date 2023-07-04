@@ -125,11 +125,11 @@ func DefaultConfig() Config {
 		TimeoutCommit:     2 * time.Second,
 		ChainID:           fmt.Sprintf("ethermint_%d-1", tmrand.Int63n(9999999999999)+1),
 		NumValidators:     4,
-		BondDenom:         pointguard.AttoFury,
-		MinGasPrices:      fmt.Sprintf("0.000006%s", pointguard.AttoFury),
-		AccountTokens:     sdk.TokensFromConsensusPower(1000, pointguard.PowerReduction),
-		StakingTokens:     sdk.TokensFromConsensusPower(500, pointguard.PowerReduction),
-		BondedTokens:      sdk.TokensFromConsensusPower(100, pointguard.PowerReduction),
+		BondDenom:         ethermint.AttoFury,
+		MinGasPrices:      fmt.Sprintf("0.000006%s", ethermint.AttoFury),
+		AccountTokens:     sdk.TokensFromConsensusPower(1000, ethermint.PowerReduction),
+		StakingTokens:     sdk.TokensFromConsensusPower(500, ethermint.PowerReduction),
+		BondedTokens:      sdk.TokensFromConsensusPower(100, ethermint.PowerReduction),
 		PruningStrategy:   pruningtypes.PruningOptionNothing,
 		CleanupDir:        true,
 		SigningAlgo:       string(hd.EthSecp256k1Type),
@@ -219,7 +219,7 @@ func New(l Logger, baseDir string, cfg Config) (*Network, error) {
 	l.Log("acquiring test network lock")
 	lock.Lock()
 
-	if !pointguard.IsValidChainID(cfg.ChainID) {
+	if !ethermint.IsValidChainID(cfg.ChainID) {
 		return nil, fmt.Errorf("invalid chain-id: %s", cfg.ChainID)
 	}
 
@@ -413,7 +413,7 @@ func New(l Logger, baseDir string, cfg Config) (*Network, error) {
 
 		genFiles = append(genFiles, tmCfg.GenesisFile())
 		genBalances = append(genBalances, banktypes.Balance{Address: addr.String(), Coins: balances.Sort()})
-		genAccounts = append(genAccounts, &pointguard.EthAccount{
+		genAccounts = append(genAccounts, &ethermint.EthAccount{
 			BaseAccount: authtypes.NewBaseAccount(addr, nil, 0, 0),
 			CodeHash:    common.BytesToHash(evmtypes.EmptyCodeHash).Hex(),
 		})
@@ -471,7 +471,7 @@ func New(l Logger, baseDir string, cfg Config) (*Network, error) {
 			return nil, err
 		}
 
-		customAppTemplate, _ := config.AppConfig(pointguard.AttoFury)
+		customAppTemplate, _ := config.AppConfig(ethermint.AttoFury)
 		srvconfig.SetConfigTemplate(customAppTemplate)
 		srvconfig.WriteConfigFile(filepath.Join(nodeDir, "config/app.toml"), appCfg)
 

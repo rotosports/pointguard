@@ -36,7 +36,7 @@ func (b *Backend) Resend(args evmtypes.TransactionArgs, gasPrice *hexutil.Big, g
 
 	// The signer used should always be the 'latest' known one because we expect
 	// signers to be backwards-compatible with old transactions.
-	eip155ChainID, err := pointguard.ParseChainID(b.clientCtx.ChainID)
+	eip155ChainID, err := ethermint.ParseChainID(b.clientCtx.ChainID)
 	if err != nil {
 		return common.Hash{}, err
 	}

@@ -182,7 +182,7 @@ func (bnh *BlockNumberOrHash) decodeFromString(input string) error {
 			return err
 		}
 
-		bnInt, err := pointguard.SafeInt64(blockNumber)
+		bnInt, err := ethermint.SafeInt64(blockNumber)
 		if err != nil {
 			return err
 		}
