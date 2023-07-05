@@ -42,14 +42,14 @@ cat $HOME/.pointguard/config/genesis.json | jq '.consensus_params["block"]["max_
 sed -i -e '/^timeout_commit =/ s/= .*/= "850ms"/' $HOME/.pointguard/config/config.toml
 
 # Allocate genesis accounts (cosmos formatted addresses)
-pointguard add-genesis-account "$(pointguard keys show $VAL_KEY   -a --keyring-backend test)" 1000000000000000000000afury,1000000000000000000stake --keyring-backend test
-pointguard add-genesis-account "$(pointguard keys show $USER1_KEY -a --keyring-backend test)" 1000000000000000000000afury,1000000000000000000stake --keyring-backend test
-pointguard add-genesis-account "$(pointguard keys show $USER2_KEY -a --keyring-backend test)" 1000000000000000000000afury,1000000000000000000stake --keyring-backend test
-pointguard add-genesis-account "$(pointguard keys show $USER3_KEY -a --keyring-backend test)" 1000000000000000000000afury,1000000000000000000stake --keyring-backend test
-pointguard add-genesis-account "$(pointguard keys show $USER4_KEY -a --keyring-backend test)" 1000000000000000000000afury,1000000000000000000stake --keyring-backend test
+pointguard add-genesis-account "$(pointguard keys show $VAL_KEY   -a --keyring-backend test)" 1000000000000000000000axfury,1000000000000000000stake --keyring-backend test
+pointguard add-genesis-account "$(pointguard keys show $USER1_KEY -a --keyring-backend test)" 1000000000000000000000axfury,1000000000000000000stake --keyring-backend test
+pointguard add-genesis-account "$(pointguard keys show $USER2_KEY -a --keyring-backend test)" 1000000000000000000000axfury,1000000000000000000stake --keyring-backend test
+pointguard add-genesis-account "$(pointguard keys show $USER3_KEY -a --keyring-backend test)" 1000000000000000000000axfury,1000000000000000000stake --keyring-backend test
+pointguard add-genesis-account "$(pointguard keys show $USER4_KEY -a --keyring-backend test)" 1000000000000000000000axfury,1000000000000000000stake --keyring-backend test
 
 # Sign genesis transaction
-pointguard gentx $VAL_KEY 1000000000000000000stake --amount=1000000000000000000000afury --chain-id $CHAINID --keyring-backend test
+pointguard gentx $VAL_KEY 1000000000000000000stake --amount=1000000000000000000000axfury --chain-id $CHAINID --keyring-backend test
 
 # Collect genesis tx
 pointguard collect-gentxs

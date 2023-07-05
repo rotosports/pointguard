@@ -72,7 +72,7 @@ init_func() {
     "$PWD"/build/pointguard keys add $KEY"$i" --keyring-backend test --home "$DATA_DIR$i" --no-backup --algo "eth_secp256k1"
     "$PWD"/build/pointguard init $MONIKER --chain-id $CHAINID --home "$DATA_DIR$i"
     "$PWD"/build/pointguard add-genesis-account \
-    "$("$PWD"/build/pointguard keys show "$KEY$i" --keyring-backend test -a --home "$DATA_DIR$i")" 1000000000000000000afury,1000000000000000000stake \
+    "$("$PWD"/build/pointguard keys show "$KEY$i" --keyring-backend test -a --home "$DATA_DIR$i")" 1000000000000000000axfury,1000000000000000000stake \
     --keyring-backend test --home "$DATA_DIR$i"
     "$PWD"/build/pointguard gentx "$KEY$i" 1000000000000000000stake --chain-id $CHAINID --keyring-backend test --home "$DATA_DIR$i"
     "$PWD"/build/pointguard collect-gentxs --home "$DATA_DIR$i"

@@ -10,7 +10,7 @@ The evm module contains the following parameters:
 
 | Key            | Type        | Default Value   |
 | -------------- | ----------- | --------------- |
-| `EVMDenom`     | string      | `"afury"`     |
+| `EVMDenom`     | string      | `"axfury"`     |
 | `EnableCreate` | bool        | `true`          |
 | `EnableCall`   | bool        | `true`          |
 | `ExtraEIPs`    | []int       | TBD             |
@@ -23,7 +23,7 @@ The evm denomination parameter defines the token denomination used on the EVM st
 For example, on Ethereum, the `evm_denom` would be `ETH`. In the case of Pointguard, the default denomination is the **[atto fury](notion://www.notion.so/docs/basics/fury.md)** (used on the Evmos testnets). In terms of precision, the `FURY` and `ETH` share the same value, *i.e* `1 FURY = 10^18 atto fury` and `1 ETH = 10^18 wei`.
 
 ::: tip
-Note: SDK applications that want to import the EVM module as a dependency will need to set their own `evm_denom` (i.e not `"afury"`).
+Note: SDK applications that want to import the EVM module as a dependency will need to set their own `evm_denom` (i.e not `"axfury"`).
 :::
 
 ## Enable Create

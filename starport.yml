@@ -1,18 +1,18 @@
 accounts:
   - name: alice
-    coins: ["100000000uatom", "100000000000000000000afury"]
+    coins: ["100000000uatom", "100000000000000000000axfury"]
   - name: bob
-    coins: ["5000000000000afury"]
+    coins: ["5000000000000axfury"]
   - name: faucet
-    coins: ["1000000000000000000000000000afury"]
+    coins: ["1000000000000000000000000000axfury"]
 validator:
   name: alice
-  staked: "100000000000000000000afury"
+  staked: "100000000000000000000axfury"
 faucet:
   port: 4500
   name: "faucet"
-  coins: ["1000000000000000000000000000afury"]
-  coins_max: ["100000000afury"]
+  coins: ["1000000000000000000000000000axfury"]
+  coins_max: ["100000000axfury"]
 build:
   binary: "pointguard"
 init:
@@ -28,18 +28,18 @@ genesis:
   app_state:
     staking:
       params:
-        bond_denom: "afury"
+        bond_denom: "axfury"
     mint:
       params:
-        mint_denom: "afury"
+        mint_denom: "axfury"
     crisis:
       constant_fee:
-        denom: "afury"
+        denom: "axfury"
     gov:
       deposit_params:
         min_deposit:
           - amount: "10000000"
-            denom: "afury"
+            denom: "axfury"
     evm:
       params:
-        evm_denom: "afury"
+        evm_denom: "axfury"

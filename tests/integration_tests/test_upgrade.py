@@ -113,7 +113,7 @@ def test_cosmovisor_upgrade(custom_ethermint: Pointguard):
             "title": "upgrade test",
             "description": "ditto",
             "upgrade-height": target_height,
-            "deposit": "10000afury",
+            "deposit": "10000axfury",
         },
     )
     assert rsp["code"] == 0, rsp["raw_log"]

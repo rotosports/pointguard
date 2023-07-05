@@ -81,11 +81,11 @@ if [[ $overwrite == "y" || $overwrite == "Y" ]]; then
 	jq '.consensus["params"]["block"]["max_gas"]="30000000"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 
 	# Allocate genesis accounts (cosmos formatted addresses)
-	pointguard add-genesis-account $DEVS1 1000000000000000000000000avfury --keyring-backend $KEYRING --home "$HOMEDIR"
-	pointguard add-genesis-account $DEVS2 1000000000000000000000000avfury --keyring-backend $KEYRING --home "$HOMEDIR"
+	pointguard add-genesis-account $DEVS1 1000000000000000000000000axfury --keyring-backend $KEYRING --home "$HOMEDIR"
+	pointguard add-genesis-account $DEVS2 1000000000000000000000000axfury --keyring-backend $KEYRING --home "$HOMEDIR"
 
 	# Sign genesis transaction
-	pointguard gentx $DEVS1 10000000000000000000avfury --keyring-backend $KEYRING --chain-id $CHAINID --home "$HOMEDIR"
+	pointguard gentx $DEVS1 10000000000000000000axfury --keyring-backend $KEYRING --chain-id $CHAINID --home "$HOMEDIR"
 	## In case you want to create multiple validators at genesis
 	## 1. Back to `pointguard keys add` step, init more keys
 	## 2. Back to `pointguard add-genesis-account` step, add balance for those
@@ -105,4 +105,4 @@ if [[ $overwrite == "y" || $overwrite == "Y" ]]; then
 fi
 
 # Start the node (remove the --pruning=nothing flag if historical queries are not needed)m
-# pointguard start --pruning=nothing "$TRACE" --log_level $LOGLEVEL --api.enabled-unsafe-cors --api.enable --api.swagger --minimum-gas-prices=0.0001avfury --home "$HOMEDIR"
+# pointguard start --pruning=nothing "$TRACE" --log_level $LOGLEVEL --api.enabled-unsafe-cors --api.enable --api.swagger --minimum-gas-prices=0.0001axfury --home "$HOMEDIR"
