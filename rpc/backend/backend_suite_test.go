@@ -62,7 +62,7 @@ func (suite *BackendTestSuite) SetupTest() {
 	}
 
 	encodingConfig := encoding.MakeConfig(app.ModuleBasics)
-	clientCtx := client.Context{}.WithChainID("ethermint_9000-1").
+	clientCtx := client.Context{}.WithChainID("highbury_710-1").
 		WithHeight(1).
 		WithTxConfig(encodingConfig.TxConfig).
 		WithKeyringDir(clientDir).

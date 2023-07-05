@@ -27,7 +27,7 @@ if [[ ! -f "$GENESIS_FILE" ]]; then
   # if $KEY exists it should be deleted
   pointguard keys add $KEY --keyring-backend $KEYRING --algo $KEYALGO
 
-  # Set moniker and chain-id for Ethermint (Moniker can be anything, chain-id must be an integer)
+  # Set moniker and chain-id for Pointguard (Moniker can be anything, chain-id must be an integer)
   pointguard init $MONIKER --chain-id $CHAINID
 
   # Change parameter token denominations to axfury

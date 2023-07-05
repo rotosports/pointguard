@@ -693,7 +693,7 @@ corresponding Ethereum API namespace:
 
 ### API Breaking
 
-* (types) [tharsis#503](https://github.com/cosmos/ethermint/pull/503) The `types.DenomDefault` constant for `"axfury"` has been renamed to `types.AttoFury`.
+* (types) [tharsis#503](https://github.com/cosmos/ethermint/pull/503) The `types.DenomDefault` constant for `"axfury"` has been renamed to `types.AttoXFury`.
 
 ### Improvements
 

@@ -16,7 +16,7 @@ func TestParseChainID(t *testing.T) {
 		expInt   *big.Int
 	}{
 		{
-			"valid chain-id, single digit", "ethermint_1-1", false, big.NewInt(1),
+			"valid chain-id, single digit", "highbury_1-1", false, big.NewInt(1),
 		},
 		{
 			"valid chain-id, multiple digits", "aragonchain_256-1", false, big.NewInt(256),
@@ -46,16 +46,16 @@ func TestParseChainID(t *testing.T) {
 			"invalid chain-id, special chars", "$&*#!_1-1", true, nil,
 		},
 		{
-			"invalid eip155 chain-id, cannot start with 0", "ethermint_001-1", true, nil,
+			"invalid eip155 chain-id, cannot start with 0", "highbury_001-1", true, nil,
 		},
 		{
-			"invalid eip155 chain-id, cannot invalid base", "ethermint_0x212-1", true, nil,
+			"invalid eip155 chain-id, cannot invalid base", "highbury_0x212-1", true, nil,
 		},
 		{
-			"invalid eip155 chain-id, non-integer", "ethermint_ethermint_9000-1", true, nil,
+			"invalid eip155 chain-id, non-integer", "highbury_highbury_710-1", true, nil,
 		},
 		{
-			"invalid epoch, undefined", "ethermint_-", true, nil,
+			"invalid epoch, undefined", "highbury_-", true, nil,
 		},
 		{
 			"blank chain ID", " ", true, nil,
@@ -67,7 +67,7 @@ func TestParseChainID(t *testing.T) {
 			"empty content for chain id, eip155 and epoch numbers", "_-", true, nil,
 		},
 		{
-			"long chain-id", "ethermint_" + strings.Repeat("1", 40) + "-1", true, nil,
+			"long chain-id", "highbury_" + strings.Repeat("1", 40) + "-1", true, nil,
 		},
 	}
 

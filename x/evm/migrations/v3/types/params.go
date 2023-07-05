@@ -16,7 +16,7 @@ var _ paramtypes.ParamSet = &Params{}
 
 var (
 	// DefaultEVMDenom defines the default EVM denomination on Pointguard
-	DefaultEVMDenom = types.AttoFury
+	DefaultEVMDenom = types.AttoXFury
 	// DefaultMinGasMultiplier is 0.5 or 50%
 	DefaultMinGasMultiplier = sdk.NewDecWithPrec(50, 2)
 	// DefaultAllowUnprotectedTxs rejects all unprotected txs (i.e false)

@@ -1,7 +1,7 @@
 local config = import 'default.jsonnet';
 
 config {
-  'ethermint_9000-1'+: {
+  'highbury_710-1'+: {
     genesis+: {
       app_state+: {
         feemarket+: {

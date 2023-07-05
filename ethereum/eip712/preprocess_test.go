@@ -24,7 +24,7 @@ import (
 
 // Testing Constants
 var (
-	chainId = "ethermint_9000-1"
+	chainId = "highbury_710-1"
 	ctx     = client.Context{}.WithTxConfig(
 		encoding.MakeConfig(app.ModuleBasics).TxConfig,
 	)
@@ -66,7 +66,7 @@ func TestLedgerPreprocessing(t *testing.T) {
 		require.True(t, len(hasExtOptsTx.GetExtensionOptions()) == 1)
 
 		expectedExt := types.ExtensionOptionsWeb3Tx{
-			TypedDataChainID: 9000,
+			TypedDataChainID: 710,
 			FeePayer:         feePayerAddress,
 			FeePayerSig:      tc.expectedSignatureBytes,
 		}
