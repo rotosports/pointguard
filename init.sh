@@ -1,8 +1,8 @@
 #!/bin/bash
 
-KEY="mykey"
+KEY="pandora"
 CHAINID="highbury_710-1"
-MONIKER="localtestnet"
+MONIKER="the-watchers"
 KEYRING="test"
 KEYALGO="eth_secp256k1"
 LOGLEVEL="info"
