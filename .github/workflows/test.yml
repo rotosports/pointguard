@@ -22,7 +22,7 @@ jobs:
         with:
           go-version: 1.18
           check-latest: true
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: technote-space/get-diff-action@v6.1.1
         with:
           PATTERNS: |
@@ -47,7 +47,7 @@ jobs:
         with:
           go-version: 1.18
           check-latest: true
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: technote-space/get-diff-action@v6.1.1
         id: git_diff
         with:
@@ -69,7 +69,7 @@ jobs:
   #       with:
   #         go-version: 1.18
   #         check-latest: true
-  #     - uses: actions/checkout@v3
+  #     - uses: actions/checkout@v4
   #     - uses: technote-space/get-diff-action@v6.1.1
   #       with:
   #         PATTERNS: |
@@ -90,7 +90,7 @@ jobs:
         with:
           go-version: 1.18
           check-latest: true
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: technote-space/get-diff-action@v6.1.1
         with:
           PATTERNS: |
@@ -107,7 +107,7 @@ jobs:
   # integration_tests:
   #   runs-on: ubuntu-latest
   #   steps:
-  #     - uses: actions/checkout@v2
+  #     - uses: actions/checkout@v4
   #     - uses: cachix/install-nix-action@v18
   #     - uses: cachix/cachix-action@v11
   #       with:
@@ -142,7 +142,7 @@ jobs:
         os: [macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v18
       - uses: cachix/cachix-action@v11
         with:
@@ -159,7 +159,7 @@ jobs:
         with:
           go-version: 1.18
           check-latest: true
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: technote-space/get-diff-action@v6.1.1
         with:
           PATTERNS: |
@@ -179,7 +179,7 @@ jobs:
         with:
           go-version: 1.18
           check-latest: true
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: technote-space/get-diff-action@v6.1.1
         with:
           PATTERNS: |
@@ -199,7 +199,7 @@ jobs:
         with:
           go-version: 1.18
           check-latest: true
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: technote-space/get-diff-action@v6.1.1
         with:
           PATTERNS: |
@@ -219,7 +219,7 @@ jobs:
         with:
           go-version: 1.18
           check-latest: true
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: technote-space/get-diff-action@v6.1.1
         with:
           PATTERNS: |
